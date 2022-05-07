@@ -2,6 +2,11 @@ html,
 body {
   margin: 0;
   overflow: hidden;
+  color: white;
+}
+
+* {
+  cursor: url(/cursor.svg), auto;
 }
 
 .iframe-container {
@@ -14,6 +19,24 @@ body {
   transform: scale(1.3);
 }
 
+.player-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background: #3b06554d;
+}
+
+.not-playing-overlay {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  background: linear-gradient(0deg, black, transparent);
+  bottom: 0;
+}
 @media (max-width: 800px) {
   .iframe-container iframe {
     transform: scale(4.4);

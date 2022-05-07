@@ -17,6 +17,9 @@
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^1.3.0",
     "typescript": "^4.6.3",
-    "vite": "^2.9.7"
+    "vite": "^2.9.7",
+    "vite-plugin-react-svg": "^0.2.0",
+    "vite-plugin-svgr": "^2.1.0",
+    "vite-svg-loader": "^3.3.0"
   }
 }
