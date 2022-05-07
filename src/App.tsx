@@ -57,13 +57,18 @@ function App() {
       </div>
       <div className="player-content">
         {showAllSongs && (
-          <AllSongs onSongClick={setActiveSong} activeSongId={activeSong} />
+          <AllSongs
+            onSongClick={setActiveSong}
+            activeSongId={activeSong}
+            onClose={() => setShowAllSongs(false)}
+          />
         )}
 
         {player && (
           <Player
             isPlaying={isPlaying}
             player={player}
+            onPlayListClick={() => setShowAllSongs((prev) => !prev)}
             onPlayPauseClick={() =>
               setIsPlaying((prev) => {
                 if (player) {

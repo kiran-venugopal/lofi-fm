@@ -1,15 +1,21 @@
-.all-songs {
+.all-songs-container {
   backdrop-filter: blur(15px);
   margin: 10px;
   height: 70vh;
   background: #0c09261f;
   max-height: 70vh;
-  overflow: auto;
+
   margin-left: auto;
   width: 100%;
   max-width: 400px;
-  margin-left: auto;
   width: calc(100% - 20px);
+  display: flex;
+  flex-direction: column;
+}
+
+.all-songs {
+  overflow: auto;
+  flex: 1;
 }
 
 .song-item {
@@ -54,4 +60,18 @@
 .all-songs::-webkit-scrollbar {
   background: #8b90ff26;
   width: 12px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 5px 0 0;
+  position: sticky;
+  top: 0;
+}
+
+.close button {
+  background: transparent;
+  border: none;
+  outline: none;
 }

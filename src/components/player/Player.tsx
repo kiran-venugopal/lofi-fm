@@ -2,6 +2,7 @@
 import { ReactComponent as PlayIcon } from "../../icons/play-icon.svg";
 import { ReactComponent as PauseIcon } from "../../icons/pause-icon.svg";
 import { ReactComponent as SoundIcon } from "../../icons/sound-icon.svg";
+import { ReactComponent as SongsIcon } from "../../icons/songs-icon.svg";
 import "./player-style.css";
 import { useEffect, useRef, useState } from "react";
 import Slider from "../Slider";
@@ -10,9 +11,15 @@ export type PlayerProps = {
   isPlaying: boolean;
   player: any;
   onPlayPauseClick(isPlaying: boolean): void;
+  onPlayListClick?(): void;
 };
 
-function Player({ isPlaying = false, player, onPlayPauseClick }: PlayerProps) {
+function Player({
+  isPlaying = false,
+  player,
+  onPlayPauseClick,
+  onPlayListClick,
+}: PlayerProps) {
   const [videoMeta, setVideoMeta] = useState<any>({});
   const [volume, setVolume] = useState(0);
 
@@ -55,6 +62,9 @@ function Player({ isPlaying = false, player, onPlayPauseClick }: PlayerProps) {
         </div>
         <div className="actions">
           <div className="secondary-actions">
+            <button onClick={onPlayListClick}>
+              <SongsIcon />
+            </button>
             <button className="prev">
               <PlayIcon />
             </button>
