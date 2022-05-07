@@ -13,8 +13,6 @@ function Slider(
       const max = props.max as number;
       const progress = ((value - min) * 100) / (max - min);
 
-      console.log({ progress });
-
       ref.current.style.setProperty("--progress", `${progress}%`);
     }
   }, [props.value]);
@@ -26,21 +24,23 @@ function Slider(
       ref.current.style.setProperty("--background", `${props.background}`);
   }, [props.color, props.background]);
 
+  const handleInput = (e: any) => {
+    const value = e.target.value as number;
+    const min = props.min as number;
+    const max = props.max as number;
+    ref.current.style.setProperty(
+      "--progress",
+      `${((value - min) * 100) / (max - min)}%`
+    );
+    props?.onInput?.(e);
+  };
+
   return (
     <input
       type="range"
       {...props}
       className="slider"
-      onInput={(e: any) => {
-        const value = e.target.value as number;
-        const min = props.min as number;
-        const max = props.max as number;
-        ref.current.style.setProperty(
-          "--progress",
-          `${((value - min) * 100) / (max - min)}%`
-        );
-        props?.onInput?.(e);
-      }}
+      onInput={handleInput}
       ref={ref as any}
     />
   );

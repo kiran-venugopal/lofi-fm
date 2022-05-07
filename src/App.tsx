@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import Player from "./components/player/Player";
 import AllSongs from "./components/AllSongs";
+import songs from "./songs.json";
 
 declare global {
   interface Window {
@@ -14,29 +15,35 @@ declare global {
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [player, setPlayer] = useState<any>();
-  const [isPlayed, setIsPlayed] = useState(false);
+  const [showAllSongs, setShowAllSongs] = useState(true);
+  const [activeSong, setActiveSong] = useState(songs[0]);
 
   function onPlayerStateChange(event: any) {
     console.log(event.data);
+    if (event.data === 1) {
+      setIsPlaying(true);
+    }
   }
 
   const handleLoadCapture = () => {
     const player = new window.YT.Player("yt-iframe", {
       events: {
         onStateChange: onPlayerStateChange,
+        onReady: function (event: any) {
+          event.target.playVideo();
+          setPlayer(event.target);
+        },
       },
       playerVars: { autoplay: 1, controls: 0 },
     });
-
-    window.player = player;
-    setPlayer(player);
   };
 
   return (
     <div className="App" unselectable="on">
       <div className="iframe-container" unselectable="on">
         <iframe
-          src="https://www.youtube.com/embed/5qap5aO4i9A?enablejsapi=1"
+          key={activeSong}
+          src={`https://www.youtube.com/embed/${activeSong}?enablejsapi=1`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -49,7 +56,9 @@ function App() {
         />
       </div>
       <div className="player-content">
-        {!isPlayed && <AllSongs />}
+        {showAllSongs && (
+          <AllSongs onSongClick={setActiveSong} activeSongId={activeSong} />
+        )}
 
         {player && (
           <Player
@@ -60,7 +69,6 @@ function App() {
                 if (player) {
                   if (!prev) {
                     player?.playVideo();
-                    if (!isPlayed) setIsPlayed(true);
                   } else player?.pauseVideo();
                   return !prev;
                 }

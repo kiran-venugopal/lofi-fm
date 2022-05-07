@@ -83,3 +83,9 @@ button.play-pause {
   display: flex;
   align-items: center;
 }
+
+@media (max-width: 700px) {
+  .player-container {
+    transform: scale(0.85);
+  }
+}
