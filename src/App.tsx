@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import { useState } from "react";
 import "./App.css";
 import Player from "./components/player/Player";
 import AllSongs from "./components/AllSongs";
@@ -19,14 +18,13 @@ function App() {
   const [activeSong, setActiveSong] = useState(songs[0]);
 
   function onPlayerStateChange(event: any) {
-    console.log(event.data);
     if (event.data === 1) {
       setIsPlaying(true);
     }
   }
 
   const handleLoadCapture = () => {
-    const player = new window.YT.Player("yt-iframe", {
+    new window.YT.Player("yt-iframe", {
       events: {
         onStateChange: onPlayerStateChange,
         onReady: function (event: any) {
@@ -81,6 +79,8 @@ function App() {
                 return prev;
               })
             }
+            setActiveSong={setActiveSong}
+            activeSong={activeSong}
           />
         )}
       </div>

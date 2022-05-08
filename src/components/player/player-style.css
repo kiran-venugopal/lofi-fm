@@ -86,6 +86,6 @@ button.play-pause {
 
 @media (max-width: 700px) {
   .player-container {
-    transform: scale(0.85);
+    transform: scale(0.8);
   }
 }

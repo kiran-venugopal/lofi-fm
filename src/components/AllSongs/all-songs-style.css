@@ -58,14 +58,14 @@
 }
 
 .all-songs::-webkit-scrollbar {
-  background: #8b90ff26;
+  background: #ffffff14;
   width: 12px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  padding: 5px 5px 0 0;
+  padding: 5px 0px 5px 0;
   position: sticky;
   top: 0;
 }
@@ -74,4 +74,25 @@
   background: transparent;
   border: none;
   outline: none;
+}
+
+.header .options button {
+  color: white;
+  font-family: "Bubblegum Sans";
+  background: #ffffff24;
+  outline: none;
+  padding: 4px 6px;
+  outline: none;
+  border: none;
+}
+
+.header .options {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex: 1;
+}
+
+.options button.active {
+  background: #814b9b;
 }

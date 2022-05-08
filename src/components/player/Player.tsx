@@ -6,12 +6,15 @@ import { ReactComponent as SongsIcon } from "../../icons/songs-icon.svg";
 import "./player-style.css";
 import { useEffect, useRef, useState } from "react";
 import Slider from "../Slider";
+import songs from "../../songs.json";
 
 export type PlayerProps = {
   isPlaying: boolean;
   player: any;
   onPlayPauseClick(isPlaying: boolean): void;
   onPlayListClick?(): void;
+  setActiveSong?(songId: string): void;
+  activeSong?: string;
 };
 
 function Player({
@@ -19,6 +22,8 @@ function Player({
   player,
   onPlayPauseClick,
   onPlayListClick,
+  setActiveSong,
+  activeSong,
 }: PlayerProps) {
   const [videoMeta, setVideoMeta] = useState<any>({});
   const [volume, setVolume] = useState(0);
@@ -38,6 +43,25 @@ function Player({
 
     return () => clearInterval(timerId);
   }, [player]);
+
+  const handlePrevClick = () => {
+    const currIndex = songs.findIndex((song) => song === activeSong);
+    if (currIndex < 1) {
+      setActiveSong?.(songs[songs.length - 1]);
+    } else {
+      setActiveSong?.(songs[currIndex - 1] || songs[0]);
+    }
+  };
+
+  const handleNextClick = () => {
+    const currIndex = songs.findIndex((song) => song === activeSong);
+    if (currIndex >= songs.length - 1) {
+      setActiveSong?.(songs[0]);
+    }
+    {
+      setActiveSong?.(songs[currIndex + 1] || songs[0]);
+    }
+  };
 
   return (
     <div className="player-container">
@@ -65,7 +89,7 @@ function Player({
             <button onClick={onPlayListClick}>
               <SongsIcon />
             </button>
-            <button className="prev">
+            <button onClick={handlePrevClick} className="prev">
               <PlayIcon />
             </button>
           </div>
@@ -76,7 +100,7 @@ function Player({
             {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
           </button>
           <div className="secondary-actions">
-            <button className="next">
+            <button onClick={handleNextClick} className="next">
               <PlayIcon />
             </button>
             <div className="volume">

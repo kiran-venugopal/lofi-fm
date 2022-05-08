@@ -39,6 +39,6 @@ body {
 }
 @media (max-width: 800px) {
   .iframe-container iframe {
-    transform: scale(4.4);
+    transform: scale(3.4);
   }
 }

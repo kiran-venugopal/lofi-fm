@@ -8,6 +8,7 @@ function Slider(
 
   useEffect(() => {
     if (props.value) {
+      console.log(props.value);
       const value = props.value as number;
       const min = props.min as number;
       const max = props.max as number;
