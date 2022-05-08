@@ -24,7 +24,6 @@
   padding: 10px;
   margin: 0 10px 10px 10px;
   display: flex;
-  position: relative;
 }
 
 .song-item.active {
@@ -97,31 +96,4 @@
 
 .options button.active {
   background: #814b9b;
-}
-
-.all-songs-container input {
-  background: transparent;
-  border: 2px solid #814b9b;
-  margin: 5px;
-  outline: none;
-  color: white;
-  padding: 3px;
-}
-
-.star-button {
-  background: transparent;
-  border: none;
-  position: absolute;
-  bottom: 3px;
-  right: 3px;
-  opacity: 0.7;
-}
-
-.add-song {
-  display: flex;
-  align-items: center;
-  padding: 3px;
-}
-.add-song input {
-  flex-grow: 1;
 }
