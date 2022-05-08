@@ -37,6 +37,10 @@ body {
   background: linear-gradient(0deg, black, transparent);
   bottom: 0;
 }
+
+input {
+  font-family: inherit;
+}
 @media (max-width: 800px) {
   .iframe-container iframe {
     transform: scale(3.4);
