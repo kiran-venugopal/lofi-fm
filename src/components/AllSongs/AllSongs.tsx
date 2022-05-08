@@ -18,6 +18,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
   const [activeOption, setActiveOpion] = useState<
     "allsongs" | "starred" | "search"
   >("allsongs");
+  const [query, setQuery] = useState("lofi songs");
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -74,6 +75,13 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
           </button>
         </div>
       </div>
+      {activeOption === "search" && (
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="type here.."
+        />
+      )}
       {activeOption === "allsongs" && (
         <Songs
           songs={allSongs}
@@ -82,7 +90,11 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         />
       )}
       {activeOption === "search" && (
-        <SearchSongs query="" setActiveSong={onSongClick} />
+        <SearchSongs
+          query={query}
+          setActiveSong={onSongClick}
+          activeSongId={activeSongId}
+        />
       )}
     </div>
   );
