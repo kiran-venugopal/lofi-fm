@@ -14,7 +14,7 @@ declare global {
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [player, setPlayer] = useState<any>();
-  const [showAllSongs, setShowAllSongs] = useState(true);
+  const [showAllSongs, setShowAllSongs] = useState(false);
   const [activeSong, setActiveSong] = useState(songs[0]);
 
   function onPlayerStateChange(event: any) {
