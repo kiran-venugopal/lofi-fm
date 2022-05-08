@@ -1,12 +1,20 @@
-import React from "react";
-
+import { ReactComponent as StarIcon } from "../../../icons/star-icon.svg";
+import { ReactComponent as StarFilledIcon } from "../../../icons/star-icon-filled.svg";
 export type SongsProps = {
   songs: any[];
   onSongClick(songid: string): void;
   activeSongId?: string;
+  starred: string[];
+  addOrRemoveStar(songId: string, isAdding: boolean): void;
 };
 
-function Songs({ songs, onSongClick, activeSongId }: SongsProps) {
+function Songs({
+  songs,
+  onSongClick,
+  activeSongId,
+  starred,
+  addOrRemoveStar,
+}: SongsProps) {
   return (
     <div className="all-songs">
       {songs.map((song: any) => (
@@ -23,6 +31,16 @@ function Songs({ songs, onSongClick, activeSongId }: SongsProps) {
               <div className="live-tag">Live</div>
             )}
           </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              addOrRemoveStar(song.id, !starred.includes(song.id));
+            }}
+            className="star-button"
+          >
+            {starred.includes(song.id) ? <StarFilledIcon /> : <StarIcon />}
+          </button>
         </div>
       ))}
     </div>

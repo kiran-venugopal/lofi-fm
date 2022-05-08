@@ -38,7 +38,8 @@ body {
   bottom: 0;
 }
 
-input {
+input,
+button {
   font-family: inherit;
 }
 @media (max-width: 800px) {

@@ -16,13 +16,15 @@
 .all-songs {
   overflow: auto;
   flex: 1;
+  padding-top: 2px;
 }
 
 .song-item {
   background: #ffffff14;
   padding: 10px;
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   display: flex;
+  position: relative;
 }
 
 .song-item.active {
@@ -104,4 +106,22 @@
   outline: none;
   color: white;
   padding: 3px;
+}
+
+.star-button {
+  background: transparent;
+  border: none;
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  opacity: 0.7;
+}
+
+.add-song {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}
+.add-song input {
+  flex-grow: 1;
 }
