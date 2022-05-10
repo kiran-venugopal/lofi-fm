@@ -2,7 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import Player from "./components/player/Player";
 import AllSongs from "./components/AllSongs";
-import songs from "./songs.json";
+import { useRecoilState } from "recoil";
+import { PlayerState } from "./recoil/atoms/PlayerState";
 
 declare global {
   interface Window {
@@ -12,14 +13,15 @@ declare global {
 }
 
 function App() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [player, setPlayer] = useState<any>();
-  const [showAllSongs, setShowAllSongs] = useState(false);
-  const [activeSong, setActiveSong] = useState(songs[0]);
+  const [playerData, setPlayerData] = useRecoilState(PlayerState);
+  const [player, setPlayer] = useState();
 
   function onPlayerStateChange(event: any) {
     if (event.data === 1) {
-      setIsPlaying(true);
+      setPlayerData((prev) => ({
+        ...prev,
+        isPlaying: true,
+      }));
     }
   }
 
@@ -30,6 +32,7 @@ function App() {
         onReady: function (event: any) {
           event.target.playVideo();
           setPlayer(event.target);
+          console.log(event.target.playerInfo);
         },
       },
       playerVars: { autoplay: 1, controls: 0 },
@@ -40,8 +43,8 @@ function App() {
     <div className="App" unselectable="on">
       <div className="iframe-container" unselectable="on">
         <iframe
-          key={activeSong}
-          src={`https://www.youtube.com/embed/${activeSong}?enablejsapi=1`}
+          key={playerData.activeSong}
+          src={`https://www.youtube.com/embed/${playerData.activeSong}?enablejsapi=1`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -54,37 +57,27 @@ function App() {
         />
       </div>
       <div className="player-content">
-        {showAllSongs && (
+        {playerData.showSongsList && (
           <AllSongs
-            onSongClick={setActiveSong}
-            activeSongId={activeSong}
-            onClose={() => setShowAllSongs(false)}
-          />
-        )}
-
-        {player && (
-          <Player
-            isPlaying={isPlaying}
-            player={player}
-            onPlayListClick={() => setShowAllSongs((prev) => !prev)}
-            onPlayPauseClick={() =>
-              setIsPlaying((prev) => {
-                if (player) {
-                  if (!prev) {
-                    player?.playVideo();
-                  } else player?.pauseVideo();
-                  return !prev;
-                }
-
-                return prev;
-              })
+            onSongClick={(songId) =>
+              setPlayerData((prev) => ({
+                ...prev,
+                activeSong: songId,
+              }))
             }
-            setActiveSong={setActiveSong}
-            activeSong={activeSong}
+            activeSongId={playerData.activeSong}
+            onClose={() =>
+              setPlayerData((prev) => ({
+                ...prev,
+                showSongsList: false,
+              }))
+            }
           />
         )}
+
+        {player && <Player player={player} />}
       </div>
-      {!isPlaying && <div className="not-playing-overlay"></div>}
+      {!playerData.isPlaying && <div className="not-playing-overlay"></div>}
     </div>
   );
 }

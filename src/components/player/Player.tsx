@@ -6,30 +6,27 @@ import { ReactComponent as SongsIcon } from "../../icons/songs-icon.svg";
 import "./player-style.css";
 import { useEffect, useRef, useState } from "react";
 import Slider from "../Slider";
-import songs from "../../songs.json";
+import { useRecoilState } from "recoil";
+import { PlayerState } from "../../recoil/atoms/PlayerState";
+import { SongsState } from "../../recoil/atoms/SongsState";
+import { defaultSongs } from "../../constants/songs";
+import { getAllSongs } from "../../utils/songs";
 
 export type PlayerProps = {
-  isPlaying: boolean;
   player: any;
-  onPlayPauseClick(isPlaying: boolean): void;
-  onPlayListClick?(): void;
-  setActiveSong?(songId: string): void;
-  activeSong?: string;
 };
 
-function Player({
-  isPlaying = false,
-  player,
-  onPlayPauseClick,
-  onPlayListClick,
-  setActiveSong,
-  activeSong,
-}: PlayerProps) {
+function Player({ player }: PlayerProps) {
   const [videoMeta, setVideoMeta] = useState<any>({});
   const [volume, setVolume] = useState(0);
+  const [playerData, setPlayerData] = useRecoilState(PlayerState);
+  const [songsData] = useRecoilState(SongsState);
+  const { isPlaying, activeSong } = playerData as any;
+  const { songs, isLoading } = songsData as any;
 
   useEffect(() => {
     let timerId: any;
+
     if (player) {
       timerId = setInterval(() => {
         setVideoMeta({
@@ -44,22 +41,53 @@ function Player({
     return () => clearInterval(timerId);
   }, [player]);
 
+  const onPlayPauseClick = () =>
+    setPlayerData((prev) => {
+      if (player) {
+        if (!prev.isPlaying) {
+          player.playVideo();
+        } else player.pauseVideo();
+        return { ...prev, isPlaying: !prev.isPlaying };
+      }
+
+      return prev;
+    });
+
+  const onPlayListClick = () =>
+    setPlayerData((prev) => ({ ...prev, showSongsList: !prev.showSongsList }));
+
   const handlePrevClick = () => {
-    const currIndex = songs.findIndex((song) => song === activeSong);
+    const songIds = getAllSongs();
+
+    const currIndex = songIds.findIndex((song: any) => song === activeSong);
     if (currIndex < 1) {
-      setActiveSong?.(songs[songs.length - 1]);
+      setPlayerData((prev) => ({
+        ...prev,
+        activeSong: songIds[songIds.length - 1] || songIds[0],
+      }));
     } else {
-      setActiveSong?.(songs[currIndex - 1] || songs[0]);
+      setPlayerData((prev) => ({
+        ...prev,
+        activeSong: songIds[currIndex - 1] || songIds[0],
+      }));
     }
   };
 
   const handleNextClick = () => {
-    const currIndex = songs.findIndex((song) => song === activeSong);
-    if (currIndex >= songs.length - 1) {
-      setActiveSong?.(songs[0]);
+    const songIds = getAllSongs();
+    const currIndex = songIds.findIndex((song: any) => song === activeSong);
+
+    if (currIndex >= songIds.length - 1) {
+      setPlayerData((prev) => ({
+        ...prev,
+        activeSong: songIds[0],
+      }));
     }
     {
-      setActiveSong?.(songs[currIndex + 1] || songs[0]);
+      setPlayerData((prev) => ({
+        ...prev,
+        activeSong: songIds[currIndex + 1] || songIds[0],
+      }));
     }
   };
 
@@ -93,10 +121,7 @@ function Player({
               <PlayIcon />
             </button>
           </div>
-          <button
-            onClick={() => onPlayPauseClick(!isPlaying)}
-            className="play-pause"
-          >
+          <button onClick={() => onPlayPauseClick()} className="play-pause">
             {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
           </button>
           <div className="secondary-actions">

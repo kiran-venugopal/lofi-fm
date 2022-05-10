@@ -24,6 +24,7 @@
   padding: 10px;
   margin: 0 10px 10px 10px;
   display: flex;
+  position: relative;
 }
 
 .song-item.active {
@@ -96,4 +97,35 @@
 
 .options button.active {
   background: #814b9b;
+}
+
+button.star-button {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.all-songs-container input {
+  background: transparent;
+  border: 2px solid #8b90ff;
+  margin: 5px;
+  outline: none;
+  color: white;
+  padding: 3px;
+}
+
+.add-song input::placeholder {
+  color: rgb(256 256 256 / 60%);
+}
+
+.add-song {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}
+.add-song input {
+  flex-grow: 1;
 }

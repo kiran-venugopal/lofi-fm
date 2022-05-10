@@ -1,4 +1,4 @@
-[
+export const defaultSongs = [
   "MCkTebktHVc",
   "HDhR2Yhnvfo",
   "n61ULEU7CO0",
@@ -9,5 +9,5 @@
   "Db-uvuvEEV0",
   "Y3UTIyXQNNU",
   "eb22rcq5ybI",
-  "q0BVR5jRXxE"
-]
+  "q0BVR5jRXxE",
+];
