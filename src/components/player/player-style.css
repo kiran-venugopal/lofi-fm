@@ -3,6 +3,7 @@
   background: rgb(0 13 53 / 36%);
   padding: 15px 10px;
   backdrop-filter: blur(10px);
+  position: relative;
 }
 
 .player-container {
