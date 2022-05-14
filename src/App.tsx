@@ -4,6 +4,9 @@ import Player from "./components/player/Player";
 import AllSongs from "./components/AllSongs";
 import { useRecoilState } from "recoil";
 import { PlayerState } from "./recoil/atoms/PlayerState";
+import { generateRandomIndex } from "./utils/songs";
+import { SongsState } from "./recoil/atoms/SongsState";
+import { defaultSongs } from "./constants/songs";
 
 declare global {
   interface Window {
@@ -15,6 +18,7 @@ declare global {
 function App() {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [player, setPlayer] = useState();
+  const [songsData] = useRecoilState(SongsState);
 
   function onPlayerStateChange(event: any) {
     if (event.data === 1) {
@@ -22,6 +26,23 @@ function App() {
         ...prev,
         isPlaying: true,
       }));
+    }
+    if (event.data === 0) {
+      if (songsData.songs.length > 1) {
+        let index = generateRandomIndex(songsData.songs.length - 1);
+        let song = songsData.songs[index];
+        const activeSongIndex = songsData.songs.findIndex(
+          (song: any) => song.id === playerData.activeSong
+        );
+        while (index === activeSongIndex) {
+          index = generateRandomIndex(songsData.songs.length - 1);
+          song = songsData.songs[index];
+        }
+        setPlayerData((prev) => ({
+          ...prev,
+          activeSong: songsData.songs[index].id || defaultSongs[0],
+        }));
+      }
     }
   }
 

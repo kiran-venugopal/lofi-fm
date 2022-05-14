@@ -78,16 +78,6 @@
   outline: none;
 }
 
-.header .options button {
-  color: white;
-  font-family: "Bubblegum Sans";
-  background: #ffffff24;
-  outline: none;
-  padding: 4px 6px;
-  outline: none;
-  border: none;
-}
-
 .header .options {
   display: flex;
   justify-content: space-around;
@@ -95,17 +85,17 @@
   flex: 1;
 }
 
-.options button.active {
-  background: #814b9b;
-}
-
-button.star-button {
+.song-item .options {
   position: absolute;
   bottom: 4px;
   right: 4px;
+}
+
+.song-item .options button {
   background: transparent;
   border: none;
   outline: none;
+  margin-left: 10px;
 }
 
 .all-songs-container input {

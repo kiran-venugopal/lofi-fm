@@ -1,5 +1,7 @@
 import { ReactComponent as StarIcon } from "../../../icons/star-icon.svg";
 import { ReactComponent as StarFilledIcon } from "../../../icons/star-icon-filled.svg";
+import { ReactComponent as DeleteIcon } from "../../../icons/delete-icon.svg";
+import { defaultSongs } from "../../../constants/songs";
 
 export type SongsProps = {
   songs: any[];
@@ -7,6 +9,7 @@ export type SongsProps = {
   activeSongId?: string;
   starred: string[];
   addOrRemoveStar(songId: string, isAdding: boolean): void;
+  onRemoveSong(songId: string): void;
 };
 
 function Songs({
@@ -15,6 +18,7 @@ function Songs({
   activeSongId,
   addOrRemoveStar,
   starred = [],
+  onRemoveSong,
 }: SongsProps) {
   return (
     <div className="all-songs">
@@ -32,15 +36,28 @@ function Songs({
               <div className="live-tag">Live</div>
             )}
           </div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              addOrRemoveStar(song.id, !starred.includes(song.id));
-            }}
-            className="star-button"
-          >
-            {starred.includes(song.id) ? <StarFilledIcon /> : <StarIcon />}
-          </button>
+          <div className="options">
+            {!defaultSongs.includes(song.id) && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemoveSong(song.id);
+                }}
+                className="star-button"
+              >
+                <DeleteIcon />
+              </button>
+            )}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                addOrRemoveStar(song.id, !starred.includes(song.id));
+              }}
+              className="star-button"
+            >
+              {starred.includes(song.id) ? <StarFilledIcon /> : <StarIcon />}
+            </button>
+          </div>
         </div>
       ))}
     </div>

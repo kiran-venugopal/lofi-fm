@@ -74,6 +74,32 @@ button.play-pause {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: -1em;
+  margin-left: 0.5em;
+}
+
+.player .player-info {
+  position: absolute;
+  padding: 10px;
+  width: 100%;
+  left: 0;
+  background: rgb(0 13 53 / 45%);
+  box-sizing: border-box;
+  top: -100px;
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 3px 8px #d070ff36;
+  backdrop-filter: blur(10px);
+}
+
+.player-info button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+.player-info button svg {
+  margin-right: 5px;
 }
 
 .secondary-actions .volume input {
@@ -83,6 +109,27 @@ button.play-pause {
 .secondary-actions {
   display: flex;
   align-items: center;
+}
+
+.secondary-actions .left-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-section button {
+  margin: 0;
+}
+
+button.yt-play {
+  position: fixed;
+  top: 0px;
+  left: 8px;
+  background: transparent;
+  border: none;
+  opacity: 0.4;
+  padding-top: 10px;
+  transform: scale(1.5);
 }
 
 @media (max-width: 700px) {

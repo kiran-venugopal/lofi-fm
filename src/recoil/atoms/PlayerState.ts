@@ -7,5 +7,6 @@ export const PlayerState = atom({
     isPlaying: false,
     showSongsList: false,
     activeSong: window.localStorage.getItem("activeSong") || defaultSongs[0],
+    volume: JSON.parse(window.localStorage.getItem("volume") || "50"),
   },
 });

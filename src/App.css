@@ -36,14 +36,30 @@ body {
   z-index: 1;
   background: linear-gradient(0deg, black, transparent);
   bottom: 0;
+  top: 0;
 }
 
 input,
 button {
   font-family: inherit;
+  cursor: inherit;
 }
 @media (max-width: 800px) {
   .iframe-container iframe {
     transform: scale(3.4);
   }
+}
+
+button.btn {
+  color: white;
+  font-family: inherit;
+  background: #ffffff24;
+  outline: none;
+  padding: 4px 6px;
+  outline: none;
+  border: none;
+}
+
+button.btn.active {
+  background: #814b9b;
 }

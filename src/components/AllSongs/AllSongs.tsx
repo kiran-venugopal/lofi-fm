@@ -8,11 +8,12 @@ import { SongsState } from "../../recoil/atoms/SongsState";
 import { defaultSongs } from "../../constants/songs";
 import { PlayerState } from "../../recoil/atoms/PlayerState";
 import { getAddedSongs, getAllSongs } from "../../utils/songs";
+import Header from "./Header";
 
 export type AllSongsProps = {
   onSongClick(songId: string): void;
   activeSongId?: string;
-  onClose?(): void;
+  onClose(): void;
 };
 
 function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
@@ -21,27 +22,6 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
     "allsongs" | "starred" | "addsong"
   >("allsongs");
   const [url, setUrl] = useState("");
-
-  const getSongsData = async (id: string) => {
-    const response = await axios.get(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&key=${
-        import.meta.env.VITE_YT_KEY
-      }&id=${id}`
-    );
-    return response.data.items.map((item: any) => ({
-      ...item.snippet,
-      id: item.id,
-    }));
-  };
-
-  useEffect(() => {
-    const fetchSongs = async () => {
-      const songsIds = getAllSongs();
-      const songsArr = await getSongsData(songsIds.join(","));
-      setSongsData((prev) => ({ ...prev, songs: songsArr, isLoading: false }));
-    };
-    fetchSongs();
-  }, []);
 
   const handleAddorRemoveStar = (songId: string, isAdding: boolean) => {
     let newStarred: string[] = [];
@@ -82,29 +62,26 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
     }
   };
 
+  const handleRemove = (songId: string) => {
+    setSongsData((prev) => ({
+      ...prev,
+      songs: [...prev.songs.filter((song: any) => song.id !== songId)],
+    }));
+    let addedSongs = getAddedSongs();
+    window.localStorage.setItem(
+      "addedSongs",
+      JSON.stringify(addedSongs.filter((song: string) => song !== songId))
+    );
+  };
+
   if (songsData.isLoading) {
     return (
       <div className="all-songs-container">
-        <div className="header">
-          <div className="options">
-            <button className={`${activeOption === "starred" ? "active" : ""}`}>
-              Starred
-            </button>
-            <button
-              className={`${activeOption === "allsongs" ? "active" : ""}`}
-            >
-              All Songs
-            </button>
-            <button className={`${activeOption === "addsong" ? "active" : ""}`}>
-              Add Song
-            </button>
-          </div>
-          <div className="close">
-            <button onClick={onClose}>
-              <CloseIcon />
-            </button>
-          </div>
-        </div>
+        <Header
+          setActiveOption={setActiveOption}
+          activeOption={activeOption}
+          onClose={onClose}
+        />
         <div style={{ padding: "15px" }}>Loading..</div>
       </div>
     );
@@ -112,33 +89,11 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
 
   return (
     <div className="all-songs-container">
-      <div className="header">
-        <div className="options">
-          <button
-            onClick={() => setActiveOption("starred")}
-            className={`${activeOption === "starred" ? "active" : ""}`}
-          >
-            Starred
-          </button>
-          <button
-            onClick={() => setActiveOption("allsongs")}
-            className={`${activeOption === "allsongs" ? "active" : ""}`}
-          >
-            All Songs
-          </button>
-          <button
-            onClick={() => setActiveOption("addsong")}
-            className={`${activeOption === "addsong" ? "active" : ""}`}
-          >
-            Add Song
-          </button>
-        </div>
-        <div className="close">
-          <button onClick={onClose}>
-            <CloseIcon />
-          </button>
-        </div>
-      </div>
+      <Header
+        setActiveOption={setActiveOption}
+        activeOption={activeOption}
+        onClose={onClose}
+      />
       {activeOption === "allsongs" && (
         <Songs
           songs={songsData.songs}
@@ -146,6 +101,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
           activeSongId={activeSongId}
           addOrRemoveStar={handleAddorRemoveStar}
           starred={songsData.starredIds}
+          onRemoveSong={handleRemove}
         />
       )}
 
@@ -158,6 +114,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
           activeSongId={activeSongId}
           addOrRemoveStar={handleAddorRemoveStar}
           starred={songsData.starredIds}
+          onRemoveSong={handleRemove}
         />
       )}
 
