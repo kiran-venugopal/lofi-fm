@@ -18,7 +18,7 @@ declare global {
 function App() {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [player, setPlayer] = useState();
-  const [songsData] = useRecoilState(SongsState);
+  const [songsData] = useRecoilState(SongsState) as any;
 
   function onPlayerStateChange(event: any) {
     if (event.data === 1) {

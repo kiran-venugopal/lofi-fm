@@ -23,6 +23,18 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
   >("allsongs");
   const [url, setUrl] = useState("");
 
+  const getSongsData = async (id: string) => {
+    const response = await axios.get(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&key=${
+        import.meta.env.VITE_YT_KEY
+      }&id=${id}`
+    );
+    return response.data.items.map((item: any) => ({
+      ...item.snippet,
+      id: item.id,
+    }));
+  };
+
   const handleAddorRemoveStar = (songId: string, isAdding: boolean) => {
     let newStarred: string[] = [];
     setSongsData((prev) => {

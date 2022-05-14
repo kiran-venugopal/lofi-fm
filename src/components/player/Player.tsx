@@ -95,7 +95,7 @@ function Player({ player }: PlayerProps) {
   };
 
   const handlePrevClick = () => {
-    const songs = songsData.isLoading ? defaultSongs : songsData.songs;
+    const songs = songsData.isLoading ? defaultSongs : (songsData.songs as any);
     let activeSong = playerData.activeSong;
     const currIndex: number = songsData.isLoading
       ? defaultSongs.findIndex((s: any) => s === activeSong)
@@ -120,7 +120,7 @@ function Player({ player }: PlayerProps) {
   };
 
   const handleNextClick = () => {
-    const songs = songsData.isLoading ? defaultSongs : songsData.songs;
+    const songs = songsData.isLoading ? defaultSongs : (songsData.songs as any);
     let activeSong = playerData.activeSong;
     const currIndex: number = songsData.isLoading
       ? defaultSongs.findIndex((s: any) => s === activeSong)
