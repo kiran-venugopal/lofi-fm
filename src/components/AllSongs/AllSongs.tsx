@@ -134,6 +134,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         <div className="add-song">
           <input
             value={url}
+            autoFocus={true}
             onChange={(e) => setUrl(e.target.value)}
             placeholder="paste youtube url here.."
           />
