@@ -6,6 +6,7 @@ import { ReactComponent as SongsIcon } from "../../icons/songs-icon.svg";
 import { ReactComponent as InfoIcon } from "../../icons/info-icon.svg";
 import { ReactComponent as YoutubeIcon } from "../../icons/youtube-icon.svg";
 import { ReactComponent as GiithubIcon } from "../../icons/github-icon.svg";
+import { ReactComponent as BMFIcon } from "../../icons/bmf-icon.svg";
 import "./player-style.css";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Slider from "../Slider";
@@ -172,6 +173,14 @@ function Player({ player }: PlayerProps) {
                 className="btn"
               >
                 <GiithubIcon /> Sourcecode
+              </button>
+              <button
+                onClick={() =>
+                  window.open("https://www.buymeacoffee.com/kiranv")
+                }
+                className="btn bmf"
+              >
+                <BMFIcon /> Buy me Coffee
               </button>
             </div>
           )}

@@ -121,6 +121,12 @@ button.play-pause {
   margin: 0;
 }
 
+.btn.bmf {
+  background: #ffeb3bd0;
+  color: black;
+  margin-left: auto;
+}
+
 button.yt-play {
   position: fixed;
   top: 0px;
