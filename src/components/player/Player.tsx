@@ -95,21 +95,23 @@ function Player({ player }: PlayerProps) {
   };
 
   const handlePrevClick = () => {
-    const songs = songsData.isLoading ? defaultSongs : (songsData.songs as any);
     let activeSong = playerData.activeSong;
-    const currIndex: number = songsData.isLoading
-      ? defaultSongs.findIndex((s: any) => s === activeSong)
-      : songs.findIndex((song: any) => song.id === activeSong);
+    let currIndex = defaultSongs.findIndex((s) => s === activeSong);
 
-    console.log({ activeSong, songs, currIndex });
-
-    if (currIndex <= 0) {
-      activeSong = defaultSongs[0];
+    if (songsData.isLoading) {
+      if (currIndex <= 0) {
+        activeSong = defaultSongs[defaultSongs.length - 1];
+      } else {
+        activeSong = defaultSongs[currIndex - 1];
+      }
     } else {
-      activeSong =
-        (songsData.isLoading
-          ? songs[currIndex - 1]
-          : songs[currIndex - 1].id) || defaultSongs[0];
+      const songs: any[] = songsData.songs;
+      currIndex = songs.findIndex((s: any) => s.id === activeSong);
+      if (currIndex <= 0) {
+        activeSong = songs[songs.length - 1].id;
+      } else {
+        activeSong = songs[currIndex - 1].id;
+      }
     }
 
     setPlayerData((prev) => ({
