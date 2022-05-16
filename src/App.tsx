@@ -60,6 +60,9 @@ function App() {
     });
   };
 
+
+  
+
   return (
     <div className="App" unselectable="on">
       <div className="iframe-container" unselectable="on">
@@ -80,12 +83,13 @@ function App() {
       <div className="player-content">
         {playerData.showSongsList && (
           <AllSongs
-            onSongClick={(songId) =>
+            onSongClick={(songId) => {
               setPlayerData((prev) => ({
                 ...prev,
                 activeSong: songId,
-              }))
-            }
+              }));
+              window.localStorage.setItem("activeSong", songId)
+            }}
             activeSongId={playerData.activeSong}
             onClose={() =>
               setPlayerData((prev) => ({
