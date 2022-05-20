@@ -10,3 +10,5 @@ try this app at https://lofifm.vercel.app
 ![](https://ph-files.imgix.net/a03135fd-2de9-4e2c-8704-c46b3e48339b.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&fit=max&dpr=2)
 
 <a href="https://www.producthunt.com/posts/lofi-fm?utm_source=badge-review&utm_medium=badge&utm_souce=badge-lofi&#0045;fm#discussion-body" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/review.svg?post_id=346367&theme=dark" alt="Lofi&#0032;FM - online&#0032;lofi&#0032;music&#0032;player | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+[![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/kiranv)
+
