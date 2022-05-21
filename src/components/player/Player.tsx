@@ -7,6 +7,7 @@ import { ReactComponent as InfoIcon } from "../../icons/info-icon.svg";
 import { ReactComponent as YoutubeIcon } from "../../icons/youtube-icon.svg";
 import { ReactComponent as GiithubIcon } from "../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../icons/bmf-icon.svg";
+import { ReactComponent as EcashIcon } from "../../icons/ecash-icon.svg";
 import "./player-style.css";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Slider from "../Slider";
@@ -17,6 +18,8 @@ import { defaultSongs } from "../../constants/songs";
 import { getAllSongs, getVolume } from "../../utils/songs";
 import useContainerClick from "use-container-click";
 import axios from "axios";
+import Cashtab from "./cashtab";
+
 export type PlayerProps = {
   player: any;
 };
@@ -26,13 +29,14 @@ function Player({ player }: PlayerProps) {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [songsData, setSongsData] = useRecoilState(SongsState);
   const [showInfo, setShowInfo] = useState<boolean | null>(false);
+  const [isCTOpen, setCTOpen] = useState<boolean>(false);
+
   const infoRef = useRef(document.createElement("div"));
   useContainerClick(infoRef, () => {
     if (infoRef.current) setShowInfo(false);
   });
 
-  const { isPlaying, activeSong, volume } = playerData as any;
-  const { songs, isLoading } = songsData as any;
+  const { isPlaying, volume } = playerData as any;
 
   const getSongsData = async (id: string) => {
     const response = await axios.get(
@@ -53,6 +57,13 @@ function Player({ player }: PlayerProps) {
       setSongsData((prev) => ({ ...prev, songs: songsArr, isLoading: false }));
     };
     fetchSongs();
+    window.oncontextmenu = () => {
+      setShowInfo(true);
+    };
+
+    if (window.location.pathname.includes("ecash")) {
+      setCTOpen(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -74,6 +85,20 @@ function Player({ player }: PlayerProps) {
     return () => clearInterval(timerId);
   }, [player]);
 
+  useEffect(() => {
+    const handler = () => {
+      if (!playerData.isPlaying) {
+        player.playVideo();
+      }
+    };
+
+    window.addEventListener("click", handler);
+
+    return () => {
+      window.removeEventListener("click", handler);
+    };
+  }, [player, playerData.isPlaying]);
+
   const onPlayPauseClick = () =>
     setPlayerData((prev) => {
       if (player) {
@@ -93,6 +118,7 @@ function Player({ player }: PlayerProps) {
   const handleInfoClick = () => {
     setPlayerData((prev) => ({ ...prev, showSongsList: false }));
     setShowInfo((prev) => (prev === null ? false : true));
+    setCTOpen(false);
   };
 
   const handlePrevClick = () => {
@@ -150,7 +176,7 @@ function Player({ player }: PlayerProps) {
 
   return (
     <Fragment>
-      <div className="player-container">
+      <div onClick={(e) => e.stopPropagation()} className="player-container">
         <div className="title">
           {player?.playerInfo?.videoData?.title} -{" "}
           <span className="author">
@@ -160,30 +186,46 @@ function Player({ player }: PlayerProps) {
         <div className="player">
           {showInfo && (
             <div className="player-info" ref={infoRef}>
-              <button
-                onClick={() => window.open(player?.playerInfo?.videoUrl)}
-                className="btn"
-              >
-                <YoutubeIcon /> Play in Youtube
-              </button>
-              <button
-                onClick={() =>
-                  window.open("https://github.com/kiran-venugopal/lofi")
-                }
-                className="btn"
-              >
-                <GiithubIcon /> Sourcecode
-              </button>
-              <button
-                onClick={() =>
-                  window.open("https://www.buymeacoffee.com/kiranv")
-                }
-                className="btn bmf"
-              >
-                <BMFIcon /> Buy me Coffee
-              </button>
+              <div className="section">
+                <button
+                  onClick={() => window.open(player?.playerInfo?.videoUrl)}
+                  className="btn"
+                >
+                  <YoutubeIcon /> Play in Youtube
+                </button>
+                <button
+                  onClick={() =>
+                    window.open("https://github.com/kiran-venugopal/lofi")
+                  }
+                  className="btn gh"
+                >
+                  <GiithubIcon /> Sourcecode
+                </button>
+              </div>
+              <div className="section">
+                <button
+                  onClick={() =>
+                    window.open("https://www.buymeacoffee.com/kiranv")
+                  }
+                  className="btn bmf"
+                >
+                  <BMFIcon /> Buy me Coffee
+                </button>
+                <button
+                  onClick={() => {
+                    setCTOpen(true);
+                    setShowInfo(false);
+                  }}
+                  className="btn cashtab"
+                >
+                  <EcashIcon /> eCash
+                </button>
+              </div>
             </div>
           )}
+
+          {isCTOpen && <Cashtab onClose={() => setCTOpen(false)} />}
+
           <div className="progress">
             <div className="slidecontainer">
               <Slider

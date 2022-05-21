@@ -88,7 +88,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
 
   if (songsData.isLoading) {
     return (
-      <div className="all-songs-container">
+      <div className="all-songs-container" onClick={(e) => e.stopPropagation()}>
         <Header
           setActiveOption={setActiveOption}
           activeOption={activeOption}
@@ -100,7 +100,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
   }
 
   return (
-    <div className="all-songs-container">
+    <div className="all-songs-container" onClick={(e) => e.stopPropagation()}>
       <Header
         setActiveOption={setActiveOption}
         activeOption={activeOption}

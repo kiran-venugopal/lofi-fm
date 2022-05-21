@@ -80,16 +80,17 @@ button.play-pause {
 
 .player .player-info {
   position: absolute;
-  padding: 10px;
-  width: 100%;
-  left: 0;
+  left: 22%;
   background: rgb(0 13 53 / 35%);
   box-sizing: border-box;
-  top: -100px;
+  bottom: 140px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 3px 3px 8px #d070ff36;
   backdrop-filter: blur(10px);
+  margin: auto;
+  border: 2px solid #8b91ff5c;
 }
 
 .player-info button {
@@ -121,10 +122,22 @@ button.play-pause {
   margin: 0;
 }
 
+.player-info .section .btn {
+  width: calc(100% - 10px) !important;
+  margin: 5px;
+}
+
+.btn.gh {
+  background: #14243b9f;
+}
+
+.btn.cashtab {
+  background: rgb(0 69 116 / 73%);
+}
+
 .btn.bmf {
-  background: #ffeb3bd0;
+  background: #ffeb3bba;
   color: black;
-  margin-left: auto;
 }
 
 button.yt-play {
