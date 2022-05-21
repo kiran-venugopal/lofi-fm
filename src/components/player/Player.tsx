@@ -113,6 +113,7 @@ function Player({ player }: PlayerProps) {
 
   const onPlayListClick = () => {
     setPlayerData((prev) => ({ ...prev, showSongsList: !prev.showSongsList }));
+    setCTOpen(false);
   };
 
   const handleInfoClick = () => {
