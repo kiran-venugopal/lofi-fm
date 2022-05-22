@@ -5,6 +5,12 @@ import App from "./App";
 import "./index.css";
 
 import Tracker from "@openreplay/tracker";
+import { registerSW } from "virtual:pwa-register";
+
+if ("serviceWorker" in navigator) {
+  // && !/localhost/.test(window.location)) {
+  registerSW();
+}
 
 const tracker = new Tracker({
   projectKey: import.meta.env.VITE_YT_LOGS_KEY,
