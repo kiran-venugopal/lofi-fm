@@ -25,7 +25,7 @@ function Overlay({ player }: OverlayProps) {
           {!playerData.isPlaying && player ? (
             "Tap to start playing the Lofi FM 📻"
           ) : (
-            <span style={{ fontSize: "1.7em" }}>Buffering.. ⏳</span>
+            <span style={{ fontSize: "1.6em" }}>Buffering.. ⏳</span>
           )}
         </div>
         <div className="credits">
