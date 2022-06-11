@@ -1,0 +1,20 @@
+.update-app {
+  background: rgba(0, 0, 0, 0.175);
+  padding: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.update-app button {
+  background: #9743c1;
+  border: none;
+  padding: 4px 8px;
+  color: white;
+  margin-left: auto;
+  display: block;
+}
+
+.update-app h3 {
+  margin: 0;
+  margin-bottom: 30px;
+  font-weight: 500;
+}

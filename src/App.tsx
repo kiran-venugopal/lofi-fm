@@ -2,11 +2,12 @@ import { useState } from "react";
 import "./App.css";
 import Player from "./components/player/Player";
 import AllSongs from "./components/AllSongs";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { PlayerState } from "./recoil/atoms/PlayerState";
 import { generateRandomIndex } from "./utils/songs";
-import { SongsState } from "./recoil/atoms/SongsState";
+import { ISongsState, SongsState } from "./recoil/atoms/SongsState";
 import { defaultSongs } from "./constants/songs";
+import Overlay from "./components/Overlay";
 
 declare global {
   interface Window {
@@ -18,32 +19,68 @@ declare global {
 function App() {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [player, setPlayer] = useState();
-  const [songsData] = useRecoilState(SongsState) as any;
+  const setSongsData = useSetRecoilState(SongsState);
 
   function onPlayerStateChange(event: any) {
-    if (event.data === 1) {
-      setPlayerData((prev) => ({
-        ...prev,
-        isPlaying: true,
-      }));
-    }
-    if (event.data === 0) {
-      if (songsData.songs.length > 1) {
-        let index = generateRandomIndex(songsData.songs.length - 1);
-        let song = songsData.songs[index];
-        const activeSongIndex = songsData.songs.findIndex(
-          (song: any) => song.id === playerData.activeSong
-        );
-        while (index === activeSongIndex) {
-          index = generateRandomIndex(songsData.songs.length - 1);
-          song = songsData.songs[index];
-        }
-        setPlayerData((prev) => ({
-          ...prev,
-          activeSong: songsData.songs[index].id || defaultSongs[0],
-        }));
+    let songsData: ISongsState;
+    setSongsData((prev) => {
+      songsData = prev;
+      return prev;
+    });
+
+    setPlayerData((prev) => {
+      console.log({ event });
+      switch (event.data) {
+        case 0:
+          if (songsData.songs.length > 1) {
+            let index = generateRandomIndex(songsData.songs.length - 1);
+            let song = songsData.songs[index];
+            const activeSongIndex = songsData.songs.findIndex(
+              (song: any) => song.id === playerData.activeSong
+            );
+            while (index === activeSongIndex) {
+              index = generateRandomIndex(songsData.songs.length - 1);
+              song = songsData.songs[index];
+            }
+            return {
+              ...prev,
+              activeSong: songsData.songs[index].id || defaultSongs[0],
+              isBuffering: false,
+            };
+          }
+          return {
+            ...prev,
+            isBuffering: false,
+          };
+
+        case 1:
+          return {
+            ...prev,
+            isPlaying: true,
+            isBuffering: false,
+          };
+
+        case 2:
+          return {
+            ...prev,
+            isPlaying: false,
+            isBuffering: false,
+          };
+
+        case 3:
+        case -1:
+          return {
+            ...prev,
+            isBuffering: true,
+          };
+
+        default:
+          return {
+            ...prev,
+            isBuffering: false,
+          };
       }
-    }
+    });
   }
 
   const handleLoadCapture = () => {
@@ -59,9 +96,6 @@ function App() {
       playerVars: { autoplay: 1, controls: 0 },
     });
   };
-
-
-  
 
   return (
     <div className="App" unselectable="on">
@@ -80,6 +114,7 @@ function App() {
           onLoadCapture={handleLoadCapture}
         />
       </div>
+
       <div className="player-content">
         {playerData.showSongsList && (
           <AllSongs
@@ -88,7 +123,7 @@ function App() {
                 ...prev,
                 activeSong: songId,
               }));
-              window.localStorage.setItem("activeSong", songId)
+              window.localStorage.setItem("activeSong", songId);
             }}
             activeSongId={playerData.activeSong}
             onClose={() =>
@@ -102,7 +137,7 @@ function App() {
 
         {player && <Player player={player} />}
       </div>
-      {!playerData.isPlaying && <div className="not-playing-overlay"></div>}
+      <Overlay />
     </div>
   );
 }

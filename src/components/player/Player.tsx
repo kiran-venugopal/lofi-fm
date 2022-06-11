@@ -54,6 +54,7 @@ function Player({ player }: PlayerProps) {
     const fetchSongs = async () => {
       const songsIds = getAllSongs();
       const songsArr = await getSongsData(songsIds.join(","));
+      console.log({ songsArr });
       setSongsData((prev) => ({ ...prev, songs: songsArr, isLoading: false }));
     };
     fetchSongs();

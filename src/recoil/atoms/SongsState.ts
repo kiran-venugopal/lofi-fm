@@ -1,6 +1,12 @@
 import { atom } from "recoil";
 
-export const SongsState = atom({
+export interface ISongsState {
+  songs: any[];
+  starredIds: string[];
+  isLoading: boolean;
+}
+
+export const SongsState = atom<ISongsState>({
   key: "SONGS_STATE",
   default: {
     songs: [],

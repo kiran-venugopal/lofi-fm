@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-toast-package": "^1.0.1",
     "recoil": "^0.7.3-alpha.2",
     "use-container-click": "^1.0.0"
   },

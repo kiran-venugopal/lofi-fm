@@ -29,16 +29,6 @@ body {
   background: #3b06554d;
 }
 
-.not-playing-overlay {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  z-index: 1;
-  background: linear-gradient(0deg, black, transparent);
-  bottom: 0;
-  top: 0;
-}
-
 input,
 button {
   font-family: inherit;
@@ -62,4 +52,9 @@ button.btn {
 
 button.btn.active {
   background: #814b9b;
+}
+
+.toast-container {
+  position: absolute;
+  z-index: 11;
 }
