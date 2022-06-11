@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Player from "./components/player/Player";
 import AllSongs from "./components/AllSongs";
@@ -111,7 +111,7 @@ function App() {
           unselectable="on"
           onSelect={() => false}
           onMouseDown={() => false}
-          onLoadCapture={handleLoadCapture}
+          onLoad={handleLoadCapture}
         />
       </div>
 
@@ -137,7 +137,7 @@ function App() {
 
         {player && <Player player={player} />}
       </div>
-      <Overlay />
+      <Overlay player={player} />
     </div>
   );
 }

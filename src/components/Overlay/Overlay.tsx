@@ -5,7 +5,11 @@ import { PlayerState } from "../../recoil/atoms/PlayerState";
 import { generateRandomIndex } from "../../utils/songs";
 import "./overlay-style.css";
 
-function Overlay() {
+export type OverlayProps = {
+  player?: any;
+};
+
+function Overlay({ player }: OverlayProps) {
   const [playerData] = useRecoilState(PlayerState);
   const [gif, setGif] = useState<any>({});
 
@@ -18,9 +22,11 @@ function Overlay() {
     return (
       <div className="overlay">
         <div className="text">
-          {!playerData.isPlaying
-            ? "Tap to start playing the Lofi FM 📻"
-            : "Buffering.. ⏳"}
+          {!playerData.isPlaying && player ? (
+            "Tap to start playing the Lofi FM 📻"
+          ) : (
+            <span style={{ fontSize: "1.7em" }}>Buffering.. ⏳</span>
+          )}
         </div>
         <div className="credits">
           <div className="product-hunt"></div>

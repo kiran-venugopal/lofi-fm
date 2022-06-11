@@ -18,6 +18,10 @@
 .player-container .title {
   margin-bottom: 10px;
   font-size: 16px;
+  white-space: nowrap;
+  max-width: 600px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .player .actions {
