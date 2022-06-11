@@ -22,11 +22,9 @@ function Overlay({ player }: OverlayProps) {
     return (
       <div className="overlay">
         <div className="text">
-          {!playerData.isPlaying && player ? (
-            "Tap to start playing the Lofi FM 📻"
-          ) : (
-            <span style={{ fontSize: "1.6em" }}>Buffering.. ⏳</span>
-          )}
+          {!playerData.isPlaying && player
+            ? "Tap to start playing the Lofi FM 📻"
+            : "Buffering.. ⏳"}
         </div>
         <div className="credits">
           <div className="product-hunt"></div>
