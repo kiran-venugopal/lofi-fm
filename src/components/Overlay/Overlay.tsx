@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import giphys from "../../constants/giphys";
 import { PlayerState } from "../../recoil/atoms/PlayerState";
@@ -20,18 +20,29 @@ function Overlay({ player }: OverlayProps) {
 
   if (!playerData.isPlaying || playerData.isBuffering) {
     return (
-      <div className="overlay">
-        <div className="text">
-          {!playerData.isPlaying && player
-            ? "Tap to start playing the Lofi FM 📻"
-            : "Buffering.. ⏳"}
+      <Fragment>
+        <div
+          className="overlay"
+          style={{
+            backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id}.gif)`,
+          }}
+        >
+          <div className="text">
+            {!playerData.isPlaying && player
+              ? "Tap to start playing the Lofi FM 📻"
+              : "Buffering.. ⏳"}
+          </div>
         </div>
         <div className="credits">
           <div className="product-hunt"></div>
-          <div className="giphy"></div>
+          <div className="giphy">
+            GIF by{" "}
+            <a target="_blank" href={gif.user?.profile_url}>
+              {gif.user?.name}
+            </a>
+          </div>
         </div>
-        <img src={`/gifs/${gif.id}.gif`} />
-      </div>
+      </Fragment>
     );
   }
 
