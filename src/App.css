@@ -17,6 +17,7 @@ body {
   height: 100vh;
   width: 100vw;
   transform: scale(1.3);
+  transition: transform 500ms;
 }
 
 .player-content {

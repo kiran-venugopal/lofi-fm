@@ -112,6 +112,13 @@ function App() {
           onSelect={() => false}
           onMouseDown={() => false}
           onLoad={handleLoadCapture}
+          style={
+            playerData.scalingDisabled
+              ? {
+                  transform: "scale(1)",
+                }
+              : {}
+          }
         />
       </div>
 

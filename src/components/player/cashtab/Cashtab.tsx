@@ -8,7 +8,7 @@ export type CashtabProps = {
 function Cashtab({ onClose }: CashtabProps) {
   return (
     <div className="cashtab-container">
-      <div className="title">Send XEC via Cashtab</div>
+      <div className="heading">Send XEC via Cashtab</div>
       <svg
         shape-rendering="crispEdges"
         height="210"

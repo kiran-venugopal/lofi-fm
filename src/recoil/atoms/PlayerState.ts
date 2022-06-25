@@ -7,6 +7,7 @@ export interface IPlayerState {
   activeSong: string;
   volume: number;
   isBuffering: boolean;
+  scalingDisabled: boolean;
 }
 
 export const PlayerState = atom<IPlayerState>({
@@ -17,5 +18,8 @@ export const PlayerState = atom<IPlayerState>({
     activeSong: window.localStorage.getItem("activeSong") || defaultSongs[0],
     volume: JSON.parse(window.localStorage.getItem("volume") || "50"),
     isBuffering: false,
+    scalingDisabled: JSON.parse(
+      window.localStorage.getItem("scaling_disabled") || "false"
+    ),
   },
 });

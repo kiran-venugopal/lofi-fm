@@ -4,10 +4,6 @@ import { ReactComponent as PauseIcon } from "../../icons/pause-icon.svg";
 import { ReactComponent as SoundIcon } from "../../icons/sound-icon.svg";
 import { ReactComponent as SongsIcon } from "../../icons/songs-icon.svg";
 import { ReactComponent as InfoIcon } from "../../icons/info-icon.svg";
-import { ReactComponent as YoutubeIcon } from "../../icons/youtube-icon.svg";
-import { ReactComponent as GiithubIcon } from "../../icons/github-icon.svg";
-import { ReactComponent as BMFIcon } from "../../icons/bmf-icon.svg";
-import { ReactComponent as EcashIcon } from "../../icons/ecash-icon.svg";
 import "./player-style.css";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Slider from "../Slider";
@@ -19,6 +15,7 @@ import { getAllSongs, getVolume } from "../../utils/songs";
 import useContainerClick from "use-container-click";
 import axios from "axios";
 import Cashtab from "./cashtab";
+import PlayerInfo from "./player-info";
 
 export type PlayerProps = {
   player: any;
@@ -176,55 +173,29 @@ function Player({ player }: PlayerProps) {
     window.localStorage.setItem("activeSong", activeSong);
   };
 
+  const handleEcashClick = () => {
+    setShowInfo(false);
+    setCTOpen(true);
+  };
+
   return (
     <Fragment>
       <div onClick={(e) => e.stopPropagation()} className="player-container">
-        <div className="title">
-          {player?.playerInfo?.videoData?.title} -{" "}
-          <span className="author">
-            {player?.playerInfo?.videoData?.author}
-          </span>
-        </div>
         <div className="player">
           {showInfo && (
-            <div className="player-info" ref={infoRef}>
-              <div className="section">
-                <button
-                  onClick={() => window.open(player?.playerInfo?.videoUrl)}
-                  className="btn"
-                >
-                  <YoutubeIcon /> Play in Youtube
-                </button>
-                <button
-                  onClick={() =>
-                    window.open("https://github.com/kiran-venugopal/lofi")
-                  }
-                  className="btn gh"
-                >
-                  <GiithubIcon /> Sourcecode
-                </button>
-              </div>
-              <div className="section">
-                <button
-                  onClick={() =>
-                    window.open("https://www.buymeacoffee.com/kiranv")
-                  }
-                  className="btn bmf"
-                >
-                  <BMFIcon /> Buy me Coffee
-                </button>
-                <button
-                  onClick={() => {
-                    setCTOpen(true);
-                    setShowInfo(false);
-                  }}
-                  className="btn cashtab"
-                >
-                  <EcashIcon /> eCash
-                </button>
-              </div>
-            </div>
+            <PlayerInfo
+              onEcashClick={handleEcashClick}
+              player={player}
+              infoRef={infoRef}
+            />
           )}
+
+          <div className="title">
+            <div className="name">{player?.playerInfo?.videoData?.title}</div>
+            <div className="author">
+              - {player?.playerInfo?.videoData?.author}
+            </div>
+          </div>
 
           {isCTOpen && <Cashtab onClose={() => setCTOpen(false)} />}
 

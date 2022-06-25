@@ -17,11 +17,25 @@
 
 .player-container .title {
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 1em;
+  position: absolute;
+  top: -34px;
+  left: 0;
+  width: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title .name {
   white-space: nowrap;
-  max-width: 600px;
   text-overflow: ellipsis;
   overflow: hidden;
+  padding-right: 0.3em;
+}
+
+.title .author {
+  white-space: nowrap;
 }
 
 .player .actions {
@@ -82,31 +96,6 @@ button.play-pause {
   margin-left: 0.5em;
 }
 
-.player .player-info {
-  position: absolute;
-  left: 22%;
-  background: rgb(0 13 53 / 35%);
-  box-sizing: border-box;
-  bottom: 140px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 3px 3px 8px #d070ff36;
-  backdrop-filter: blur(10px);
-  margin: auto;
-  border: 2px solid #8b91ff5c;
-}
-
-.player-info button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 5px;
-}
-.player-info button svg {
-  margin-right: 5px;
-}
-
 .secondary-actions .volume input {
   margin-left: -15px;
 }
@@ -124,11 +113,6 @@ button.play-pause {
 
 .left-section button {
   margin: 0;
-}
-
-.player-info .section .btn {
-  width: calc(100% - 10px) !important;
-  margin: 5px;
 }
 
 .btn.gh {
