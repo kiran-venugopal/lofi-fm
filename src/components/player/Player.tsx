@@ -55,7 +55,7 @@ function Player({ player }: PlayerProps) {
     };
     fetchSongs();
     window.oncontextmenu = () => {
-      setShowInfo(true);
+      dispatch({ type: "SET_SHOW_INFO", payload: true });
     };
 
     if (window.location.pathname.includes("ecash")) {
@@ -190,8 +190,8 @@ function Player({ player }: PlayerProps) {
   };
 
   const handleEcashClick = () => {
-    setShowInfo(false);
-    setCTOpen(true);
+    dispatch({ type: "SET_SHOW_INFO", payload: false });
+    dispatch({ type: "SET_SHOW_CASHTAB", payload: true });
   };
 
   const handleVolumeChange = (e: any) => {
@@ -203,7 +203,7 @@ function Player({ player }: PlayerProps) {
     window.localStorage.setItem("volume", JSON.stringify(e.target.value));
   };
 
-  const handleProgressChange = (e) => {
+  const handleProgressChange = (e: any) => {
     const target = e.target as any;
     const val = parseInt(target.value);
     player.seekTo(val, true);
