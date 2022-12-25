@@ -1,18 +1,8 @@
-.player {
-  width: 400px;
-  background: rgb(0 13 53 / 36%);
-  padding: 15px 10px;
-  backdrop-filter: blur(10px);
-  position: relative;
-}
-
 .player-container {
   position: fixed;
   bottom: 20px;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .player-container .title {
@@ -36,12 +26,6 @@
 
 .title .author {
   white-space: nowrap;
-}
-
-.player .actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .actions button {

@@ -1,12 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
-import { ReactComponent as PlayIcon } from "../../icons/play-icon.svg";
-import { ReactComponent as PauseIcon } from "../../icons/pause-icon.svg";
-import { ReactComponent as SoundIcon } from "../../icons/sound-icon.svg";
-import { ReactComponent as SongsIcon } from "../../icons/songs-icon.svg";
-import { ReactComponent as InfoIcon } from "../../icons/info-icon.svg";
 import "./player-style.css";
-import { Fragment, useEffect, useRef, useState } from "react";
-import Slider from "../Slider";
+import { Fragment, useEffect, useReducer, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { PlayerState } from "../../recoil/atoms/PlayerState";
 import { SongsState } from "../../recoil/atoms/SongsState";
@@ -14,23 +8,28 @@ import { defaultSongs } from "../../constants/songs";
 import { getAllSongs, getVolume } from "../../utils/songs";
 import useContainerClick from "use-container-click";
 import axios from "axios";
-import Cashtab from "./cashtab";
 import PlayerInfo from "./player-info";
+import Controls from "./controls/Controls";
+import Cashtab from "./cashtab";
+import { initialPlayerState, playerReducer } from "./reducer/player-reducer";
 
 export type PlayerProps = {
   player: any;
 };
 
 function Player({ player }: PlayerProps) {
-  const [videoMeta, setVideoMeta] = useState<any>({});
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [songsData, setSongsData] = useRecoilState(SongsState);
-  const [showInfo, setShowInfo] = useState<boolean | null>(false);
-  const [isCTOpen, setCTOpen] = useState<boolean>(false);
-
+  const [playerState, dispatch] = useReducer(playerReducer, initialPlayerState);
   const infoRef = useRef(document.createElement("div"));
+
+  const { videoMeta, isCashtabVisible, isInfoVisible } = playerState;
+  const { playerInfo } = player;
+  const { videoData } = playerInfo;
+  const { title, author } = videoData;
+
   useContainerClick(infoRef, () => {
-    if (infoRef.current) setShowInfo(false);
+    if (infoRef.current) dispatch({ type: "SET_SHOW_INFO", payload: false }); // setShowInfo(false);
   });
 
   const { isPlaying, volume } = playerData as any;
@@ -60,7 +59,10 @@ function Player({ player }: PlayerProps) {
     };
 
     if (window.location.pathname.includes("ecash")) {
-      setCTOpen(true);
+      dispatch({
+        type: "SET_SHOW_CASHTAB",
+        payload: true,
+      });
     }
   }, []);
 
@@ -69,9 +71,12 @@ function Player({ player }: PlayerProps) {
 
     if (player) {
       timerId = setInterval(() => {
-        setVideoMeta({
-          duration: player.playerInfo.duration,
-          current: player.playerInfo.currentTime,
+        dispatch({
+          type: "SET_VIDEO_META",
+          payload: {
+            duration: player.playerInfo.duration,
+            current: player.playerInfo.currentTime,
+          },
         });
       }, 1000);
       const vol = getVolume();
@@ -111,13 +116,24 @@ function Player({ player }: PlayerProps) {
 
   const onPlayListClick = () => {
     setPlayerData((prev) => ({ ...prev, showSongsList: !prev.showSongsList }));
-    setCTOpen(false);
+    dispatch({
+      type: "SET_SHOW_CASHTAB",
+      payload: false,
+    });
   };
 
   const handleInfoClick = () => {
     setPlayerData((prev) => ({ ...prev, showSongsList: false }));
-    setShowInfo((prev) => (prev === null ? false : true));
-    setCTOpen(false);
+    // setShowInfo((prev) => (prev === null ? false : true));
+    dispatch({
+      type: "SET_SHOW_INFO",
+      payload: !isInfoVisible,
+    });
+    //setCTOpen(false);
+    dispatch({
+      type: "SET_SHOW_CASHTAB",
+      payload: false,
+    });
   };
 
   const handlePrevClick = () => {
@@ -178,94 +194,51 @@ function Player({ player }: PlayerProps) {
     setCTOpen(true);
   };
 
+  const handleVolumeChange = (e: any) => {
+    player.setVolume(e.target.value);
+    setPlayerData((prev) => ({
+      ...prev,
+      volume: e.target.value,
+    }));
+    window.localStorage.setItem("volume", JSON.stringify(e.target.value));
+  };
+
+  const handleProgressChange = (e) => {
+    const target = e.target as any;
+    const val = parseInt(target.value);
+    player.seekTo(val, true);
+  };
+
   return (
-    <Fragment>
-      <div onClick={(e) => e.stopPropagation()} className="player-container">
-        <div className="player">
-          {showInfo && (
-            <PlayerInfo
-              onEcashClick={handleEcashClick}
-              player={player}
-              infoRef={infoRef}
-            />
-          )}
-
-          <div className="title">
-            <div className="name">{player?.playerInfo?.videoData?.title}</div>
-            <div className="author">
-              - {player?.playerInfo?.videoData?.author}
-            </div>
-          </div>
-
-          {isCTOpen && <Cashtab onClose={() => setCTOpen(false)} />}
-
-          <div className="progress">
-            <div className="slidecontainer">
-              <Slider
-                min={0}
-                max={videoMeta.duration}
-                className="slider"
-                value={videoMeta.current || 0}
-                id="myRange"
-                onInput={(e) => {
-                  const target = e.target as any;
-                  const val = parseInt(target.value);
-                  player.seekTo(val, true);
-                }}
-                background="rgb(0 13 53 / 36%)"
-              />
-            </div>
-          </div>
-          <div className="actions">
-            <div className="secondary-actions">
-              <div className="left-section">
-                <button onClick={handleInfoClick}>
-                  <InfoIcon style={{ paddingLeft: 0 }} />
-                </button>
-                <button onClick={onPlayListClick}>
-                  <SongsIcon />
-                </button>
-              </div>
-              <button onClick={handlePrevClick} className="prev">
-                <PlayIcon />
-              </button>
-            </div>
-            <button onClick={() => onPlayPauseClick()} className="play-pause">
-              {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
-            </button>
-            <div className="secondary-actions">
-              <button onClick={handleNextClick} className="next">
-                <PlayIcon />
-              </button>
-              <div className="volume">
-                <SoundIcon />
-                <Slider
-                  min={0}
-                  max={100}
-                  className="slider"
-                  value={volume}
-                  id="myRange"
-                  onInput={(e: any) => {
-                    player.setVolume(e.target.value);
-                    setPlayerData((prev) => ({
-                      ...prev,
-                      volume: e.target.value,
-                    }));
-                    window.localStorage.setItem(
-                      "volume",
-                      JSON.stringify(e.target.value)
-                    );
-                  }}
-                  style={{ transform: "scale(0.7)" }}
-                  color="#8b90ff"
-                  background="rgb(0 13 53 / 10%)"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Fragment>
+    <div onClick={(e) => e.stopPropagation()} className="player-container">
+      {isInfoVisible && (
+        <PlayerInfo
+          onEcashClick={handleEcashClick}
+          player={player}
+          infoRef={infoRef}
+        />
+      )}
+      {isCashtabVisible && (
+        <Cashtab
+          onClose={() => dispatch({ type: "SET_SHOW_CASHTAB", payload: false })}
+        />
+      )}
+      <Controls
+        title={title}
+        author={author}
+        volume={volume}
+        isPlaying={isPlaying}
+        onPlayPauseClick={onPlayPauseClick}
+        onVolumeChange={handleVolumeChange}
+        onPrevClick={handlePrevClick}
+        onNextClick={handleNextClick}
+        onPlayListClick={onPlayListClick}
+        onProgressChange={handleProgressChange}
+        duration={videoMeta.duration || 0}
+        currentDuration={videoMeta.current || 0}
+        onInfoClick={handleInfoClick}
+      />
+    </div>
   );
 }
 
