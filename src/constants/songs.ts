@@ -10,7 +10,7 @@ export const defaultSongs = [
   "5yx6BWlEVcY",
   "A6fjHQ2ZwZA",
   "IjMESxJdWkg",
-  "-5KAN9_CzSA",
+  "pA-uT0nwIV8",
   "wA0C0uRxSaE",
   "q0BVR5jRXxE",
 ];
