@@ -1,12 +1,116 @@
 .controls {
-  width: 400px;
-  background: rgb(0 13 53 / 36%);
-  padding: 15px 10px;
-  backdrop-filter: blur(10px);
-  position: relative;
+  display: flex;
+  margin: auto;
+  gap: 0.3em;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
-.controls .actions {
+
+.volume {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  align-items: center;
+}
+
+.secondary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.main {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.music-actions,
+.play-pause-container,
+.secondary-actions button {
+  background: rgb(0 13 53 / 35%);
+  backdrop-filter: blur(10px);
+}
+
+.play-pause-container {
+  padding: 1rem;
+  line-height: 0;
+}
+
+.play-pause {
+  padding: 0.5rem;
+  line-height: 0;
+  background: transparent;
+  border: 4px solid #cd71fd;
+  width: 48px;
+  height: 48px;
+}
+
+.music-actions {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  min-width: 320px;
+  justify-content: space-between;
+}
+
+.music-actions .title {
+  padding: 0 1em;
+  text-align: center;
+  max-width: 220px;
+}
+
+.music-actions .author {
+  opacity: 0.5;
+  margin-top: 0.5em;
+}
+
+.music-actions button,
+.secondary-actions button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.music-actions button {
+  width: 35px;
+  height: 35px;
+  background: transparent;
+  border: 3px solid #8b91ff;
+}
+
+.secondary-actions button {
+  width: 30px;
+  height: 30px;
+  border: none;
+}
+.secondary-actions button svg {
+  fill: #8b91ff;
+}
+
+.music-actions .title .name {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
+  overflow: hidden;
+  font-size: 0.9em;
+}
+
+.music-actions button.prev {
+  transform: rotate(180deg);
+}
+
+.music-actions button svg {
+  fill: #8b91ff;
+}
+
+@media (max-width: 700px) {
+  .music-actions {
+    max-width: 75vw;
+    min-width: unset;
+  }
+  .music-actions .title {
+    width: 45vw;
+  }
 }

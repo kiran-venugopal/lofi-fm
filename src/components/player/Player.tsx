@@ -210,7 +210,7 @@ function Player({ player }: PlayerProps) {
   };
 
   return (
-    <div onClick={(e) => e.stopPropagation()} className="player-container">
+    <div onClick={(e) => e.stopPropagation()}>
       {isInfoVisible && (
         <PlayerInfo
           onEcashClick={handleEcashClick}

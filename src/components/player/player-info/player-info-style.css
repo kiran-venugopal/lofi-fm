@@ -3,7 +3,7 @@
   left: 0;
   background: rgb(0 13 53 / 35%);
   box-sizing: border-box;
-  bottom: 140px;
+  bottom: 110px;
   box-shadow: 3px 3px 8px #d070ff36;
   backdrop-filter: blur(10px);
   margin: auto;
@@ -99,4 +99,10 @@
 .switch .text {
   margin-left: 28px;
   white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .player-container {
+    transform: translateX(-50%) scale(0.8);
+  }
 }
