@@ -6,7 +6,7 @@ import { ReactComponent as SongsIcon } from "../../../icons/songs-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../icons/info-icon.svg";
 import { ReactComponent as DragIcon } from "../../../icons/drag-icon.svg";
 import "./controls-styles.css";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export type ControlsPropsType = {
   title: string;
@@ -40,19 +40,68 @@ function Controls({
   onInfoClick,
 }: ControlsPropsType) {
   const controlRef = useRef(document.createElement("section"));
+  const dragData = useRef({ isActive: false });
 
-  const handleDrag = (e: any) => {
-    if (e.clientX === 0 || e.clientY === 0) return;
-    let x =
-      e.clientX - controlRef.current.offsetWidth + e.target.offsetWidth / 2;
-    let y = e.clientY;
-    // x = (x / window.innerWidth) * 100;
-    // y = (y / window.innerHeight) * 100;
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (dragData.current.isActive) {
+        let x = event.pageX - controlRef.current.offsetWidth + 20;
+        if (x >= window.innerWidth - 150) {
+          x = window.innerWidth - 150;
+        }
 
-    controlRef.current.style.setProperty(
-      "transform",
-      `translate(${x}px,${y}px)`
-    );
+        let y = event.pageY - 10;
+        if (y >= window.innerHeight) {
+          y = window.innerHeight;
+        }
+
+        if (x < 0) {
+          x = 0;
+        }
+        if (y < 0) {
+          y = 0;
+        }
+
+        controlRef.current.style.setProperty(
+          "transform",
+          `translate(${x}px,${y}px)`
+        );
+      }
+    };
+
+    const handleMouseUp = () => {
+      dragData.current.isActive = false;
+    };
+
+    const alignToBottomCenter = () => {
+      const height = window.innerHeight;
+      const width = window.innerWidth;
+      if (width <= 700) return;
+      let x = width / 2 - controlRef.current.scrollWidth / 2;
+      let y = height - controlRef.current.scrollHeight - 25;
+      if (x < 0) {
+        x = 0;
+      }
+      controlRef.current.style.setProperty(
+        "transform",
+        `translate(${x}px,${y}px)`
+      );
+    };
+
+    alignToBottomCenter();
+    window.addEventListener("resize", alignToBottomCenter);
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("resize", alignToBottomCenter);
+    };
+  }, []);
+
+  const handleMouseDown = (e: any) => {
+    dragData.current.isActive = true;
   };
 
   return (
@@ -107,24 +156,7 @@ function Controls({
         </div>
       </div>
       <div className="secondary-actions">
-        <button
-          onDrag={handleDrag}
-          draggable
-          onDragEnd={(e: any) => {
-            e.target.style.setProperty("opacity", "1");
-          }}
-          onDragOver={(e: any) => {
-            e.dataTransfer.dropEffect = "move";
-            e.preventDefault();
-          }}
-          onDragEnter={(e) => {
-            e.preventDefault();
-          }}
-          onDragStart={(e: any) => {
-            console.log(e.target);
-            e.target.style.setProperty("opacity", "0");
-          }}
-        >
+        <button className="drag-btn" onMouseDown={handleMouseDown}>
           <DragIcon />
         </button>
         <button onClick={onPlayListClick}>

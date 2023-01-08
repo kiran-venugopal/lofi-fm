@@ -1,5 +1,5 @@
 input[type="range"] {
-  --color: #d070ff;
+  --color: var(--primary_color);
   --progress: 0%;
   --background: #00153e8a;
   -webkit-appearance: none;

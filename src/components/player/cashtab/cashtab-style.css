@@ -2,11 +2,6 @@
   background: rgb(0 13 53 / 50%);
   box-sizing: border-box;
   text-align: center;
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  bottom: 140px;
-  left: 0;
   border: 2px solid #8b91ff5c;
 }
 

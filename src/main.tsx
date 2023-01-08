@@ -8,6 +8,7 @@ import Tracker from "@openreplay/tracker";
 import { registerSW } from "virtual:pwa-register";
 import Toast, { addToast } from "react-toast-package";
 import UpdateApp from "./components/UpdateApp";
+import { initTheme } from "./utils/theme";
 
 if ("serviceWorker" in navigator) {
   // && !/localhost/.test(window.location)) {
@@ -25,6 +26,7 @@ const tracker = new Tracker({
 });
 
 tracker.start();
+initTheme();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

@@ -1,13 +1,19 @@
 .player-info {
-  position: absolute;
-  left: 0;
   background: rgb(0 13 53 / 35%);
   box-sizing: border-box;
-  bottom: 110px;
-  box-shadow: 3px 3px 8px #d070ff36;
+  box-shadow: 3px 3px 8px var(--primary_color);
   backdrop-filter: blur(10px);
-  margin: auto;
+}
+
+.cashtab-container,
+.player-info {
+  position: absolute;
+  left: 50%;
   width: 100%;
+  max-width: 500px;
+  transform: translateX(-50%);
+  bottom: 140px;
+  z-index: 10;
 }
 
 .player-info button svg {
@@ -23,6 +29,7 @@
 .player-info .resources {
   display: flex;
   font-size: 0.8em;
+  justify-content: space-between;
 }
 
 .player-info .header {
@@ -99,10 +106,4 @@
 .switch .text {
   margin-left: 28px;
   white-space: nowrap;
-}
-
-@media (max-width: 700px) {
-  .player-container {
-    transform: translateX(-50%) scale(0.8);
-  }
 }

@@ -59,7 +59,7 @@
 }
 
 .all-songs::-webkit-scrollbar-thumb {
-  background: #d070ff8f;
+  background: var(--primary_color);
 }
 
 .all-songs::-webkit-scrollbar {
