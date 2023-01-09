@@ -1,7 +1,6 @@
 .player-info {
   background: rgb(0 13 53 / 35%);
   box-sizing: border-box;
-  box-shadow: 3px 3px 8px var(--primary_color);
   backdrop-filter: blur(10px);
 }
 
@@ -35,7 +34,7 @@
 .player-info .header {
   justify-content: flex-start;
   padding: 0.2em 0.4em 0 0.4em;
-  border-bottom: 1px solid #8b91ff2d;
+  border-bottom: 1px solid var(--secondary_color);
   align-items: center;
   font-size: 0.8em;
 }
@@ -106,4 +105,27 @@
 .switch .text {
   margin-left: 28px;
   white-space: nowrap;
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+}
+.themeing,
+.themeing section {
+  display: flex;
+  align-items: center;
+}
+.themeing input {
+  background: transparent;
+  outline: none;
+  border: none;
+  width: 50px;
+  height: 35px;
+}
+.themeing {
+  margin: 0 10px;
+}
+.themeing button {
+  margin-left: 1rem;
 }

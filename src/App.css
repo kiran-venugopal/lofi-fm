@@ -52,7 +52,7 @@ button.btn {
 }
 
 button.btn.active {
-  background: #814b9b;
+  background: var(--secondary_color);
 }
 
 .toast-container {

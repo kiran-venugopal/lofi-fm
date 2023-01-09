@@ -114,7 +114,7 @@ function Controls({
           value={volume}
           id="myRange"
           onInput={onVolumeChange}
-          color="#8b90ff"
+          color="var(--secondary_color)"
           background="rgb(0 13 53 / 10%)"
           orientation="vertical"
           varient="small"

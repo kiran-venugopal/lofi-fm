@@ -3,10 +3,16 @@ import { ReactComponent as GiithubIcon } from "../../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../../icons/bmf-icon.svg";
 import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
-import { MutableRefObject } from "react";
+import { MutableRefObject, useState } from "react";
 import "./player-info-style.css";
 import { useRecoilState } from "recoil";
 import { PlayerState } from "../../../recoil/atoms/PlayerState";
+import {
+  defaultTheme,
+  getThemeColor,
+  setThemeColor,
+  ThemeColorType,
+} from "../../../utils/theme";
 
 export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
@@ -16,6 +22,10 @@ export type PlayerInfoProps = {
 
 function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
+  const [theme, setTheme] = useState({
+    primary: getThemeColor("primary"),
+    secondary: getThemeColor("secondary"),
+  });
 
   const handleHeaderClick = () =>
     window.open("https://www.producthunt.com/products/lofi-fm");
@@ -27,6 +37,23 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
       scalingDisabled: e.target.checked,
     }));
     window.localStorage.setItem("scaling_disabled", JSON.stringify(isChecked));
+  };
+
+  const handleThemeReset = () => {
+    setThemeColor("primary", defaultTheme.primary);
+    setThemeColor("secondary", defaultTheme.secondary);
+    setTheme({
+      primary: defaultTheme.primary,
+      secondary: defaultTheme.secondary,
+    });
+  };
+
+  const handleThemeChange = (type: ThemeColorType) => (e: any) => {
+    setThemeColor(type, e.target.value);
+    setTheme((prev) => ({
+      ...prev,
+      [type]: e.target.value,
+    }));
   };
 
   return (
@@ -52,6 +79,31 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
             <span className="slider"></span>
             <span className="text">Disable Scaling</span>
           </label>
+        </div>
+        <div className="themeing">
+          <section>
+            <label>Primary</label>
+            <input
+              onChange={handleThemeChange("primary")}
+              type="color"
+              className="primary"
+              value={theme.primary}
+            />
+          </section>
+          <section>
+            <label>Secondary</label>
+            <input
+              onChange={handleThemeChange("secondary")}
+              type="color"
+              className="primary"
+              value={theme.secondary}
+            />
+          </section>
+          <section>
+            <button onClick={handleThemeReset} className="btn">
+              Reset
+            </button>
+          </section>
         </div>
       </div>
       <div className="resources">

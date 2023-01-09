@@ -1,4 +1,4 @@
-const defaultTheme: Record<ThemeColorType, string> = {
+export const defaultTheme: Record<ThemeColorType, string> = {
   primary: "#d070ff",
   secondary: "#8b91ff",
 };
@@ -12,7 +12,7 @@ export function initTheme() {
       .getPropertyValue(`--${type}_color`)
       .trim();
     if (docColor !== color) {
-      setPrimary(type, color);
+      setThemeColor(type, color);
     }
   });
 }
@@ -23,12 +23,12 @@ export function getThemeColor(type: ThemeColorType = "primary") {
   if (color) {
     return color;
   } else {
-    setPrimary(type, defaultTheme[type]);
+    setThemeColor(type, defaultTheme[type]);
     return defaultTheme[type];
   }
 }
 
-export function setPrimary(type: ThemeColorType, color: string) {
+export function setThemeColor(type: ThemeColorType, color: string) {
   window.document.body.style.setProperty(`--${type}_color`, color);
   window.localStorage.setItem(`${type}_color`, color);
 }

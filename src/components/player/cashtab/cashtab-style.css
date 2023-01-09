@@ -2,7 +2,7 @@
   background: rgb(0 13 53 / 50%);
   box-sizing: border-box;
   text-align: center;
-  border: 2px solid #8b91ff5c;
+  border: 2px solid var(--secondary_color);
 }
 
 .cashtab-container .heading {
