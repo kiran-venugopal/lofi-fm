@@ -134,4 +134,8 @@
   .settings {
     flex-direction: column;
   }
+  .player-info {
+    width: 120% !important;
+    transform: translateX(-50%) scale(0.8) !important;
+  }
 }
