@@ -1,13 +1,18 @@
-.player .player-info {
-  position: absolute;
-  left: 0;
-  background: rgb(0 13 53 / 35%);
+.player-info {
+  background: rgb(24 24 24 / 35%);
   box-sizing: border-box;
-  bottom: 140px;
-  box-shadow: 3px 3px 8px #d070ff36;
   backdrop-filter: blur(10px);
-  margin: auto;
+}
+
+.cashtab-container,
+.player-info {
+  position: absolute;
+  left: 50%;
   width: 100%;
+  max-width: 460px;
+  transform: translateX(-50%);
+  bottom: 140px;
+  z-index: 10;
 }
 
 .player-info button svg {
@@ -23,12 +28,13 @@
 .player-info .resources {
   display: flex;
   font-size: 0.8em;
+  justify-content: space-between;
 }
 
 .player-info .header {
   justify-content: flex-start;
   padding: 0.2em 0.4em 0 0.4em;
-  border-bottom: 1px solid #8b91ff2d;
+  border-bottom: 1px solid var(--secondary_color);
   align-items: center;
   font-size: 0.8em;
 }
@@ -65,7 +71,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #b9b9b9;
+  background-color: grey;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -77,13 +83,13 @@
   width: 10px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: lightgrey;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 .disable-scaling input:checked + .slider {
-  background-color: #e373f5;
+  background-color: var(--primary_color);
 }
 
 .disable-scaling input:focus + .slider {
@@ -99,4 +105,33 @@
 .switch .text {
   margin-left: 28px;
   white-space: nowrap;
+}
+
+.settings {
+  display: flex;
+  justify-content: space-between;
+}
+.themeing,
+.themeing section {
+  display: flex;
+  align-items: center;
+}
+.themeing input {
+  background: transparent;
+  outline: none;
+  border: none;
+  width: 50px;
+  height: 35px;
+}
+.themeing {
+  margin: 0 10px;
+}
+.themeing button {
+  margin-left: 1rem;
+}
+
+@media (max-width: 700px) {
+  .settings {
+    flex-direction: column;
+  }
 }

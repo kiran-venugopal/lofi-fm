@@ -10,6 +10,7 @@
   "dependencies": {
     "@openreplay/tracker": "^3.5.11",
     "axios": "^0.27.2",
+    "mini-svg-data-uri": "^1.4.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-toast-package": "^1.0.1",

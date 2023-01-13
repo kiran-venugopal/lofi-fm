@@ -1,13 +1,8 @@
 .cashtab-container {
-  background: rgb(0 13 53 / 50%);
+  background: rgb(24 24 24 / 50%);
   box-sizing: border-box;
   text-align: center;
-  position: absolute;
-  z-index: 10;
-  width: 100%;
-  bottom: 140px;
-  left: 0;
-  border: 2px solid #8b91ff5c;
+  border: 2px solid var(--secondary_color);
 }
 
 .cashtab-container .heading {

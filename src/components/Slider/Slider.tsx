@@ -2,9 +2,15 @@ import { HTMLProps, useEffect, useRef } from "react";
 import "./slider-style.css";
 
 function Slider(
-  props: HTMLProps<HTMLInputElement> & { color?: string; background?: string }
+  props: HTMLProps<HTMLInputElement> & {
+    color?: string;
+    background?: string;
+    orientation?: "vertical" | "horizontal";
+    varient?: "small" | "medium";
+  }
 ) {
   const ref = useRef<any>();
+  const { orientation = "horizontal", varient = "" } = props;
 
   useEffect(() => {
     if (props.value) {
@@ -39,7 +45,7 @@ function Slider(
     <input
       type="range"
       {...props}
-      className="slider"
+      className={`slider ${orientation} ${varient}`}
       onInput={handleInput}
       ref={ref as any}
     />

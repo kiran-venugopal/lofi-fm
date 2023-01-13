@@ -28,7 +28,7 @@
 }
 
 .song-item.active {
-  box-shadow: 0 0 0px 2px #8b90ff;
+  box-shadow: 0 0 0px 2px var(--secondary_color);
 }
 
 .song-item .title {
@@ -46,9 +46,10 @@
 
 .live-tag {
   font-size: 12px;
-  background: #814b9b;
+  background: var(--primary_color);
   width: min-content;
   padding: 3px 5px;
+  color: rgb(0 0 0 / 0.8);
 }
 
 .song-item .info {
@@ -59,7 +60,7 @@
 }
 
 .all-songs::-webkit-scrollbar-thumb {
-  background: #d070ff8f;
+  background: var(--primary_color);
 }
 
 .all-songs::-webkit-scrollbar {
@@ -103,7 +104,7 @@
 
 .all-songs-container input {
   background: transparent;
-  border: 2px solid #8b90ff;
+  border: 2px solid var(--secondary_color);
   margin: 5px;
   outline: none;
   color: white;
