@@ -13,12 +13,23 @@ import {
   setThemeColor,
   ThemeColorType,
 } from "../../../utils/theme";
+import { makeDebounced } from "../../../utils/common";
 
 export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
   player: any;
   onEcashClick(): void;
 };
+const debouncedThemeChange = makeDebounced(
+  (color: string, type: ThemeColorType, setTheme: React.Dispatch<any>) => {
+    setThemeColor(type, color);
+    setTheme((prev: any) => ({
+      ...prev,
+      [type]: color,
+    }));
+  },
+  100
+);
 
 function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
@@ -49,11 +60,7 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
   };
 
   const handleThemeChange = (type: ThemeColorType) => (e: any) => {
-    setThemeColor(type, e.target.value);
-    setTheme((prev) => ({
-      ...prev,
-      [type]: e.target.value,
-    }));
+    debouncedThemeChange(e.target.value, type, setTheme);
   };
 
   return (

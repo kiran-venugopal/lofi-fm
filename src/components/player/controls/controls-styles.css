@@ -30,7 +30,7 @@
 .music-actions,
 .play-pause-container,
 .secondary-actions button {
-  background: rgb(0 13 53 / 35%);
+  background: rgb(24 24 24 / 35%);
   backdrop-filter: blur(10px);
 }
 
@@ -119,7 +119,7 @@
     transform: scale(0.8) translate(-50%, -50%) !important;
     transform-origin: 0 0;
     left: 50%;
-    bottom: 0vh;
+    bottom: 1vh;
     top: unset;
   }
 

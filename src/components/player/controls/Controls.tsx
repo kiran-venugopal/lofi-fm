@@ -115,7 +115,7 @@ function Controls({
           id="myRange"
           onInput={onVolumeChange}
           color="var(--secondary_color)"
-          background="rgb(0 13 53 / 10%)"
+          background="rgb(24 24 24 / 10%)"
           orientation="vertical"
           varient="small"
         />
@@ -131,7 +131,7 @@ function Controls({
               value={currentDuration}
               id="myRange"
               onInput={onProgressChange}
-              background="rgb(0 13 53 / 36%)"
+              background="rgb(24 24 24 / 36%)"
             />
           </div>
         </div>

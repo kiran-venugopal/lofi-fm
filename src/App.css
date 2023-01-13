@@ -5,10 +5,6 @@ body {
   color: white;
 }
 
-* {
-  cursor: url(/cursor.svg), auto;
-}
-
 .iframe-container {
   pointer-events: none;
 }
@@ -58,4 +54,17 @@ button.btn.active {
 .toast-container {
   position: absolute;
   z-index: 11;
+}
+
+.btn.gh {
+  background: #14243b9f;
+}
+
+.btn.bmf {
+  background: #ffeb3bba;
+  color: #000;
+}
+
+.btn.cashtab {
+  background: rgb(0 69 116 / 73%);
 }
