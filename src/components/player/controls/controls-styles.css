@@ -106,6 +106,10 @@
   fill: var(--secondary_color);
 }
 
+.drag-btn{
+  cursor: move;
+}
+
 @media (max-width: 700px) {
   .music-actions {
     max-width: 75vw;
