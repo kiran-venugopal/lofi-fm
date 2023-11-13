@@ -12,7 +12,8 @@ input[type="range"] {
   margin: 0px;
 }
 input[type="range"].small {
-  height: 4.5px;
+  height: 2.5px;
+  width: 60px;
 }
 
 input.slider.vertical {

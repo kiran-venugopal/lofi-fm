@@ -1,5 +1,4 @@
 .controls {
-  display: flex;
   margin: auto;
   gap: 0.3em;
   position: absolute;
@@ -9,10 +8,10 @@
 
 .volume {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   position: relative;
   align-items: center;
+  gap: 5px;
 }
 
 .secondary-actions {
@@ -52,8 +51,8 @@
   display: flex;
   align-items: center;
   padding: 1rem;
-  min-width: 320px;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 15px;
 }
 
 .music-actions .title {
@@ -106,7 +105,7 @@
   fill: var(--secondary_color);
 }
 
-.drag-btn{
+.drag-btn {
   cursor: move;
 }
 
