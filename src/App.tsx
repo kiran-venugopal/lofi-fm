@@ -144,6 +144,7 @@ function App() {
 
         {player && <Player player={player} />}
       </div>
+      
       <Overlay player={player} />
     </div>
   );

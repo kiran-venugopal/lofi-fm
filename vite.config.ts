@@ -35,4 +35,9 @@ export default defineConfig({
   define: {
     "process.env": process.env,
   },
+  server: {
+    hmr: {
+        clientPort: 443
+    }
+  }
 });

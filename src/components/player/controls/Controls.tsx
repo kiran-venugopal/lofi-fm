@@ -5,6 +5,7 @@ import { ReactComponent as SoundIcon } from "../../../icons/sound-icon.svg";
 import { ReactComponent as SongsIcon } from "../../../icons/songs-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../icons/info-icon.svg";
 import { ReactComponent as DragIcon } from "../../../icons/drag-icon.svg";
+import { ReactComponent as NextIcon } from "../../../icons/next-icon.svg";
 import "./controls-styles.css";
 import { useEffect, useRef } from "react";
 
@@ -106,65 +107,66 @@ function Controls({
 
   return (
     <section ref={controlRef} className="controls">
-      <div className="volume">
-        <Slider
-          min={0}
-          max={100}
-          className="slider"
-          value={volume}
-          id="myRange"
-          onInput={onVolumeChange}
-          color="var(--secondary_color)"
-          background="rgb(24 24 24 / 10%)"
-          orientation="vertical"
-          varient="small"
-        />
-        <SoundIcon />
-      </div>
-      <div className="primary-controls">
-        <div className="progress">
-          <div className="slidecontainer">
-            <Slider
-              min={0}
-              max={duration}
-              className="slider"
-              value={currentDuration}
-              id="myRange"
-              onInput={onProgressChange}
-              background="rgb(24 24 24 / 36%)"
-            />
-          </div>
+      <div className="top-section">
+        <div className="title">
+          <div className="author">{author}</div>
+          <div className="name">{title}</div>
         </div>
-        <div className="main">
-          <div className="play-pause-container">
-            <button onClick={() => onPlayPauseClick()} className="play-pause">
-              {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
-            </button>
-          </div>
-          <div className="music-actions">
-            <button onClick={onPrevClick} className="prev">
-              <PlayIcon />
-            </button>
-            <div className="title">
-              <div className="name">{title}</div>
-              <div className="author">{author}</div>
-            </div>
-            <button onClick={onNextClick} className="next">
-              <PlayIcon />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="secondary-actions">
         <button className="drag-btn" onMouseDown={handleMouseDown}>
           <DragIcon />
         </button>
-        <button onClick={onPlayListClick}>
-          <SongsIcon />
-        </button>
-        <button onClick={onInfoClick}>
-          <InfoIcon style={{ paddingLeft: 0 }} />
-        </button>
+      </div>
+      <div className="progress">
+        <div className="slidecontainer">
+          <Slider
+            min={0}
+            max={duration}
+            className="slider"
+            value={currentDuration}
+            id="myRange"
+            onInput={onProgressChange}
+            background="rgb(24 24 24 / 36%)"
+          />
+        </div>
+      </div>
+
+      <div className="primary-controls">
+        <div className="main">
+          <div className="music-actions">
+            <button onClick={onPrevClick} className="prev">
+              <NextIcon />
+            </button>
+            <button onClick={() => onPlayPauseClick()} className="play-pause">
+              {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
+            </button>
+            <button onClick={onNextClick} className="next">
+              <NextIcon />
+            </button>
+            <div className="volume">
+              <SoundIcon />
+              <Slider
+                min={0}
+                max={100}
+                className="slider"
+                value={volume}
+                id="myRange"
+                onInput={onVolumeChange}
+                color="var(--secondary_color)"
+                background="rgb(24 24 24 / 10%)"
+                orientation="horizontal"
+                varient="small"
+              />
+            </div>
+          </div>
+          <div className="secondary-actions">
+            <button onClick={onPlayListClick}>
+              <SongsIcon />
+            </button>
+            <button onClick={onInfoClick}>
+              <InfoIcon style={{ paddingLeft: 0 }} />
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
