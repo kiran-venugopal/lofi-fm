@@ -48,7 +48,7 @@ button.btn {
 }
 
 button.btn.active {
-  background: var(--secondary_color);
+  box-shadow: inset 0 0 0 1px var(--secondary_color);
 }
 
 .toast-container {

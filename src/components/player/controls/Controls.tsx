@@ -5,6 +5,7 @@ import { ReactComponent as SoundIcon } from "../../../icons/sound-icon.svg";
 import { ReactComponent as SongsIcon } from "../../../icons/songs-icon.svg";
 import { ReactComponent as InfoIcon } from "../../../icons/info-icon.svg";
 import { ReactComponent as DragIcon } from "../../../icons/drag-icon.svg";
+import { ReactComponent as NextIcon } from "../../../icons/next-icon.svg";
 import "./controls-styles.css";
 import { useEffect, useRef } from "react";
 
@@ -106,9 +107,14 @@ function Controls({
 
   return (
     <section ref={controlRef} className="controls">
-      <div className="title">
-        <div className="name">{title}</div>
-        <div className="author">{author}</div>
+      <div className="top-section">
+        <div className="title">
+          <div className="author">{author}</div>
+          <div className="name">{title}</div>
+        </div>
+        <button className="drag-btn" onMouseDown={handleMouseDown}>
+          <DragIcon />
+        </button>
       </div>
       <div className="progress">
         <div className="slidecontainer">
@@ -128,13 +134,13 @@ function Controls({
         <div className="main">
           <div className="music-actions">
             <button onClick={onPrevClick} className="prev">
-              <PlayIcon />
+              <NextIcon />
             </button>
             <button onClick={() => onPlayPauseClick()} className="play-pause">
               {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
             </button>
             <button onClick={onNextClick} className="next">
-              <PlayIcon />
+              <NextIcon />
             </button>
             <div className="volume">
               <SoundIcon />
@@ -152,18 +158,15 @@ function Controls({
               />
             </div>
           </div>
+          <div className="secondary-actions">
+            <button onClick={onPlayListClick}>
+              <SongsIcon />
+            </button>
+            <button onClick={onInfoClick}>
+              <InfoIcon style={{ paddingLeft: 0 }} />
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="secondary-actions">
-        <button className="drag-btn" onMouseDown={handleMouseDown}>
-          <DragIcon />
-        </button>
-        <button onClick={onPlayListClick}>
-          <SongsIcon />
-        </button>
-        <button onClick={onInfoClick}>
-          <InfoIcon style={{ paddingLeft: 0 }} />
-        </button>
       </div>
     </section>
   );
