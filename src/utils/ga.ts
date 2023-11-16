@@ -1,12 +1,7 @@
 async function initGA() {
   try {
-    const ReactGA = await import("react-ga");
-    ReactGA.initialize("UA-163410944-1", {
-      gaOptions: {
-        siteSpeedSampleRate: 100,
-      },
-    });
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    const ReactGA = await import("react-ga4");
+    ReactGA.initialize("G-99BB8YJNGZ")
   } catch (err) {
     console.error("Error in GA config!", err);
   }
