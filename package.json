@@ -11,15 +11,17 @@
     "@openreplay/tracker": "^3.5.11",
     "axios": "^0.27.2",
     "mini-svg-data-uri": "^1.4.4",
+    "mixpanel-browser": "^2.48.1",
     "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-ga": "^3.3.1",
+    "react-ga4": "^2.1.0",
     "react-toast-package": "^1.0.1",
     "recoil": "^0.7.3-alpha.2",
     "use-container-click": "^1.0.0"
   },
   "devDependencies": {
+    "@types/mixpanel-browser": "^2.47.5",
     "@types/node": "^17.0.31",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
