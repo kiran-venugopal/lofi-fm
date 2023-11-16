@@ -28,7 +28,7 @@ function Header({ setActiveOption, activeOption, onClose }: HeaderProps) {
           onClick={() => setActiveOption("addsong")}
           className={`btn ${activeOption === "addsong" ? "active" : ""}`}
         >
-          Add Song
+          Add Songs
         </button>
       </div>
       <div className="close">
