@@ -29,6 +29,7 @@ export default defineConfig({
         ],
         theme_color: "#000000",
       },
+      selfDestroying:true
     }),
     visualizer(),
   ],
@@ -37,7 +38,7 @@ export default defineConfig({
   },
   server: {
     hmr: {
-        clientPort: 443
-    }
-  }
+      clientPort: 443,
+    },
+  },
 });
