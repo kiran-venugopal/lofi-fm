@@ -1,6 +1,6 @@
 async function initGA() {
   try {
-    const { default: mixpanel } = await import("mixpanel-browser");
+    const mixpanel = await import("mixpanel-browser");
 
     mixpanel.init("5d2cbd8006e9a5c5c077c2f36592c2c1", {
       debug: true,
