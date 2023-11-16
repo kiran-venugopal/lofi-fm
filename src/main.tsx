@@ -4,23 +4,9 @@ import { RecoilRoot } from "recoil";
 import App from "./App";
 import "./index.css";
 
-// import Tracker from "@openreplay/tracker";
-import { registerSW } from "virtual:pwa-register";
-import Toast, { addToast } from "react-toast-package";
-import UpdateApp from "./components/UpdateApp";
-import { getCursorImage, initTheme, updateCursor } from "./utils/theme";
+import Toast from "react-toast-package";
+import { initTheme, updateCursor } from "./utils/theme";
 import initGA from "./utils/ga";
-
-if ("serviceWorker" in navigator) {
-  // && !/localhost/.test(window.location)) {
-  const updateSW = registerSW({
-    onNeedRefresh() {
-      setTimeout(() => {
-        addToast(() => <UpdateApp onClick={() => updateSW(true)} />);
-      }, 100);
-    },
-  });
-}
 
 // const tracker = new Tracker({
 //   projectKey: import.meta.env.VITE_YT_LOGS_KEY,
