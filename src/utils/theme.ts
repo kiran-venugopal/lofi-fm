@@ -1,7 +1,7 @@
 import svgToMiniDataURI from "mini-svg-data-uri";
 
 export const defaultTheme: Record<ThemeColorType, string> = {
-  primary: "#d070ff",
+  primary: "#9493fb",
   secondary: "#f2f2f2",
 };
 
