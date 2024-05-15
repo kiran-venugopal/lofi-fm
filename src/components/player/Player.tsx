@@ -28,6 +28,8 @@ function Player({ player }: PlayerProps) {
   const { videoData } = playerInfo;
   const { title, author } = videoData;
 
+  console.log({videoMeta})
+
   useContainerClick(infoRef, () => {
     if (infoRef.current) dispatch({ type: "SET_SHOW_INFO", payload: false }); // setShowInfo(false);
   });
@@ -74,8 +76,8 @@ function Player({ player }: PlayerProps) {
         dispatch({
           type: "SET_VIDEO_META",
           payload: {
-            duration: player.playerInfo.duration,
-            current: player.playerInfo.currentTime,
+            duration: player.getDuration(),
+            current: player.getCurrentTime(),
           },
         });
       }, 1000);
@@ -204,8 +206,10 @@ function Player({ player }: PlayerProps) {
   };
 
   const handleProgressChange = (e: any) => {
+    console.log("progress", e)
     const target = e.target as any;
     const val = parseInt(target.value);
+    console.log({val})
     player.seekTo(val, true);
   };
 

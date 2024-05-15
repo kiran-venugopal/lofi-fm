@@ -18,7 +18,7 @@ declare global {
 
 function App() {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
-  const [player, setPlayer] = useState();
+  const [player, setPlayer] = useState<any>();
   const setSongsData = useSetRecoilState(SongsState);
 
   function onPlayerStateChange(event: any) {
@@ -88,9 +88,33 @@ function App() {
       events: {
         onStateChange: onPlayerStateChange,
         onReady: function (event: any) {
+          console.log({event}, event.target.playerInfo)
+          const data = {
+            playerInfo:{
+              videoData: event.target.getVideoData()
+            },
+            playVideo(){
+              event.target.playVideo()
+            },
+            pauseVideo(){
+              event.target.pauseVideo()
+            },
+            setVolume(...args:any){
+              event.target.setVolume(...args)
+            },
+            seekTo(...args:any){
+              event.target.seekTo(...args)
+            },
+            getCurrentTime(){
+              return event.target.getCurrentTime()
+            },
+            getDuration(){
+              return event.target.getDuration()
+            }
+          }
           event.target.playVideo();
-          setPlayer(event.target);
-          console.log(event.target.playerInfo);
+          setPlayer(data);
+        
         },
       },
       playerVars: { autoplay: 1, controls: 0 },

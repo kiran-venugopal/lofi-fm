@@ -1,8 +1,8 @@
 export const defaultSongs = [
-  "rCYXH4CYP3I",
+  "TA68dvHsRXU",
   "7NOSDKb0HlU",
   "n61ULEU7CO0",
-  "tfBVp0Zi2iE",
+  "vrB9wC6quaU",
   "jfKfPfyJRdk",
   "tfUPbO_vGzM",
   "QwXHcgZUnFI",

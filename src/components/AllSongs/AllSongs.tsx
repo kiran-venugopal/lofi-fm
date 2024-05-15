@@ -29,6 +29,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         import.meta.env.VITE_YT_KEY
       }&id=${id}`
     );
+    console.log({response})
     return response.data.items.map((item: any) => ({
       ...item.snippet,
       id: item.id,
