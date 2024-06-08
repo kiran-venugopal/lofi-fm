@@ -29,7 +29,7 @@ function App() {
     });
 
     setPlayerData((prev) => {
-      console.log({ event });
+    
       switch (event.data) {
         case 0:
           if (songsData.songs.length > 1) {
@@ -88,10 +88,10 @@ function App() {
       events: {
         onStateChange: onPlayerStateChange,
         onReady: function (event: any) {
-          console.log({event}, event.target.playerInfo)
           const data = {
             playerInfo:{
-              videoData: event.target.getVideoData()
+              videoData: event.target.getVideoData(),
+              videoUrl: event.target.getVideoUrl()
             },
             playVideo(){
               event.target.playVideo()

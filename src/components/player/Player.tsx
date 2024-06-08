@@ -28,7 +28,7 @@ function Player({ player }: PlayerProps) {
   const { videoData } = playerInfo;
   const { title, author } = videoData;
 
-  console.log({videoMeta})
+ 
 
   useContainerClick(infoRef, () => {
     if (infoRef.current) dispatch({ type: "SET_SHOW_INFO", payload: false }); // setShowInfo(false);
@@ -52,7 +52,7 @@ function Player({ player }: PlayerProps) {
     const fetchSongs = async () => {
       const songsIds = getAllSongs();
       const songsArr = await getSongsData(songsIds.join(","));
-      console.log({ songsArr });
+    
       setSongsData((prev) => ({ ...prev, songs: songsArr, isLoading: false }));
     };
     fetchSongs();
@@ -172,7 +172,7 @@ function Player({ player }: PlayerProps) {
       ? defaultSongs.findIndex((s: any) => s === activeSong)
       : songs.findIndex((song: any) => song.id === activeSong);
 
-    console.log({ activeSong, songs, currIndex });
+
 
     if (currIndex >= songs.length - 1) {
       activeSong = defaultSongs[0];
@@ -206,10 +206,10 @@ function Player({ player }: PlayerProps) {
   };
 
   const handleProgressChange = (e: any) => {
-    console.log("progress", e)
+
     const target = e.target as any;
     const val = parseInt(target.value);
-    console.log({val})
+    
     player.seekTo(val, true);
   };
 

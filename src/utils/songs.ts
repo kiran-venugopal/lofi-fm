@@ -5,7 +5,7 @@ export function getAllSongs() {
     window.localStorage.getItem("addedSongs") || "[]"
   );
   const songsIds = addedSongs.concat(defaultSongs);
-  return songsIds;
+  return [...new Set(songsIds)];
 }
 
 export function getAddedSongs() {

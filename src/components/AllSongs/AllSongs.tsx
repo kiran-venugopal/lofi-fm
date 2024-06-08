@@ -29,7 +29,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         import.meta.env.VITE_YT_KEY
       }&id=${id}`
     );
-    console.log({response})
+   
     return response.data.items.map((item: any) => ({
       ...item.snippet,
       id: item.id,
@@ -57,6 +57,13 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         id = urlObj.pathname?.substring(1);
       }
 
+      const existingAddedSongs = getAddedSongs();
+
+      if(songsData.starredIds.includes(id) || existingAddedSongs.includes(id)){
+        alert("This song already added! Try with a different YouTube url")
+        return;
+      }
+
       const res = (await getSongsData(id)) as any[];
 
       setSongsData((prev: any) => ({
@@ -64,14 +71,13 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         songs: [...res, ...prev.songs],
       }));
 
-      const existingAddedSongs = getAddedSongs();
       window.localStorage.setItem(
         "addedSongs",
         JSON.stringify([id, ...existingAddedSongs])
       );
       setActiveOption("allsongs");
     } catch {
-      alert("invalid youtube url");
+      alert("Invalid YouTube url! Try with a different url");
     }
   };
 

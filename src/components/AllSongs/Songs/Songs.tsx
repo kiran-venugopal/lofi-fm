@@ -2,6 +2,7 @@ import { ReactComponent as StarIcon } from "../../../icons/star-icon.svg";
 import { ReactComponent as StarFilledIcon } from "../../../icons/star-icon-filled.svg";
 import { ReactComponent as DeleteIcon } from "../../../icons/delete-icon.svg";
 import { defaultSongs } from "../../../constants/songs";
+import { flushSync } from "react-dom";
 
 export type SongsProps = {
   songs: any[];
@@ -20,6 +21,8 @@ function Songs({
   starred = [],
   onRemoveSong,
 }: SongsProps) {
+
+
   return (
     <div className="all-songs">
       {songs.map((song: any) => (
@@ -41,7 +44,7 @@ function Songs({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRemoveSong(song.id);
+                  onRemoveSong(song.id)
                 }}
                 className="star-button"
               >
