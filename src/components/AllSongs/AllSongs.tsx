@@ -59,7 +59,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
 
       const existingAddedSongs = getAddedSongs();
 
-      if(songsData.starredIds.includes(id) || existingAddedSongs.includes(id)){
+      if(songsData.songs.map(({id})=> id).includes(id) || existingAddedSongs.includes(id)){
         alert("This song already added! Try with a different YouTube url")
         return;
       }
