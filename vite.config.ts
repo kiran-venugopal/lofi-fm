@@ -24,6 +24,7 @@ export default defineConfig({
             sizes: "64x64 32x32 24x24 16x16",
             type: "image/png",
           },
+          { src: "lofifm.png", type: "image/png", sizes: "48x48" },
           { src: "lofifm.png", type: "image/png", sizes: "192x192" },
           { src: "lofifm.png", type: "image/png", sizes: "512x512" },
         ],
