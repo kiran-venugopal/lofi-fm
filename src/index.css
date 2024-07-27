@@ -18,3 +18,7 @@ input[type="text"] {
   color: white;
   padding: 3px;
 }
+
+input[type="text"]::placeholder {
+  color: rgb(256 256 256 / 60%);
+}

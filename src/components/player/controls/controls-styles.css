@@ -139,8 +139,4 @@
     bottom: 1vh;
     top: unset;
   }
-
-  button.drag-btn {
-    display: none;
-  }
 }

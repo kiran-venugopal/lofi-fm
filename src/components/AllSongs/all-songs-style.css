@@ -102,10 +102,6 @@
   margin-left: 10px;
 }
 
-.add-song input::placeholder {
-  color: rgb(256 256 256 / 60%);
-}
-
 .add-song {
   display: flex;
   align-items: center;
