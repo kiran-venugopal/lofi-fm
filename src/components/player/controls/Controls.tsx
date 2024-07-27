@@ -8,6 +8,7 @@ import { ReactComponent as DragIcon } from "../../../icons/drag-icon.svg";
 import { ReactComponent as NextIcon } from "../../../icons/next-icon.svg";
 import "./controls-styles.css";
 import { useEffect, useRef } from "react";
+import { PopoverTrigger } from "@radix-ui/react-popover";
 
 export type ControlsPropsType = {
   title: string;
@@ -162,9 +163,9 @@ function Controls({
             <button onClick={onPlayListClick}>
               <SongsIcon />
             </button>
-            <button onClick={onInfoClick}>
+            <PopoverTrigger onClick={onInfoClick}>
               <InfoIcon style={{ paddingLeft: 0 }} />
-            </button>
+            </PopoverTrigger>
           </div>
         </div>
       </div>

@@ -2,15 +2,14 @@
   background: rgb(24 24 24 / 35%);
   box-sizing: border-box;
   backdrop-filter: blur(10px);
+  position: static;
 }
 
 .cashtab-container,
 .player-info {
-  position: absolute;
   left: 50%;
   width: 100%;
   max-width: 460px;
-  transform: translateX(-50%);
   bottom: 140px;
   z-index: 10;
 }
@@ -34,7 +33,7 @@
 .player-info .header {
   justify-content: flex-start;
   padding: 0.2em 0.4em 0 0.4em;
-  border-bottom: 1px solid var(--secondary_color);
+  border-bottom: 1px solid rgb(153, 153, 153);
   align-items: center;
   font-size: 0.8em;
 }
@@ -50,7 +49,6 @@
 .switch {
   position: relative;
   display: flex;
-  width: 28px;
   height: 18px;
 }
 
@@ -58,6 +56,10 @@
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+.switch .slider {
+  width: 28px;
 }
 
 .disable-scaling {
@@ -130,12 +132,28 @@
   margin-left: 1rem;
 }
 
+.bg-image {
+  margin-bottom: 10px;
+  display: flex;
+  padding: 0 10px;
+  align-items: center;
+}
+
+.bg-image input {
+  flex-grow: 1;
+}
+
 @media (max-width: 700px) {
   .settings {
     flex-direction: column;
   }
   .player-info {
-    width: 120% !important;
-    transform: translateX(-50%) scale(0.8) !important;
+    transform-origin: 0;
+    transform: scale(0.85);
+    margin-left: 1px;
+  }
+
+  .bg-image {
+    margin-top: 20px;
   }
 }

@@ -3,6 +3,8 @@
   box-sizing: border-box;
   text-align: center;
   border: 2px solid var(--secondary_color);
+  position: absolute;
+  transform: translateX(-50%);
 }
 
 .cashtab-container .heading {

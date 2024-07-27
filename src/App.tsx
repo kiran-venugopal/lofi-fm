@@ -29,7 +29,6 @@ function App() {
     });
 
     setPlayerData((prev) => {
-    
       switch (event.data) {
         case 0:
           if (songsData.songs.length > 1) {
@@ -89,32 +88,31 @@ function App() {
         onStateChange: onPlayerStateChange,
         onReady: function (event: any) {
           const data = {
-            playerInfo:{
+            playerInfo: {
               videoData: event.target.getVideoData(),
-              videoUrl: event.target.getVideoUrl()
+              videoUrl: event.target.getVideoUrl(),
             },
-            playVideo(){
-              event.target.playVideo()
+            playVideo() {
+              event.target.playVideo();
             },
-            pauseVideo(){
-              event.target.pauseVideo()
+            pauseVideo() {
+              event.target.pauseVideo();
             },
-            setVolume(...args:any){
-              event.target.setVolume(...args)
+            setVolume(...args: any) {
+              event.target.setVolume(...args);
             },
-            seekTo(...args:any){
-              event.target.seekTo(...args)
+            seekTo(...args: any) {
+              event.target.seekTo(...args);
             },
-            getCurrentTime(){
-              return event.target.getCurrentTime()
+            getCurrentTime() {
+              return event.target.getCurrentTime();
             },
-            getDuration(){
-              return event.target.getDuration()
-            }
-          }
+            getDuration() {
+              return event.target.getDuration();
+            },
+          };
           event.target.playVideo();
           setPlayer(data);
-        
         },
       },
       playerVars: { autoplay: 1, controls: 0 },
@@ -146,7 +144,14 @@ function App() {
         />
       </div>
 
-      <div className="player-content">
+      <div
+        style={{
+          backgroundImage: `url(${playerData.bgImgUrl})`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+        className="player-content"
+      >
         {playerData.showSongsList && (
           <AllSongs
             onSongClick={(songId) => {
@@ -168,7 +173,7 @@ function App() {
 
         {player && <Player player={player} />}
       </div>
-      
+
       <Overlay player={player} />
     </div>
   );

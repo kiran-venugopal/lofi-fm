@@ -9,3 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-family: "Bubblegum Sans", cursive;
 }
+
+input[type="text"] {
+  background: transparent;
+  border: 2px solid rgb(189, 189, 189);
+  margin: 5px;
+  outline: none;
+  color: white;
+  padding: 3px;
+}

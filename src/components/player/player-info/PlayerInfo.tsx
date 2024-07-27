@@ -3,7 +3,7 @@ import { ReactComponent as GiithubIcon } from "../../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../../icons/bmf-icon.svg";
 import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
-import { MutableRefObject, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import "./player-info-style.css";
 import { useRecoilState } from "recoil";
 import { PlayerState } from "../../../recoil/atoms/PlayerState";
@@ -37,6 +37,15 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
     primary: getThemeColor("primary"),
     secondary: getThemeColor("secondary"),
   });
+  const urlInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSetUrl = () => {
+    setPlayerData((prev) => ({
+      ...prev,
+      bgImgUrl: urlInputRef.current?.value,
+    }));
+    window.localStorage.setItem("bgImgUrl", urlInputRef.current?.value || "");
+  };
 
   const handleHeaderClick = () =>
     window.open("https://www.producthunt.com/products/lofi-fm");
@@ -112,6 +121,17 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
             </button>
           </section>
         </div>
+      </div>
+      <div className="bg-image">
+        <input
+          ref={urlInputRef}
+          type="text"
+          placeholder="Background GIF/image url"
+          defaultValue={playerData.bgImgUrl}
+        />
+        <button onClick={handleSetUrl} className="btn">
+          Set background
+        </button>
       </div>
       <div className="resources">
         <button

@@ -8,6 +8,7 @@ export interface IPlayerState {
   volume: number;
   isBuffering: boolean;
   scalingDisabled: boolean;
+  bgImgUrl?: string;
 }
 
 export const PlayerState = atom<IPlayerState>({
@@ -21,5 +22,6 @@ export const PlayerState = atom<IPlayerState>({
     scalingDisabled: JSON.parse(
       window.localStorage.getItem("scaling_disabled") || "false"
     ),
+    bgImgUrl: window.localStorage.getItem("bgImgUrl") || "",
   },
 });

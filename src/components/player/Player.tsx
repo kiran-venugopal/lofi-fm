@@ -12,6 +12,7 @@ import PlayerInfo from "./player-info";
 import Controls from "./controls/Controls";
 import Cashtab from "./cashtab";
 import { initialPlayerState, playerReducer } from "./reducer/player-reducer";
+import * as Popover from "@radix-ui/react-popover";
 
 export type PlayerProps = {
   player: any;
@@ -27,8 +28,6 @@ function Player({ player }: PlayerProps) {
   const { playerInfo } = player;
   const { videoData } = playerInfo;
   const { title, author } = videoData;
-
- 
 
   useContainerClick(infoRef, () => {
     if (infoRef.current) dispatch({ type: "SET_SHOW_INFO", payload: false }); // setShowInfo(false);
@@ -52,7 +51,7 @@ function Player({ player }: PlayerProps) {
     const fetchSongs = async () => {
       const songsIds = getAllSongs();
       const songsArr = await getSongsData(songsIds.join(","));
-    
+
       setSongsData((prev) => ({ ...prev, songs: songsArr, isLoading: false }));
     };
     fetchSongs();
@@ -126,12 +125,7 @@ function Player({ player }: PlayerProps) {
 
   const handleInfoClick = () => {
     setPlayerData((prev) => ({ ...prev, showSongsList: false }));
-    // setShowInfo((prev) => (prev === null ? false : true));
-    dispatch({
-      type: "SET_SHOW_INFO",
-      payload: !isInfoVisible,
-    });
-    //setCTOpen(false);
+
     dispatch({
       type: "SET_SHOW_CASHTAB",
       payload: false,
@@ -172,8 +166,6 @@ function Player({ player }: PlayerProps) {
       ? defaultSongs.findIndex((s: any) => s === activeSong)
       : songs.findIndex((song: any) => song.id === activeSong);
 
-
-
     if (currIndex >= songs.length - 1) {
       activeSong = defaultSongs[0];
     } else {
@@ -206,42 +198,52 @@ function Player({ player }: PlayerProps) {
   };
 
   const handleProgressChange = (e: any) => {
-
     const target = e.target as any;
     const val = parseInt(target.value);
-    
+
     player.seekTo(val, true);
   };
 
   return (
     <div onClick={(e) => e.stopPropagation()}>
-      {isInfoVisible && (
-        <PlayerInfo
-          onEcashClick={handleEcashClick}
-          player={player}
-          infoRef={infoRef}
-        />
-      )}
       {isCashtabVisible && (
         <Cashtab
           onClose={() => dispatch({ type: "SET_SHOW_CASHTAB", payload: false })}
         />
       )}
-      <Controls
-        title={title}
-        author={author}
-        volume={volume}
-        isPlaying={isPlaying}
-        onPlayPauseClick={onPlayPauseClick}
-        onVolumeChange={handleVolumeChange}
-        onPrevClick={handlePrevClick}
-        onNextClick={handleNextClick}
-        onPlayListClick={onPlayListClick}
-        onProgressChange={handleProgressChange}
-        duration={videoMeta.duration || 0}
-        currentDuration={videoMeta.current || 0}
-        onInfoClick={handleInfoClick}
-      />
+      <Popover.Root>
+        <Popover.PopoverPortal>
+          <Popover.PopoverContent
+            align="end"
+            side="top"
+            alignOffset={-50}
+            sideOffset={50}
+            style={{ zIndex: 100 }}
+          >
+            <PlayerInfo
+              onEcashClick={handleEcashClick}
+              player={player}
+              infoRef={infoRef}
+            />
+          </Popover.PopoverContent>
+        </Popover.PopoverPortal>
+
+        <Controls
+          title={title}
+          author={author}
+          volume={volume}
+          isPlaying={isPlaying}
+          onPlayPauseClick={onPlayPauseClick}
+          onVolumeChange={handleVolumeChange}
+          onPrevClick={handlePrevClick}
+          onNextClick={handleNextClick}
+          onPlayListClick={onPlayListClick}
+          onProgressChange={handleProgressChange}
+          duration={videoMeta.duration || 0}
+          currentDuration={videoMeta.current || 0}
+          onInfoClick={handleInfoClick}
+        />
+      </Popover.Root>
     </div>
   );
 }

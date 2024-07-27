@@ -29,7 +29,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         import.meta.env.VITE_YT_KEY
       }&id=${id}`
     );
-   
+
     return response.data.items.map((item: any) => ({
       ...item.snippet,
       id: item.id,
@@ -59,8 +59,11 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
 
       const existingAddedSongs = getAddedSongs();
 
-      if(songsData.songs.map(({id})=> id).includes(id) || existingAddedSongs.includes(id)){
-        alert("This song already added! Try with a different YouTube url")
+      if (
+        songsData.songs.map(({ id }) => id).includes(id) ||
+        existingAddedSongs.includes(id)
+      ) {
+        alert("This song already added! Try with a different YouTube url");
         return;
       }
 
@@ -140,6 +143,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
       {activeOption === "addsong" && (
         <div className="add-song">
           <input
+            type="text"
             value={url}
             autoFocus={true}
             onChange={(e) => setUrl(e.target.value)}

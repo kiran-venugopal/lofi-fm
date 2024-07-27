@@ -102,15 +102,6 @@
   margin-left: 10px;
 }
 
-.all-songs-container input {
-  background: transparent;
-  border: 2px solid var(--secondary_color);
-  margin: 5px;
-  outline: none;
-  color: white;
-  padding: 3px;
-}
-
 .add-song input::placeholder {
   color: rgb(256 256 256 / 60%);
 }
