@@ -131,12 +131,4 @@
   .music-actions .title {
     width: 45vw;
   }
-
-  .controls {
-    transform: translate(-50%, -50%) !important;
-    transform-origin: 0 0;
-    left: 50%;
-    bottom: 1vh;
-    top: unset;
-  }
 }

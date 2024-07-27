@@ -78,7 +78,7 @@ function Controls({
     const alignToBottomCenter = () => {
       const height = window.innerHeight;
       const width = window.innerWidth;
-      if (width <= 700) return;
+
       let x = width / 2 - controlRef.current.scrollWidth / 2;
       let y = height - controlRef.current.scrollHeight - 25;
       if (x < 0) {
