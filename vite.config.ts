@@ -28,7 +28,6 @@ export default defineConfig({
           { src: "lofifm.png", type: "image/png", sizes: "74x74", purpose:"any" },
           { src: "lofifm.png", type: "image/png", sizes: "192x192", purpose:"any" },
           { src: "lofifm.png", type: "image/png", sizes: "512x512", purpose:"any"},
-          { src: "lofifm-masked.png", type: "image/png", sizes: "512x512", purpose:"masked"},
         ],
         theme_color: "#000000",
       },
