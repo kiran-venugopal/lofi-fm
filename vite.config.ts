@@ -21,12 +21,14 @@ export default defineConfig({
         icons: [
           {
             src: "lofifm.png",
-            sizes: "64x64 32x32 24x24 16x16",
+            sizes: "48x48 32x32 24x24 16x16",
             type: "image/png",
+            purpose:"any"
           },
-          { src: "lofifm-48x48.png", type: "image/png", sizes: "48x48" },
-          { src: "lofifm.png", type: "image/png", sizes: "192x192" },
-          { src: "lofifm.png", type: "image/png", sizes: "512x512" },
+          { src: "lofifm.png", type: "image/png", sizes: "74x74", purpose:"any" },
+          { src: "lofifm.png", type: "image/png", sizes: "192x192", purpose:"any" },
+          { src: "lofifm.png", type: "image/png", sizes: "512x512", purpose:"any"},
+          { src: "lofifm-masked.png", type: "image/png", sizes: "512x512", purpose:"masked"},
         ],
         theme_color: "#000000",
       },

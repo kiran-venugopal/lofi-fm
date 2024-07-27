@@ -28,13 +28,6 @@ const giphys = [
     },
   },
   {
-    id: "aer096d3vD4rYVsgNn",
-    user: {
-      name: "EB",
-      profile_url: "https://giphy.com/eb_ppstudio/",
-    },
-  },
-  {
     id: "u4zZXYFztZtSZPlWZv",
     user: {
       name: "warakami",
@@ -56,19 +49,19 @@ const giphys = [
     },
   },
   {
-    id: "MYDOHcgFstTEYAwCuj",
-    user: {
-      name: "DownsFilms",
-      profile_url: "https://giphy.com/channel/Downs/",
-    },
-  },
-  {
     id: "RgZFvGuI4OxLjuSvRF",
     user: {
       name: "Axel Oil",
       profile_url: "https://giphy.com/channel/axeloil/",
     },
   },
+  {
+    id: "IHkILvQZ94BxMdBHp0",
+    user: {
+      name: "Ahmad Sheraz",
+      profile_url: "https://giphy.com/artbysheraz",
+    },
+  }
 ];
 
 export default giphys;
