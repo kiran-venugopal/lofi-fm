@@ -6,7 +6,15 @@
 Online lofi music player for work, study and relax. Lofi FM is a complete client side application, only uses youtube data api.
 This Player will give you vibes during coding 
 
-try this website at https://lofifm.vercel.app
+Features:
+  1. Add YouTube videos 🎥
+  2. Custom theming 🎨
+  3. Add a custom background to the player 🖼️
+  4. Draggable controls 🕹️
+  5. Star the songs for quick access ⭐
+  6. Disable / Enable background video scaling 🔄
+
+try this website at https://lofi-fm.kiranv.in
 
 ![](https://ph-files.imgix.net/a03135fd-2de9-4e2c-8704-c46b3e48339b.png?auto=format&auto=compress&codec=mozjpeg&cs=strip&fit=max&dpr=2)
 
