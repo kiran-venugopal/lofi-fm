@@ -27,11 +27,6 @@ function Overlay({ player }: OverlayProps) {
             backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id}.gif)`,
           }}
         >
-          <div className="text">
-            {!playerData.isPlaying && player
-              ? "Tap to start playing the Lofi FM 📻"
-              : "Buffering.. ⏳"}
-          </div>
         </div>
         <div className="credits">
           <div className="product-hunt"></div>

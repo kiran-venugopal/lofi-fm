@@ -7,16 +7,9 @@
   background-size: cover;
   background-position-y: center;
   background-position-x: center;
-}
-
-.overlay .text {
-  font-size: 1.5em;
-  text-align: center;
-  padding-top: 20vh;
-  position: absolute;
-  width: 100vw;
   z-index: 10;
 }
+
 
 .credits {
   position: absolute;

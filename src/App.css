@@ -26,6 +26,14 @@ body {
   background: #3b06554d;
 }
 
+.player-content .text{
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 30vh;
+  font-size: 18px;
+}
+
 input,
 button {
   font-family: inherit;
