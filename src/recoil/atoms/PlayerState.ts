@@ -20,7 +20,7 @@ export const PlayerState = atom<IPlayerState>({
     volume: JSON.parse(window.localStorage.getItem("volume") || "50"),
     isBuffering: false,
     scalingDisabled: JSON.parse(
-      window.localStorage.getItem("scaling_disabled") || "false"
+      window.localStorage.getItem("scaling_disabled") || "true"
     ),
     bgImgUrl: window.localStorage.getItem("bgImgUrl") || "",
   },

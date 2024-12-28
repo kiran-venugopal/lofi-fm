@@ -1,3 +1,4 @@
+"use client";
 import { defaultSongs } from "../constants/songs";
 
 export function getAllSongs() {

@@ -23,21 +23,37 @@ export default defineConfig({
             src: "lofifm.png",
             sizes: "48x48 32x32 24x24 16x16",
             type: "image/png",
-            purpose:"any"
+            purpose: "any",
           },
-          { src: "lofifm.png", type: "image/png", sizes: "74x74", purpose:"any" },
-          { src: "lofifm.png", type: "image/png", sizes: "192x192", purpose:"any" },
-          { src: "lofifm.png", type: "image/png", sizes: "512x512", purpose:"any"},
+          {
+            src: "lofifm.png",
+            type: "image/png",
+            sizes: "74x74",
+            purpose: "any",
+          },
+          {
+            src: "lofifm.png",
+            type: "image/png",
+            sizes: "192x192",
+            purpose: "any",
+          },
+          {
+            src: "lofifm.png",
+            type: "image/png",
+            sizes: "512x512",
+            purpose: "any",
+          },
         ],
         theme_color: "#000000",
       },
-      selfDestroying:true
+      selfDestroying: true,
     }),
     visualizer(),
   ],
   define: {
-    "process.env": process.env,
+    "process.env": process.env.TZ,
   },
+  base: "./",
   server: {
     hmr: {
       clientPort: 443,

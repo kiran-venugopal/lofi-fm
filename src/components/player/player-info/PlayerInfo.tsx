@@ -141,25 +141,6 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
           <YoutubeIcon />
           <span>Play in Youtube</span>
         </button>
-        <button
-          onClick={() => window.open("https://github.com/kiran-venugopal/lofi")}
-          className="btn gh"
-        >
-          <GiithubIcon />
-          <span>Sourcecode</span>
-        </button>
-        <button
-          onClick={() => window.open("https://www.buymeacoffee.com/kiranv")}
-          className="btn bmf"
-        >
-          <BMFIcon />
-
-          <span>Buy me Coffee</span>
-        </button>
-        <button onClick={onEcashClick} className="btn cashtab">
-          <EcashIcon />
-          <span>eCash</span>
-        </button>
       </div>
     </div>
   );
