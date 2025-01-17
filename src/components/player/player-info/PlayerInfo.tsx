@@ -1,5 +1,5 @@
 import { ReactComponent as YoutubeIcon } from "../../../icons/youtube-icon.svg";
-import { ReactComponent as GiithubIcon } from "../../../icons/github-icon.svg";
+import { ReactComponent as GithubIcon } from "../../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../../icons/bmf-icon.svg";
 import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
@@ -145,7 +145,7 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
           onClick={() => window.open("https://github.com/kiran-venugopal/lofi")}
           className="btn gh"
         >
-          <GiithubIcon />
+          <GithubIcon />
           <span>Sourcecode</span>
         </button>
         <button
