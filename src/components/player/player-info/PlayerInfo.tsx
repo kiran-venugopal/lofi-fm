@@ -1,5 +1,5 @@
 import { ReactComponent as YoutubeIcon } from "../../../icons/youtube-icon.svg";
-import { ReactComponent as GiithubIcon } from "../../../icons/github-icon.svg";
+import { ReactComponent as GithubIcon } from "../../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../../icons/bmf-icon.svg";
 import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
@@ -141,6 +141,27 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
           <YoutubeIcon />
           <span>Play in Youtube</span>
         </button>
+
+        <button
+          onClick={() => window.open("https://github.com/kiran-venugopal/lofi")}
+          className="btn gh"
+        >
+          <GithubIcon />
+          <span>Sourcecode</span>
+        </button>
+        <button
+          onClick={() => window.open("https://www.buymeacoffee.com/kiranv")}
+          className="btn bmf"
+        >
+          <BMFIcon />
+
+          <span>Buy me Coffee</span>
+        </button>
+        <button onClick={onEcashClick} className="btn cashtab">
+          <EcashIcon />
+          <span>eCash</span>
+        </button>
+
       </div>
     </div>
   );
