@@ -21,7 +21,7 @@ window.onload = () => updateCursor();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RecoilRoot>
-      <Toast timeOutDuration={1000} position="top-right" />
+      <Toast timeOutDuration={5000} position="top-right" />
       <App />
     </RecoilRoot>
   </React.StrictMode>

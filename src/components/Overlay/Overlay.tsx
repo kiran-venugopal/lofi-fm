@@ -27,6 +27,12 @@ function Overlay({ player }: OverlayProps) {
             backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id}.gif)`,
           }}
         ></div>
+        <div className="credits">
+          <div className="product-hunt"></div>
+          <div className="giphy">
+            GIF by <a target="_blank" href={gif.user?.profile_url}></a>
+          </div>
+        </div>
       </Fragment>
     );
   }
