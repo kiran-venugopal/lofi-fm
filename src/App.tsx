@@ -19,7 +19,11 @@ declare global {
 function App() {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [player, setPlayer] = useState<any>();
-  const setSongsData = useSetRecoilState(SongsState);
+  const [songState, setSongsData] = useRecoilState(SongsState);
+  const isSpotify = playerData.activeSong?.includes("open.spotify.com");
+  const songItem = songState.songs?.find(
+    (song) => song.id === playerData.activeSong
+  );
 
   function onPlayerStateChange(event: any) {
     let songsData: ISongsState;
@@ -122,26 +126,28 @@ function App() {
   return (
     <div className="App" unselectable="on">
       <div className="iframe-container" unselectable="on">
-        <iframe
-          key={playerData.activeSong}
-          src={`https://www.youtube.com/embed/${playerData.activeSong}?enablejsapi=1`}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          id="yt-iframe"
-          unselectable="on"
-          onSelect={() => false}
-          onMouseDown={() => false}
-          onLoad={handleLoadCapture}
-          style={
-            playerData.scalingDisabled
-              ? {
-                  transform: "scale(1)",
-                }
-              : {}
-          }
-        />
+        {!isSpotify && (
+          <iframe
+            key={playerData.activeSong}
+            src={`https://www.youtube.com/embed/${playerData.activeSong}?enablejsapi=1`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            id="yt-iframe"
+            unselectable="on"
+            onSelect={() => false}
+            onMouseDown={() => false}
+            onLoad={handleLoadCapture}
+            style={
+              playerData.scalingDisabled
+                ? {
+                    transform: "scale(1)",
+                  }
+                : {}
+            }
+          />
+        )}
       </div>
 
       <div
@@ -171,19 +177,17 @@ function App() {
           />
         )}
 
-          <div className="text">
-            {
-              !playerData.isPlaying && player && "Tap to start playing the Lofi FM 📻"
-            }
-            {
-              playerData.isPlaying && playerData.isBuffering && "Buffering.. ⏳"
-            }
-          </div>
+        <div className="text">
+          {!playerData.isPlaying &&
+            player &&
+            "Tap to start playing the Lofi FM 📻"}
+          {playerData.isPlaying && playerData.isBuffering && "Buffering.. ⏳"}
+        </div>
 
-        {player && <Player player={player} />}
+        <Player player={player} />
       </div>
 
-      <Overlay player={player} />
+      <Overlay showAlways={isSpotify} player={player} />
     </div>
   );
 }

@@ -7,9 +7,10 @@ import "./overlay-style.css";
 
 export type OverlayProps = {
   player?: any;
+  showAlways?: boolean;
 };
 
-function Overlay({ player }: OverlayProps) {
+function Overlay({ player, showAlways }: OverlayProps) {
   const [playerData] = useRecoilState(PlayerState);
   const [gif, setGif] = useState<any>({});
 
@@ -18,7 +19,7 @@ function Overlay({ player }: OverlayProps) {
     setGif(giphys[randomIndex]);
   }, []);
 
-  if (!playerData.isPlaying || playerData.isBuffering) {
+  if (!playerData.isPlaying || playerData.isBuffering || showAlways) {
     return (
       <Fragment>
         <div
@@ -26,8 +27,7 @@ function Overlay({ player }: OverlayProps) {
           style={{
             backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id}.gif)`,
           }}
-        >
-        </div>
+        ></div>
         <div className="credits">
           <div className="product-hunt"></div>
           <div className="giphy">

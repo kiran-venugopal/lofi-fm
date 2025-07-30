@@ -19,6 +19,13 @@
   padding-top: 2px;
 }
 
+.thumbnail {
+  width: 120px;
+  object-fit: contain;
+  height: 90px;
+  background: black;
+}
+
 .song-item {
   background: #ffffff14;
   padding: 10px;

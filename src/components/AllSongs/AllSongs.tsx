@@ -36,6 +36,28 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
     }));
   };
 
+  const getSpotifyData = async (url: string) => {
+    const response = await axios.get(
+      `https://open.spotify.com/oembed?url=${url}`
+    );
+    const data = response.data;
+    return [
+      {
+        title: data.title,
+        channelTitle: data.provider_name,
+        author: data.provider_name,
+        id: url,
+        iframeUrl: data.iframe_url,
+        url,
+        thumbnails: {
+          default: {
+            url: data.thumbnail_url,
+          },
+        },
+      },
+    ];
+  };
+
   const handleAddorRemoveStar = (songId: string, isAdding: boolean) => {
     let newStarred: string[] = [];
     setSongsData((prev) => {
@@ -53,6 +75,12 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
     try {
       const urlObj = new URL(url);
       let id = urlObj.searchParams.get("v");
+
+      const isSpotify = url.includes("open.spotify.com");
+      if (isSpotify) {
+        id = url;
+      }
+
       if (!id) {
         id = urlObj.pathname?.substring(1);
       }
@@ -67,7 +95,13 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         return;
       }
 
-      const res = (await getSongsData(id)) as any[];
+      let res;
+
+      if (isSpotify) {
+        res = (await getSpotifyData(id)) as any;
+      } else {
+        res = (await getSongsData(id)) as any[];
+      }
 
       setSongsData((prev: any) => ({
         ...prev,

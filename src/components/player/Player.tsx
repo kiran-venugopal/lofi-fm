@@ -1,6 +1,6 @@
 /// <reference types="vite-plugin-svgr/client" />
 import "./player-style.css";
-import { Fragment, useEffect, useReducer, useRef, useState } from "react";
+import { Fragment, useEffect, useReducer, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { PlayerState } from "../../recoil/atoms/PlayerState";
 import { SongsState } from "../../recoil/atoms/SongsState";
@@ -25,9 +25,13 @@ function Player({ player }: PlayerProps) {
   const infoRef = useRef(document.createElement("div"));
 
   const { videoMeta, isCashtabVisible, isInfoVisible } = playerState;
-  const { playerInfo } = player;
-  const { videoData } = playerInfo;
-  const { title, author } = videoData;
+  const { playerInfo } = player || {};
+  const { videoData } = playerInfo || {};
+  const isSpotify = playerData.activeSong?.includes("open.spotify.com");
+  const songMeta = songsData.songs.find(
+    (song) => song.url === playerData.activeSong
+  );
+  const { title, author } = (isSpotify ? songMeta : videoData) || {};
 
   useContainerClick(infoRef, () => {
     if (infoRef.current) dispatch({ type: "SET_SHOW_INFO", payload: false }); // setShowInfo(false);
@@ -47,12 +51,62 @@ function Player({ player }: PlayerProps) {
     }));
   };
 
+  const getSpotifyData = async (urls: any[]) => {
+    const promises = urls.map((url) => {
+      return new Promise(async (res) => {
+        const response = await axios.get(
+          `https://open.spotify.com/oembed?url=${url}`
+        );
+        res({
+          response: response,
+          url,
+        });
+      });
+    });
+    const dataArr = await Promise.allSettled(promises);
+
+    return dataArr.map(({ value: { response, url } }: any) => {
+      const data = response?.data;
+      return {
+        title: data.title,
+        channelTitle: data.provider_name,
+        author: data.provider_name,
+        id: url,
+        iframeUrl: data.iframe_url,
+        url,
+        thumbnails: {
+          default: {
+            url: data.thumbnail_url,
+          },
+        },
+      };
+    });
+  };
+
   useEffect(() => {
     const fetchSongs = async () => {
-      const songsIds = getAllSongs();
-      const songsArr = await getSongsData(songsIds.join(","));
+      const songsIds = getAllSongs() as string[];
+      const ytIds = [] as any[];
+      const spotifyIds = [] as any[];
 
-      setSongsData((prev) => ({ ...prev, songs: songsArr, isLoading: false }));
+      songsIds.forEach((id: string) => {
+        if (id.includes("open.spotify.com")) {
+          spotifyIds.push(id);
+        } else {
+          ytIds.push(id);
+        }
+      });
+
+      const songsArrPromise = getSongsData(ytIds.join(","));
+      const spotifyEmbedArrPromise = getSpotifyData(spotifyIds);
+      const songsArr = await songsArrPromise;
+      const spotifyArr = await spotifyEmbedArrPromise;
+
+      setSongsData((prev) => ({
+        ...prev,
+        songs: [...spotifyArr, ...songsArr],
+        isLoading: false,
+      }));
     };
     fetchSongs();
     window.oncontextmenu = () => {

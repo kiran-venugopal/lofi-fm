@@ -21,8 +21,6 @@ function Songs({
   starred = [],
   onRemoveSong,
 }: SongsProps) {
-
-
   return (
     <div className="all-songs">
       {songs.map((song: any) => (
@@ -31,7 +29,7 @@ function Songs({
           className={`song-item ${activeSongId === song.id ? "active" : ""}`}
           key={song.id}
         >
-          <img src={song.thumbnails.default.url} />
+          <img className="thumbnail" src={song.thumbnails.default.url} />
           <div className="info">
             <div className="title">{song.title}</div>
             <div className="channel">{song.channelTitle}</div>
@@ -44,7 +42,7 @@ function Songs({
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  onRemoveSong(song.id)
+                  onRemoveSong(song.id);
                 }}
                 className="star-button"
               >

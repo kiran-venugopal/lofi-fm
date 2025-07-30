@@ -7,8 +7,11 @@ import { ReactComponent as InfoIcon } from "../../../icons/info-icon.svg";
 import { ReactComponent as DragIcon } from "../../../icons/drag-icon.svg";
 import { ReactComponent as NextIcon } from "../../../icons/next-icon.svg";
 import "./controls-styles.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { PopoverTrigger } from "@radix-ui/react-popover";
+import { useRecoilState } from "recoil";
+import { SongsState } from "../../../recoil/atoms/SongsState";
+import { PlayerState } from "../../../recoil/atoms/PlayerState";
 
 export type ControlsPropsType = {
   title: string;
@@ -27,8 +30,8 @@ export type ControlsPropsType = {
 };
 
 function Controls({
-  title = "Some title",
-  author = "Author",
+  title = "",
+  author = "",
   onPlayListClick,
   onPrevClick,
   onPlayPauseClick,
@@ -43,6 +46,12 @@ function Controls({
 }: ControlsPropsType) {
   const controlRef = useRef(document.createElement("section"));
   const dragData = useRef({ isActive: false });
+  const [songsData] = useRecoilState(SongsState);
+  const [playerData] = useRecoilState(PlayerState);
+
+  const songMeta = songsData.songs.find(
+    (song) => song.id === playerData.activeSong && song.iframeUrl
+  );
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -106,59 +115,91 @@ function Controls({
     dragData.current.isActive = true;
   };
 
+  const renderMenu = () => (
+    <div className="secondary-actions">
+      <button onClick={onPlayListClick}>
+        <SongsIcon />
+      </button>
+      <PopoverTrigger onClick={onInfoClick}>
+        <InfoIcon style={{ paddingLeft: 0 }} />
+      </PopoverTrigger>
+    </div>
+  );
+
   return (
     <section ref={controlRef} className="controls">
       <div className="top-section">
-        <div className="title">
-          <div className="author">{author}</div>
-          <div className="name">{title}</div>
-        </div>
-        <button className="drag-btn" onMouseDown={handleMouseDown}>
+        {!songMeta && (
+          <div className="title">
+            <div className="author">{author}</div>
+            <div className="name">{title}</div>
+          </div>
+        )}
+        <button
+          style={{ marginBottom: songMeta ? "5px" : "unset" }}
+          className="drag-btn"
+          onMouseDown={handleMouseDown}
+        >
           <DragIcon />
         </button>
       </div>
-      <div className="progress">
-        <div className="slidecontainer">
-          <Slider
-            min={0}
-            max={duration}
-            className="slider"
-            value={currentDuration}
-            id="myRange"
-            onInput={onProgressChange}
-            background="rgb(24 24 24 / 36%)"
-          />
+      {!songMeta && (
+        <div className="progress">
+          <div className="slidecontainer">
+            <Slider
+              min={0}
+              max={duration}
+              className="slider"
+              value={currentDuration}
+              id="myRange"
+              onInput={onProgressChange}
+              background="rgb(24 24 24 / 36%)"
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="primary-controls">
         <div className="main">
-          <div className="music-actions">
-            <button onClick={onPrevClick} className="prev">
-              <NextIcon />
-            </button>
-            <button onClick={() => onPlayPauseClick()} className="play-pause">
-              {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
-            </button>
-            <button onClick={onNextClick} className="next">
-              <NextIcon />
-            </button>
-            <div className="volume">
-              <SoundIcon />
-              <Slider
-                min={0}
-                max={100}
-                className="slider"
-                value={volume}
-                id="myRange"
-                onInput={onVolumeChange}
-                color="var(--secondary_color)"
-                background="rgb(24 24 24 / 10%)"
-                orientation="horizontal"
-                varient="small"
-              />
+          {!songMeta ? (
+            <div className="music-actions">
+              <button onClick={onPrevClick} className="prev">
+                <NextIcon />
+              </button>
+              <button onClick={() => onPlayPauseClick()} className="play-pause">
+                {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
+              </button>
+              <button onClick={onNextClick} className="next">
+                <NextIcon />
+              </button>
+              <div className="volume">
+                <SoundIcon />
+                <Slider
+                  min={0}
+                  max={100}
+                  className="slider"
+                  value={volume}
+                  id="myRange"
+                  onInput={onVolumeChange}
+                  color="var(--secondary_color)"
+                  background="rgb(24 24 24 / 10%)"
+                  orientation="horizontal"
+                  varient="small"
+                />
+              </div>
             </div>
-          </div>
+          ) : (
+            <iframe
+              data-testid="embed-iframe"
+              src={`${songMeta.iframeUrl}&theme=0`}
+              width="326px"
+              height="80px"
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+              style={{ position: "relative", top: "-30px" }}
+            ></iframe>
+          )}
           <div className="secondary-actions">
             <button onClick={onPlayListClick}>
               <SongsIcon />
