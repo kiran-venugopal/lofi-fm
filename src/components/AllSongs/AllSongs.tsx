@@ -95,7 +95,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
         return;
       }
 
-      let res;
+      let res: any;
 
       if (isSpotify) {
         res = (await getSpotifyData(id)) as any;
