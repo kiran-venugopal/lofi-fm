@@ -22,7 +22,6 @@
 .thumbnail {
   width: 120px;
   object-fit: contain;
-  height: 90px;
   background: black;
 }
 
