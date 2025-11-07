@@ -25,13 +25,13 @@ function Overlay({ player, showAlways }: OverlayProps) {
         <div
           className="overlay"
           style={{
-            backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id}.gif)`,
+            backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id})`,
           }}
         ></div>
         <div className="credits">
           <div className="product-hunt"></div>
           <div className="giphy">
-            GIF by{" "}
+            Image Credits:{" "}
             <a target="_blank" href={gif.user?.profile_url}>
               {gif.user?.name}
             </a>

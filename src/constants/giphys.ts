@@ -1,67 +1,25 @@
 const giphys = [
   {
-    id: "H62NM1ab7wzMXURdoi",
+    id: "ameesha-1.jpg",
     user: {
-      profile_url: "https://giphy.com/Uncute/",
-      name: "Uncute",
+      name: "Ameesha",
+      profile_url: "https://vsco.co/ameeshavinod",
     },
   },
   {
-    id: "XbJYBCi69nyVOffLIU",
+    id: "ameesha-2.jpg",
     user: {
-      name: "Wegow",
-      profile_url: "https://giphy.com/Wegow/",
+      name: "Ameesha",
+      profile_url: "https://vsco.co/ameeshavinod",
     },
   },
   {
-    id: "c2CDTcHLscXaU5s1vK",
+    id: "ameesha-3.jpg",
     user: {
-      name: "UrjaVakta",
-      profile_url: "https://giphy.com/UrjaVakta/",
+      name: "Ameesha",
+      profile_url: "https://vsco.co/ameeshavinod",
     },
   },
-  {
-    id: "k8kITi9SAwe9JWbUaH",
-    user: {
-      name: "Luigi Salas - Motion Designer",
-      profile_url: "https://giphy.com/LuigiPixelArt/",
-    },
-  },
-  {
-    id: "u4zZXYFztZtSZPlWZv",
-    user: {
-      name: "warakami",
-      profile_url: "https://giphy.com/channel/warakami/",
-    },
-  },
-  {
-    id: "VgO1Elh78EhBcPrHQ1",
-    user: {
-      name: "SHINYLUV",
-      profile_url: "https://giphy.com/shinyluvvv/",
-    },
-  },
-  {
-    id: "VFHa3Kg39gFLVbinN1",
-    user: {
-      name: "Luigi Salas - Motion Designer",
-      profile_url: "https://giphy.com/LuigiPixelArt/",
-    },
-  },
-  {
-    id: "RgZFvGuI4OxLjuSvRF",
-    user: {
-      name: "Axel Oil",
-      profile_url: "https://giphy.com/channel/axeloil/",
-    },
-  },
-  {
-    id: "IHkILvQZ94BxMdBHp0",
-    user: {
-      name: "Ahmad Sheraz",
-      profile_url: "https://giphy.com/artbysheraz",
-    },
-  }
 ];
 
 export default giphys;

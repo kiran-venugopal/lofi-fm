@@ -10,11 +10,10 @@
   z-index: 10;
 }
 
-
 .credits {
   position: absolute;
   top: 0;
-  z-index: 11;
+  z-index: 99;
   left: 0;
   font-size: 0.7em;
   padding: 0.8em;
