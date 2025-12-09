@@ -14,6 +14,7 @@ import {
   ThemeColorType,
 } from "../../../utils/theme";
 import { makeDebounced } from "../../../utils/common";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 
 export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
@@ -81,86 +82,112 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
         <div className="app-name">LoFi Fm</div>
       </div>
 
-      <div className="settings">
-        <div className="disable-scaling">
-          <label
-            title="disable scaling to view background video in original size"
-            className="switch"
-          >
-            <input
-              type="checkbox"
-              checked={playerData.scalingDisabled}
-              onChange={handleScalingChange}
-            />
-            <span className="slider"></span>
-            <span className="text">Disable Scaling</span>
-          </label>
-        </div>
-        <div className="themeing">
-          <section>
-            <label>Primary</label>
-            <input
-              onChange={handleThemeChange("primary")}
-              type="color"
-              className="primary"
-              value={theme.primary}
-            />
-          </section>
-          <section>
-            <label>Secondary</label>
-            <input
-              onChange={handleThemeChange("secondary")}
-              type="color"
-              className="primary"
-              value={theme.secondary}
-            />
-          </section>
-          <section>
-            <button onClick={handleThemeReset} className="btn">
-              Reset
-            </button>
-          </section>
-        </div>
-      </div>
-      <div className="bg-image">
-        <input
-          ref={urlInputRef}
-          type="text"
-          placeholder="Background GIF/image url"
-          defaultValue={playerData.bgImgUrl}
-        />
-        <button onClick={handleSetUrl} className="btn">
-          Set background
-        </button>
-      </div>
-      <div className="resources">
-        <button
-          onClick={() => window.open(player?.playerInfo?.videoUrl)}
-          className="btn"
-        >
-          <YoutubeIcon />
-          <span>Play in Youtube</span>
-        </button>
-        <button
-          onClick={() => window.open("https://github.com/kiran-venugopal/lofi")}
-          className="btn gh"
-        >
-          <GithubIcon />
-          <span>Sourcecode</span>
-        </button>
-        <button
-          onClick={() => window.open("https://www.buymeacoffee.com/kiranv")}
-          className="btn bmf"
-        >
-          <BMFIcon />
+      <Tabs defaultValue="background" className="tabs-root">
+        <TabsList className="tabs-list" aria-label="Player settings tabs">
+          <TabsTrigger className="tabs-trigger" value="background">
+            Background
+          </TabsTrigger>
+          <TabsTrigger className="tabs-trigger" value="theme">
+            Theme
+          </TabsTrigger>
+          <TabsTrigger className="tabs-trigger" value="support">
+            Other
+          </TabsTrigger>
+        </TabsList>
 
-          <span>Buy me Coffee</span>
-        </button>
-        <button onClick={onEcashClick} className="btn cashtab">
-          <EcashIcon />
-          <span>eCash</span>
-        </button>
-      </div>
+        <TabsContent className="tabs-content" value="background">
+          <div className="settings">
+            <div className="disable-scaling">
+              <label
+                title="disable scaling to view background video in original size"
+                className="switch"
+              >
+                <input
+                  type="checkbox"
+                  checked={playerData.scalingDisabled}
+                  onChange={handleScalingChange}
+                />
+                <span className="slider"></span>
+                <span className="text">Disable Scaling</span>
+              </label>
+            </div>
+          </div>
+          <div className="bg-image">
+            <input
+              ref={urlInputRef}
+              type="text"
+              placeholder="Background GIF/image url"
+              defaultValue={playerData.bgImgUrl}
+            />
+            <button onClick={handleSetUrl} className="btn">
+              Set background
+            </button>
+          </div>
+        </TabsContent>
+
+        <TabsContent className="tabs-content" value="theme">
+          <div className="settings">
+            <div className="themeing">
+              <section>
+                <label>Primary</label>
+                <input
+                  onChange={handleThemeChange("primary")}
+                  type="color"
+                  className="primary"
+                  value={theme.primary}
+                />
+              </section>
+              <section>
+                <label>Secondary</label>
+                <input
+                  onChange={handleThemeChange("secondary")}
+                  type="color"
+                  className="primary"
+                  value={theme.secondary}
+                />
+              </section>
+              <section>
+                <button onClick={handleThemeReset} className="btn">
+                  Reset
+                </button>
+              </section>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent className="tabs-content" value="support">
+          <div className="resources">
+            <button
+              onClick={() => window.open(player?.playerInfo?.videoUrl)}
+              className="btn"
+            >
+              <YoutubeIcon />
+              <span>Play in Youtube</span>
+            </button>
+            <button
+              onClick={() =>
+                window.open("https://github.com/kiran-venugopal/lofi")
+              }
+              className="btn gh"
+            >
+              <GithubIcon />
+              <span>Sourcecode</span>
+            </button>
+            <button
+              onClick={() => window.open("https://www.buymeacoffee.com/kiranv")}
+              className="btn bmf"
+            >
+              <BMFIcon />
+
+              <span>Buy me Coffee</span>
+            </button>
+            <button onClick={onEcashClick} className="btn cashtab">
+              <EcashIcon />
+              <span>eCash</span>
+            </button>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

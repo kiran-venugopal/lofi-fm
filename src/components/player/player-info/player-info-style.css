@@ -9,7 +9,8 @@
 .player-info {
   left: 50%;
   width: 100%;
-  max-width: 460px;
+  width: 90vw;
+  max-width: 440px;
   bottom: 140px;
   z-index: 10;
 }
@@ -63,7 +64,7 @@
 }
 
 .disable-scaling {
-  padding: 1.5em 1em;
+  padding: 10px 15px;
 }
 
 .disable-scaling .slider {
@@ -127,6 +128,8 @@
 }
 .themeing {
   margin: 0 10px;
+  display: flex;
+  gap: 8px;
 }
 .themeing button {
   margin-left: 1rem;
@@ -137,6 +140,7 @@
   display: flex;
   padding: 0 10px;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .bg-image input {
@@ -156,4 +160,44 @@
   .bg-image {
     margin-top: 20px;
   }
+}
+
+/* Tabs styling (simple, scoped) */
+.player-info .tabs-root {
+  padding: 0.6rem 0.6rem 0.8rem 0.6rem;
+}
+
+.player-info .tabs-list {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0 0.6rem 0;
+  margin-bottom: 0.6rem;
+}
+
+.player-info .tabs-trigger {
+  background: transparent;
+  border: none;
+  color: #fff;
+  opacity: 0.8;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.player-info .tabs-trigger[aria-selected="true"] {
+  opacity: 1;
+  box-shadow: 0 2px 0 0 var(--primary_color);
+}
+
+.player-info .tabs-content {
+  padding: 0.2rem 0 0 0;
+}
+
+/* Keep existing inner layout consistent inside tabs */
+.player-info .tabs-content .settings,
+.player-info .tabs-content .bg-image,
+.player-info .tabs-content .resources,
+.player-info .tabs-content .themeing {
+  width: 100%;
 }

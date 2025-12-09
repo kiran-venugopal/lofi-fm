@@ -10,6 +10,7 @@
   "dependencies": {
     "@openreplay/tracker": "^3.5.11",
     "@radix-ui/react-popover": "^1.1.1",
+    "@radix-ui/react-tabs": "^1.1.13",
     "axios": "^0.27.2",
     "mini-svg-data-uri": "^1.4.4",
     "mixpanel-browser": "^2.48.1",
