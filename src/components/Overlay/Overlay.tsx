@@ -15,9 +15,18 @@ function Overlay({ player, showAlways }: OverlayProps) {
   const [gif, setGif] = useState<any>({});
 
   useEffect(() => {
-    const randomIndex = generateRandomIndex(giphys.length);
-    setGif(giphys[randomIndex]);
-  }, []);
+    let backgroundUrl = playerData.bgImgUrl;
+    let creditGif = null;
+    if (playerData.bgImgUrl && playerData.bgImgUrl.startsWith("/gifs/")) {
+      const id = playerData.bgImgUrl.replace("/gifs/", "");
+      creditGif = giphys.find((g) => g.id === id);
+    }
+    if (!backgroundUrl) {
+      const randomIndex = generateRandomIndex(giphys.length);
+      backgroundUrl = `/gifs/${giphys[randomIndex].id}`;
+    }
+    setGif({ url: backgroundUrl, credit: creditGif });
+  }, [playerData.bgImgUrl]);
 
   if (!playerData.isPlaying || playerData.isBuffering || showAlways) {
     return (
@@ -25,18 +34,20 @@ function Overlay({ player, showAlways }: OverlayProps) {
         <div
           className="overlay"
           style={{
-            backgroundImage: `linear-gradient(#0000009e,#0000009e),url(/gifs/${gif.id})`,
+            backgroundImage: `linear-gradient(#0000009e,#0000009e),url(${gif.url})`,
           }}
         ></div>
-        <div className="credits">
-          <div className="product-hunt"></div>
-          <div className="giphy">
-            Image Credits:{" "}
-            <a target="_blank" href={gif.user?.profile_url}>
-              {gif.user?.name}
-            </a>
+        {gif.credit && gif.credit.user && (
+          <div className="credits">
+            <div className="product-hunt"></div>
+            <div className="giphy">
+              Image Credits:{" "}
+              <a target="_blank" href={gif.credit.user.profile_url}>
+                {gif.credit.user.name}
+              </a>
+            </div>
           </div>
-        </div>
+        )}
       </Fragment>
     );
   }
