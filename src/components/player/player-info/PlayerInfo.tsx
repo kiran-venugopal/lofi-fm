@@ -3,6 +3,7 @@ import { ReactComponent as GithubIcon } from "../../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../../icons/bmf-icon.svg";
 import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
+import { ReactComponent as DeleteIcon } from "../../../icons/delete-icon.svg";
 import { MutableRefObject, useRef, useState } from "react";
 import "./player-info-style.css";
 import { useRecoilState } from "recoil";
@@ -15,6 +16,7 @@ import {
 } from "../../../utils/theme";
 import { makeDebounced } from "../../../utils/common";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
+import giphys from "../../../constants/giphys";
 
 export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
@@ -122,6 +124,42 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
             <button onClick={handleSetUrl} className="btn">
               Set background
             </button>
+            <button
+              onClick={() => {
+                setPlayerData((prev) => ({
+                  ...prev,
+                  bgImgUrl: "",
+                }));
+                window.localStorage.setItem("bgImgUrl", "");
+              }}
+              className="btn remove-btn"
+            >
+              Remove
+            </button>
+          </div>
+          <div className="bg-tiles">
+            {giphys.map((giphy) => (
+              <div
+                key={giphy.id}
+                className="bg-tile"
+                onClick={() => {
+                  const bgUrl = `/gifs/${giphy.id}`;
+                  setPlayerData((prev) => ({
+                    ...prev,
+                    bgImgUrl: bgUrl,
+                  }));
+                  window.localStorage.setItem("bgImgUrl", bgUrl);
+                }}
+              >
+                <img
+                  src={`/gifs/${giphy.id}`}
+                  alt={giphy.user?.name || "Background"}
+                />
+                {playerData.bgImgUrl === `/gifs/${giphy.id}` && (
+                  <div className="selected-overlay">✓</div>
+                )}
+              </div>
+            ))}
           </div>
         </TabsContent>
 
