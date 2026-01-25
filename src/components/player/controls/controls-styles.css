@@ -84,6 +84,7 @@
   height: 50px;
   border: none;
 }
+
 .secondary-actions button svg {
   fill: var(--secondary_color);
 }
@@ -96,7 +97,7 @@
   font-size: 0.9em;
 }
 
-.music-actions button.next {
+.music-actions button.prev {
   transform: rotate(180deg);
 }
 
@@ -109,8 +110,10 @@
 .drag-btn {
   cursor: move;
   border: none;
-  padding: 5px 10px;
+  padding: 2px 5px;
   margin-left: auto;
+  display: flex;
+
 }
 
 .top-section {
@@ -129,6 +132,7 @@
     max-width: 75vw;
     min-width: unset;
   }
+
   .music-actions .title {
     width: 45vw;
   }
