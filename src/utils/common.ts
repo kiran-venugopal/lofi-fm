@@ -1,5 +1,5 @@
 export function makeDebounced(fn: Function, duration = 300) {
-  let timerID: number | null;
+  let timerID: NodeJS.Timeout | undefined;
 
   return (...args: any[]) => {
     if (timerID) {
@@ -7,7 +7,7 @@ export function makeDebounced(fn: Function, duration = 300) {
     }
     timerID = setTimeout(() => {
       fn(...args);
-      timerID = null;
+      timerID = undefined;
     }, duration);
   };
 }
