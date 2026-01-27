@@ -25,8 +25,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
 
   const getSongsData = async (id: string) => {
     const response = await axios.get(
-      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&key=${
-        import.meta.env.VITE_YT_KEY
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&key=${import.meta.env.VITE_YT_KEY
       }&id=${id}`
     );
 
@@ -181,7 +180,7 @@ function AllSongs({ onSongClick, activeSongId, onClose }: AllSongsProps) {
             value={url}
             autoFocus={true}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="paste youtube url here.."
+            placeholder="paste youtube or spotify song url.."
           />
           <button onClick={handleAddClick}>Add</button>
         </div>
