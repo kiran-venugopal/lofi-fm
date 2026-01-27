@@ -183,6 +183,7 @@ function App() {
         {!isSpotify && (
           <iframe
             key={playerData.activeSong}
+            className="yt-iframe"
             src={`https://www.youtube.com/embed/${playerData.activeSong}?enablejsapi=1`}
             title="YouTube video player"
             frameBorder="0"

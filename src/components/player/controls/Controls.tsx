@@ -12,6 +12,7 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 import { useRecoilState } from "recoil";
 import { SongsState } from "../../../recoil/atoms/SongsState";
 import { PlayerState } from "../../../recoil/atoms/PlayerState";
+import IconButton from "../../common/IconButton";
 
 export type ControlsPropsType = {
   title: string;
@@ -115,19 +116,11 @@ function Controls({
     dragData.current.isActive = true;
   };
 
-  const renderMenu = () => (
-    <div className="secondary-actions">
-      <button onClick={onPlayListClick}>
-        <SongsIcon />
-      </button>
-      <PopoverTrigger onClick={onInfoClick}>
-        <InfoIcon style={{ paddingLeft: 0 }} />
-      </PopoverTrigger>
-    </div>
-  );
-
   return (
-    <section ref={controlRef} className="controls">
+    <section
+      ref={controlRef}
+      className={`controls ${songMeta ? "spotify-active" : ""}`}
+    >
       <div className="top-section">
         {!songMeta && (
           <div className="title">
@@ -135,13 +128,12 @@ function Controls({
             <div className="name">{title}</div>
           </div>
         )}
-        <button
+        <IconButton
           style={{ marginBottom: songMeta ? "5px" : "unset" }}
           className="drag-btn"
           onMouseDown={handleMouseDown}
-        >
-          <DragIcon />
-        </button>
+          icon={<DragIcon />}
+        />
       </div>
       {!songMeta && (
         <div className="progress">
@@ -163,15 +155,13 @@ function Controls({
         <div className="main">
           {!songMeta ? (
             <div className="music-actions">
-              <button onClick={onPrevClick} className="prev">
-                <NextIcon />
-              </button>
-              <button onClick={() => onPlayPauseClick()} className="play-pause">
-                {isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
-              </button>
-              <button onClick={onNextClick} className="next">
-                <NextIcon />
-              </button>
+              <IconButton onClick={onPrevClick} className="prev" icon={<NextIcon />} />
+              <IconButton
+                onClick={() => onPlayPauseClick()}
+                className="play-pause"
+                icon={isPlaying ? <PauseIcon /> : <PlayIcon className="play" />}
+              />
+              <IconButton onClick={onNextClick} className="next" icon={<NextIcon />} />
               <div className="volume">
                 <SoundIcon />
                 <Slider
@@ -191,6 +181,7 @@ function Controls({
           ) : (
             <iframe
               data-testid="embed-iframe"
+              className="spotify-iframe"
               src={`${songMeta.iframeUrl}&theme=0`}
               width="326px"
               height="80px"
@@ -201,11 +192,9 @@ function Controls({
             ></iframe>
           )}
           <div className="secondary-actions">
-            <button onClick={onPlayListClick}>
-              <SongsIcon />
-            </button>
-            <PopoverTrigger onClick={onInfoClick}>
-              <InfoIcon style={{ paddingLeft: 0 }} />
+            <IconButton onClick={onPlayListClick} icon={<SongsIcon />} />
+            <PopoverTrigger asChild>
+              <IconButton onClick={onInfoClick} icon={<InfoIcon style={{ paddingLeft: 0 }} />} />
             </PopoverTrigger>
           </div>
         </div>

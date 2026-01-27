@@ -6,6 +6,17 @@
   top: 0;
 }
 
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: inherit;
+}
+
 .volume {
   display: flex;
   justify-content: center;
@@ -17,6 +28,17 @@
 .secondary-actions {
   display: flex;
   gap: 0.3rem;
+}
+
+.controls.spotify-active .secondary-actions {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.controls.spotify-active .secondary-actions .icon-btn {
+  width: 30px;
+  height: 30px;
+  padding: 7px;
 }
 
 .main {
@@ -97,6 +119,12 @@
   font-size: 0.9em;
 }
 
+.spotify-iframe {
+  background: rgb(24 24 24 / 35%);
+  backdrop-filter: blur(10px);
+  padding: 10px;
+}
+
 .music-actions button.prev {
   transform: rotate(180deg);
 }
@@ -110,10 +138,10 @@
 .drag-btn {
   cursor: move;
   border: none;
-  padding: 2px 5px;
+  padding: 1px;
   margin-left: auto;
   display: flex;
-
+  width: 30px;
 }
 
 .top-section {
