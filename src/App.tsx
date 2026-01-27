@@ -142,8 +142,8 @@ function App() {
             style={
               playerData.scalingDisabled
                 ? {
-                    transform: "scale(1)",
-                  }
+                  transform: "scale(1)",
+                }
                 : {}
             }
           />
@@ -153,8 +153,7 @@ function App() {
       <div
         style={{
           backgroundImage: `url(${playerData.bgImgUrl})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
+          backgroundColor: playerData.bgImgUrl && "black",
         }}
         className="player-content"
       >

@@ -24,9 +24,12 @@ body {
   height: 100vh;
   z-index: 12;
   background: #3b06554d;
+  background-size: 100% auto;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.player-content .text{
+.player-content .text {
   position: absolute;
   transform: translate(-50%, -50%);
   left: 50%;
@@ -39,9 +42,14 @@ button {
   font-family: inherit;
   cursor: inherit;
 }
+
 @media (max-width: 800px) {
   .iframe-container iframe {
     transform: scale(3.4);
+  }
+
+  .player-content {
+    background-size: auto 100%;
   }
 }
 
