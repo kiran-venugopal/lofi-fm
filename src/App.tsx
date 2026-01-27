@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Player from "./components/player/Player";
+import { extractColorsFromImage } from "./utils/colors";
 import AllSongs from "./components/AllSongs";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { PlayerState } from "./recoil/atoms/PlayerState";
@@ -85,6 +86,59 @@ function App() {
       }
     });
   }
+
+  useEffect(() => {
+    const updateColors = async () => {
+      let imageUrl = playerData.bgImgUrl;
+
+      if (!imageUrl && playerData.activeSong) {
+        // Fallback to YouTube thumbnail
+        imageUrl = `https://img.youtube.com/vi/${playerData.activeSong}/maxresdefault.jpg`;
+      }
+
+      if (imageUrl) {
+        try {
+          const colors = await extractColorsFromImage(imageUrl);
+          if (colors && colors.length >= 2) {
+            const [primary, secondary] = colors;
+            document.body.style.setProperty(
+              "--primary_color",
+              `rgb(${primary[0]}, ${primary[1]}, ${primary[2]})`
+            );
+            document.body.style.setProperty(
+              "--secondary_color",
+              `rgb(${secondary[0]}, ${secondary[1]}, ${secondary[2]})`
+            );
+          }
+        } catch (e) {
+          // Fallback to hqdefault if maxresdefault fails (common for some videos)
+          if (imageUrl.includes("maxresdefault")) {
+            const hqUrl = imageUrl.replace("maxresdefault", "hqdefault");
+            try {
+              const colors = await extractColorsFromImage(hqUrl);
+              if (colors && colors.length >= 2) {
+                const [primary, secondary] = colors;
+                document.body.style.setProperty(
+                  "--primary_color",
+                  `rgb(${primary[0]}, ${primary[1]}, ${primary[2]})`
+                );
+                document.body.style.setProperty(
+                  "--secondary_color",
+                  `rgb(${secondary[0]}, ${secondary[1]}, ${secondary[2]})`
+                );
+              }
+            } catch (e2) {
+              console.error("Failed to extract colors from fallback thumbnail", e2);
+            }
+          } else {
+            console.error("Failed to extract colors", e);
+          }
+        }
+      }
+    };
+
+    updateColors();
+  }, [playerData.bgImgUrl, playerData.activeSong]);
 
   const handleLoadCapture = () => {
     new window.YT.Player("yt-iframe", {
