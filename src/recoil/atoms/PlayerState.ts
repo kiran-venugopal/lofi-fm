@@ -10,6 +10,14 @@ export interface IPlayerState {
   scalingDisabled: boolean;
   bgImgUrl?: string;
   isCustomTheme: boolean;
+  // Timer state
+  timerWorkTime: number;
+  timerBreakTime: number;
+  timerSecondsRemaining: number;
+  isTimerRunning: boolean;
+  timerMode: "work" | "break";
+  isPiPActive: boolean;
+  activeTab: "background" | "theme" | "timer" | "support";
 }
 
 export const PlayerState = atom<IPlayerState>({
@@ -25,5 +33,12 @@ export const PlayerState = atom<IPlayerState>({
     ),
     bgImgUrl: window.localStorage.getItem("bgImgUrl") || "",
     isCustomTheme: window.localStorage.getItem("is_custom_theme") === "true",
+    timerWorkTime: 25,
+    timerBreakTime: 5,
+    timerSecondsRemaining: 25 * 60,
+    isTimerRunning: false,
+    timerMode: "work",
+    isPiPActive: false,
+    activeTab: "background",
   },
 });

@@ -28,6 +28,8 @@ export type ControlsPropsType = {
   duration: number;
   onProgressChange: React.FormEventHandler<HTMLInputElement>;
   onInfoClick(): void;
+  isInfoVisible: boolean;
+  onMiniTimerClick(): void;
 };
 
 function Controls({
@@ -44,6 +46,8 @@ function Controls({
   duration,
   onProgressChange,
   onInfoClick,
+  isInfoVisible,
+  onMiniTimerClick,
 }: ControlsPropsType) {
   const controlRef = useRef(document.createElement("section"));
   const dragData = useRef({ isActive: false });
@@ -53,6 +57,19 @@ function Controls({
   const songMeta = songsData.songs.find(
     (song) => song.id === playerData.activeSong && song.iframeUrl
   );
+
+  const formatTime = (secs: number) => {
+    const minutes = Math.floor(secs / 60);
+    const seconds = secs % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  const isWorkMode = playerData.timerMode === "work";
+  const initialSeconds = isWorkMode ? playerData.timerWorkTime * 60 : playerData.timerBreakTime * 60;
+  const hasProgress = playerData.timerSecondsRemaining < initialSeconds;
+  const showMiniTimer = !isInfoVisible && (playerData.isTimerRunning || hasProgress);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -119,7 +136,7 @@ function Controls({
   return (
     <section
       ref={controlRef}
-      className={`controls ${songMeta ? "spotify-active" : ""}`}
+      className={`controls ${songMeta ? "spotify-active" : ""} ${showMiniTimer ? "has-timer" : ""}`}
     >
       <div className="top-section">
         {!songMeta && (
@@ -128,12 +145,19 @@ function Controls({
             <div className="name">{title}</div>
           </div>
         )}
-        <IconButton
-          style={{ marginBottom: songMeta ? "5px" : "unset" }}
-          className="drag-btn"
-          onMouseDown={handleMouseDown}
-          icon={<DragIcon />}
-        />
+        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginLeft: "auto" }}>
+          {showMiniTimer && (
+            <div className="mini-timer" onClick={onMiniTimerClick}>
+              ⏱️ {formatTime(playerData.timerSecondsRemaining)}
+            </div>
+          )}
+          <IconButton
+            style={{ marginBottom: songMeta ? "5px" : "unset" }}
+            className="drag-btn"
+            onMouseDown={handleMouseDown}
+            icon={<DragIcon />}
+          />
+        </div>
       </div>
       {!songMeta && (
         <div className="progress">

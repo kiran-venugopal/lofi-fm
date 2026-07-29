@@ -3,7 +3,8 @@ import { ReactComponent as GithubIcon } from "../../../icons/github-icon.svg";
 import { ReactComponent as BMFIcon } from "../../../icons/bmf-icon.svg";
 import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
-import { ReactComponent as DeleteIcon } from "../../../icons/delete-icon.svg";
+import { ReactComponent as PlayIcon } from "../../../icons/play-icon.svg";
+import { ReactComponent as PauseIcon } from "../../../icons/pause-icon.svg";
 import { MutableRefObject, useRef, useState } from "react";
 import "./player-info-style.css";
 import { useRecoilState } from "recoil";
@@ -22,7 +23,9 @@ export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
   player: any;
   onEcashClick(): void;
+  handleTogglePiP(): void;
 };
+
 const debouncedThemeChange = makeDebounced(
   (
     color: string,
@@ -47,13 +50,16 @@ const debouncedThemeChange = makeDebounced(
   100
 );
 
-function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
+function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerInfoProps) {
   const [playerData, setPlayerData] = useRecoilState(PlayerState);
   const [theme, setTheme] = useState({
     primary: getThemeColor("primary"),
     secondary: getThemeColor("secondary"),
   });
   const urlInputRef = useRef<HTMLInputElement>(null);
+
+  const isDocPiPSupported = typeof window !== "undefined" && "documentPictureInPicture" in window;
+  const isPiPSupported = isDocPiPSupported || (typeof document !== "undefined" && "pictureInPictureEnabled" in document);
 
   const handleSetUrl = () => {
     setPlayerData((prev) => ({
@@ -93,6 +99,23 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
     debouncedThemeChange(e.target.value, type, setTheme, setPlayerData);
   };
 
+  const handleTabChange = (value: string) => {
+    setPlayerData((prev) => ({
+      ...prev,
+      activeTab: value as any,
+    }));
+  };
+
+  const formatTime = (secs: number) => {
+    const minutes = Math.floor(secs / 60);
+    const seconds = secs % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  const timeStr = formatTime(playerData.timerSecondsRemaining);
+
   return (
     <div className="player-info" ref={infoRef}>
       <div onClick={handleHeaderClick} className="header">
@@ -102,13 +125,20 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
         <div className="app-name">LoFi Fm</div>
       </div>
 
-      <Tabs defaultValue="background" className="tabs-root">
+      <Tabs
+        value={playerData.activeTab || "background"}
+        onValueChange={handleTabChange}
+        className="tabs-root"
+      >
         <TabsList className="tabs-list" aria-label="Player settings tabs">
           <TabsTrigger className="tabs-trigger" value="background">
             Background
           </TabsTrigger>
           <TabsTrigger className="tabs-trigger" value="theme">
             Theme
+          </TabsTrigger>
+          <TabsTrigger className="tabs-trigger" value="timer">
+            Timer
           </TabsTrigger>
           <TabsTrigger className="tabs-trigger" value="support">
             Other
@@ -207,6 +237,108 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
                   Reset
                 </button>
               </section>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent className="tabs-content" value="timer">
+          <div className="settings">
+            <div className="timer-container">
+              <div className="timer-status break-label">
+                {playerData.timerMode === "work" ? "Focus" : "Break"}
+              </div>
+              <div className={`timer-display ${playerData.timerSecondsRemaining === 0 ? "blinking" : ""}`}>{timeStr}</div>
+
+              <div className="timer-inputs">
+                <div className="timer-input-group">
+                  <label>Focus (min)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="180"
+                    value={playerData.timerWorkTime}
+                    disabled={playerData.isTimerRunning}
+                    onChange={(e) => {
+                      const val = Math.max(1, parseInt(e.target.value) || 0);
+                      setPlayerData((prev) => {
+                        const newSecs = prev.timerMode === "work" ? val * 60 : prev.timerSecondsRemaining;
+                        return {
+                          ...prev,
+                          timerWorkTime: val,
+                          timerSecondsRemaining: newSecs,
+                        };
+                      });
+                    }}
+                  />
+                </div>
+                <div className="timer-input-group">
+                  <label>Break (min)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="180"
+                    value={playerData.timerBreakTime}
+                    disabled={playerData.isTimerRunning}
+                    onChange={(e) => {
+                      const val = Math.max(1, parseInt(e.target.value) || 0);
+                      setPlayerData((prev) => {
+                        const newSecs = prev.timerMode === "break" ? val * 60 : prev.timerSecondsRemaining;
+                        return {
+                          ...prev,
+                          timerBreakTime: val,
+                          timerSecondsRemaining: newSecs,
+                        };
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="timer-controls">
+                <button
+                  onClick={() => {
+                    setPlayerData((prev) => ({
+                      ...prev,
+                      isTimerRunning: !prev.isTimerRunning,
+                    }));
+                  }}
+                  className="btn"
+                >
+                  {playerData.isTimerRunning ? <PauseIcon /> : <PlayIcon />}
+                  <span>{playerData.isTimerRunning ? "Pause" : "Start"}</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setPlayerData((prev) => ({
+                      ...prev,
+                      isTimerRunning: false,
+                      timerMode: "work",
+                      timerSecondsRemaining: prev.timerWorkTime * 60,
+                    }));
+                  }}
+                  className="btn"
+                >
+                  <span>↺ Reset</span>
+                </button>
+                {isPiPSupported && (
+                  <button onClick={handleTogglePiP} className="btn">
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4" />
+                      <rect x="13" y="13" width="8" height="6" rx="1" fill="currentColor" />
+                    </svg>
+                    <span>{playerData.isPiPActive ? "Exit PiP" : "PiP"}</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </TabsContent>
