@@ -24,12 +24,25 @@ export type PlayerInfoProps = {
   onEcashClick(): void;
 };
 const debouncedThemeChange = makeDebounced(
-  (color: string, type: ThemeColorType, setTheme: React.Dispatch<any>) => {
+  (
+    color: string,
+    type: ThemeColorType,
+    setTheme: React.Dispatch<any>,
+    setPlayerData: any
+  ) => {
     setThemeColor(type, color);
     setTheme((prev: any) => ({
       ...prev,
       [type]: color,
     }));
+    setPlayerData((prev: any) => {
+      if (prev.isCustomTheme) return prev;
+      window.localStorage.setItem("is_custom_theme", "true");
+      return {
+        ...prev,
+        isCustomTheme: true,
+      };
+    });
   },
   100
 );
@@ -69,10 +82,15 @@ function PlayerInfo({ infoRef, player, onEcashClick }: PlayerInfoProps) {
       primary: defaultTheme.primary,
       secondary: defaultTheme.secondary,
     });
+    setPlayerData((prev) => ({
+      ...prev,
+      isCustomTheme: false,
+    }));
+    window.localStorage.setItem("is_custom_theme", "false");
   };
 
   const handleThemeChange = (type: ThemeColorType) => (e: any) => {
-    debouncedThemeChange(e.target.value, type, setTheme);
+    debouncedThemeChange(e.target.value, type, setTheme, setPlayerData);
   };
 
   return (

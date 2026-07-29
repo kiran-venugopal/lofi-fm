@@ -9,6 +9,7 @@ export interface IPlayerState {
   isBuffering: boolean;
   scalingDisabled: boolean;
   bgImgUrl?: string;
+  isCustomTheme: boolean;
 }
 
 export const PlayerState = atom<IPlayerState>({
@@ -23,5 +24,6 @@ export const PlayerState = atom<IPlayerState>({
       window.localStorage.getItem("scaling_disabled") || "false"
     ),
     bgImgUrl: window.localStorage.getItem("bgImgUrl") || "",
+    isCustomTheme: window.localStorage.getItem("is_custom_theme") === "true",
   },
 });

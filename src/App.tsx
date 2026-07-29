@@ -89,6 +89,9 @@ function App() {
 
   useEffect(() => {
     const updateColors = async () => {
+      if (playerData.isCustomTheme) {
+        return;
+      }
       let imageUrl = playerData.bgImgUrl;
 
       if (!imageUrl && playerData.activeSong) {
@@ -138,7 +141,7 @@ function App() {
     };
 
     updateColors();
-  }, [playerData.bgImgUrl, playerData.activeSong]);
+  }, [playerData.bgImgUrl, playerData.activeSong, playerData.isCustomTheme]);
 
   const handleLoadCapture = () => {
     new window.YT.Player("yt-iframe", {
