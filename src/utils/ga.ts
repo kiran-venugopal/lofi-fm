@@ -1,7 +1,7 @@
+import mixpanel from "mixpanel-browser";
+
 async function initGA() {
   try {
-    const mixpanel = await import("mixpanel-browser");
-
     mixpanel.init("5d2cbd8006e9a5c5c077c2f36592c2c1", {
       debug: true,
       track_pageview: true,
@@ -16,4 +16,13 @@ async function initGA() {
   }
 }
 
+export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
+  try {
+    mixpanel.track(eventName, properties);
+  } catch (err) {
+    console.error("Error tracking event:", err);
+  }
+};
+
 export default initGA;
+

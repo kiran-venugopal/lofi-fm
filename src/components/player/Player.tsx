@@ -16,6 +16,7 @@ import { initialPlayerState, playerReducer } from "./reducer/player-reducer";
 import * as Popover from "@radix-ui/react-popover";
 import { ReactComponent as PlayIcon } from "../../icons/play-icon.svg";
 import { ReactComponent as PauseIcon } from "../../icons/pause-icon.svg";
+import { trackEvent } from "../../utils/ga";
 
 export type PlayerProps = {
   player: any;
@@ -57,19 +58,33 @@ function Player({ player }: PlayerProps) {
 
   const handleStartPause = () => {
     setPlayerData((prev) => {
+      const nextIsRunning = !prev.isTimerRunning;
       let nextSeconds = prev.timerSecondsRemaining;
       if (prev.timerSecondsRemaining === 0) {
         nextSeconds = (prev.timerMode === "work" ? prev.timerWorkTime : prev.timerBreakTime) * 60;
       }
+      trackEvent(nextIsRunning ? "Timer Started" : "Timer Paused", {
+        mode: prev.timerMode,
+        remainingSeconds: nextSeconds,
+        focusMinutes: prev.timerWorkTime,
+        breakMinutes: prev.timerBreakTime,
+        source: "pip_window",
+      });
       return {
         ...prev,
-        isTimerRunning: !prev.isTimerRunning,
+        isTimerRunning: nextIsRunning,
         timerSecondsRemaining: nextSeconds,
       };
     });
   };
 
   const resetTimer = () => {
+    trackEvent("Timer Reset", {
+      mode: playerData.timerMode,
+      focusMinutes: playerData.timerWorkTime,
+      breakMinutes: playerData.timerBreakTime,
+      source: "pip_window",
+    });
     setPlayerData((prev) => ({
       ...prev,
       isTimerRunning: false,
@@ -111,6 +126,12 @@ function Player({ player }: PlayerProps) {
           if (prev.timerSecondsRemaining <= 1) {
             playNotificationSound();
             const nextMode = prev.timerMode === "work" ? "break" : "work";
+            trackEvent("Timer Completed", {
+              completedMode: prev.timerMode,
+              nextMode: nextMode,
+              focusMinutes: prev.timerWorkTime,
+              breakMinutes: prev.timerBreakTime,
+            });
             return {
               ...prev,
               timerMode: nextMode,
@@ -237,6 +258,11 @@ function Player({ player }: PlayerProps) {
   }, []);
 
   const handleTogglePiP = async () => {
+    const nextState = !playerData.isPiPActive;
+    trackEvent("Timer PiP Toggled", {
+      active: nextState,
+      type: isDocPiPSupported ? "document" : "video",
+    });
     if (isDocPiPSupported) {
       if (docPipWindow) {
         docPipWindow.close();
@@ -316,9 +342,11 @@ function Player({ player }: PlayerProps) {
         setPlayerData((prev) => ({ ...prev, isPiPActive: false }));
       });
       video.addEventListener("play", () => {
+        trackEvent("Timer Started", { source: "video_pip_controls" });
         setPlayerData((prev) => ({ ...prev, isTimerRunning: true }));
       });
       video.addEventListener("pause", () => {
+        trackEvent("Timer Paused", { source: "video_pip_controls" });
         setPlayerData((prev) => ({ ...prev, isTimerRunning: false }));
       });
     }
@@ -336,6 +364,10 @@ function Player({ player }: PlayerProps) {
   };
 
   const handleMiniTimerClick = () => {
+    trackEvent("Mini Timer Clicked", {
+      mode: playerData.timerMode,
+      remainingSeconds: playerData.timerSecondsRemaining,
+    });
     setPlayerData((prev) => ({
       ...prev,
       activeTab: "timer",
@@ -571,7 +603,14 @@ function Player({ player }: PlayerProps) {
       )}
       <Popover.Root
         open={isInfoVisible}
-        onOpenChange={(open) => dispatch({ type: "SET_SHOW_INFO", payload: open })}
+        onOpenChange={(open) => {
+          dispatch({ type: "SET_SHOW_INFO", payload: open });
+          if (open) {
+            trackEvent("Open Info Panel", {
+              activeTab: playerData.activeTab || "background",
+            });
+          }
+        }}
       >
         <Popover.PopoverPortal>
           <Popover.PopoverContent

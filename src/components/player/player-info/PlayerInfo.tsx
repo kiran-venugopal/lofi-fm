@@ -18,6 +18,7 @@ import {
 import { makeDebounced } from "../../../utils/common";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import giphys from "../../../constants/giphys";
+import { trackEvent } from "../../../utils/ga";
 
 export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
@@ -100,6 +101,7 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
   };
 
   const handleTabChange = (value: string) => {
+    trackEvent("Switch Info Tab", { tab: value });
     setPlayerData((prev) => ({
       ...prev,
       activeTab: value as any,
@@ -260,6 +262,7 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
                     disabled={playerData.isTimerRunning}
                     onChange={(e) => {
                       const val = Math.max(1, parseInt(e.target.value) || 0);
+                      trackEvent("Timer Focus Time Changed", { focusMinutes: val });
                       setPlayerData((prev) => {
                         const newSecs = prev.timerMode === "work" ? val * 60 : prev.timerSecondsRemaining;
                         return {
@@ -281,6 +284,7 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
                     disabled={playerData.isTimerRunning}
                     onChange={(e) => {
                       const val = Math.max(1, parseInt(e.target.value) || 0);
+                      trackEvent("Timer Break Time Changed", { breakMinutes: val });
                       setPlayerData((prev) => {
                         const newSecs = prev.timerMode === "break" ? val * 60 : prev.timerSecondsRemaining;
                         return {
@@ -297,10 +301,25 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
               <div className="timer-controls">
                 <button
                   onClick={() => {
-                    setPlayerData((prev) => ({
-                      ...prev,
-                      isTimerRunning: !prev.isTimerRunning,
-                    }));
+                    setPlayerData((prev) => {
+                      const nextIsRunning = !prev.isTimerRunning;
+                      let nextSeconds = prev.timerSecondsRemaining;
+                      if (prev.timerSecondsRemaining === 0) {
+                        nextSeconds = (prev.timerMode === "work" ? prev.timerWorkTime : prev.timerBreakTime) * 60;
+                      }
+                      trackEvent(nextIsRunning ? "Timer Started" : "Timer Paused", {
+                        mode: prev.timerMode,
+                        remainingSeconds: nextSeconds,
+                        focusMinutes: prev.timerWorkTime,
+                        breakMinutes: prev.timerBreakTime,
+                        source: "info_panel",
+                      });
+                      return {
+                        ...prev,
+                        isTimerRunning: nextIsRunning,
+                        timerSecondsRemaining: nextSeconds,
+                      };
+                    });
                   }}
                   className="btn"
                 >
@@ -309,6 +328,12 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
                 </button>
                 <button
                   onClick={() => {
+                    trackEvent("Timer Reset", {
+                      mode: playerData.timerMode,
+                      focusMinutes: playerData.timerWorkTime,
+                      breakMinutes: playerData.timerBreakTime,
+                      source: "info_panel",
+                    });
                     setPlayerData((prev) => ({
                       ...prev,
                       isTimerRunning: false,
