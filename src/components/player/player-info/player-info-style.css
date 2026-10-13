@@ -3,6 +3,7 @@
   box-sizing: border-box;
   backdrop-filter: blur(10px);
   position: static;
+  border: 1px solid var(--primary-theme, var(--primary_color));
 }
 
 .cashtab-container,
@@ -67,6 +68,11 @@
   padding: 10px 15px;
 }
 
+.player-info .tabs-content .settings {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .disable-scaling .slider {
   position: absolute;
   cursor: pointer;
@@ -115,6 +121,94 @@
   justify-content: space-between;
 }
 
+.theme-settings {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.match-bg-btn {
+  cursor: pointer;
+  border-radius: 0;
+  white-space: nowrap;
+  transition: transform 0.1s ease, background-color 0.15s ease;
+}
+
+.match-bg-btn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.match-bg-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.match-bg-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.match-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1e1e;
+  color: #ffffff;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: tooltip-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+
+.match-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px;
+  border-style: solid;
+  border-color: #1e1e1e transparent transparent transparent;
+}
+
+@keyframes tooltip-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 4px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 10px 0 14px 0;
+}
+
+.section-divider.vertical {
+  width: 1px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
 .themeing,
 .themeing section {
   display: flex;
@@ -125,18 +219,30 @@
   background: transparent;
   outline: none;
   border: none;
-  width: 50px;
-  height: 35px;
+  width: 44px;
+  height: 32px;
+  cursor: pointer;
 }
 
 .themeing {
   margin: 0 10px;
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.themeing button {
-  margin-left: 1rem;
+.themeing button.reset-btn {
+  margin-left: 0.5rem;
+  transition: transform 0.1s ease, background-color 0.15s ease;
+}
+
+.themeing button.reset-btn:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.themeing button.reset-btn:active {
+  transform: scale(0.95);
 }
 
 .bg-image {

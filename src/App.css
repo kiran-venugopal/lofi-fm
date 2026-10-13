@@ -59,8 +59,8 @@ button.btn {
   background: #ffffff24;
   outline: none;
   padding: 4px 6px;
-  outline: none;
   border: none;
+  cursor: pointer;
 }
 
 button.btn.active {

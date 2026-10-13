@@ -1,7 +1,7 @@
 import svgToMiniDataURI from "mini-svg-data-uri";
 
 export const defaultTheme: Record<ThemeColorType, string> = {
-  primary: "#9493fb",
+  primary: "#b5b3e6",
   secondary: "#f2f2f2",
 };
 
@@ -15,6 +15,8 @@ export function initTheme() {
       .trim();
     if (docColor !== color) {
       setThemeColor(type, color);
+    } else {
+      window.document.body.style.setProperty(`--${type}-theme`, color);
     }
   });
 }
@@ -32,6 +34,7 @@ export function getThemeColor(type: ThemeColorType = "primary") {
 
 export function setThemeColor(type: ThemeColorType, color: string) {
   window.document.body.style.setProperty(`--${type}_color`, color);
+  window.document.body.style.setProperty(`--${type}-theme`, color);
   window.localStorage.setItem(`${type}_color`, color);
   updateCursor();
 }

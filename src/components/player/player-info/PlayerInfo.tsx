@@ -5,7 +5,7 @@ import { ReactComponent as EcashIcon } from "../../../icons/ecash-icon.svg";
 import { ReactComponent as Logo } from "../../../icons/lofifm.svg";
 import { ReactComponent as PlayIcon } from "../../../icons/play-icon.svg";
 import { ReactComponent as PauseIcon } from "../../../icons/pause-icon.svg";
-import { MutableRefObject, useRef, useState } from "react";
+import { MutableRefObject, useEffect, useRef, useState } from "react";
 import "./player-info-style.css";
 import { useRecoilState } from "recoil";
 import { PlayerState } from "../../../recoil/atoms/PlayerState";
@@ -15,6 +15,10 @@ import {
   setThemeColor,
   ThemeColorType,
 } from "../../../utils/theme";
+import {
+  applyThemeFromImageUrl,
+  getThemeSourceImageUrl,
+} from "../../../utils/colors";
 import { makeDebounced } from "../../../utils/common";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import giphys from "../../../constants/giphys";
@@ -34,14 +38,15 @@ const debouncedThemeChange = makeDebounced(
     setTheme: React.Dispatch<any>,
     setPlayerData: any
   ) => {
+    trackEvent("Theme Color Changed", { type, color });
     setThemeColor(type, color);
     setTheme((prev: any) => ({
       ...prev,
       [type]: color,
     }));
     setPlayerData((prev: any) => {
-      if (prev.isCustomTheme) return prev;
       window.localStorage.setItem("is_custom_theme", "true");
+      if (prev.isCustomTheme) return prev;
       return {
         ...prev,
         isCustomTheme: true,
@@ -63,11 +68,13 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
   const isPiPSupported = isDocPiPSupported || (typeof document !== "undefined" && "pictureInPictureEnabled" in document);
 
   const handleSetUrl = () => {
+    const url = urlInputRef.current?.value || "";
+    trackEvent("Set Custom Background Url", { hasUrl: Boolean(url) });
     setPlayerData((prev) => ({
       ...prev,
-      bgImgUrl: urlInputRef.current?.value,
+      bgImgUrl: url,
     }));
-    window.localStorage.setItem("bgImgUrl", urlInputRef.current?.value || "");
+    window.localStorage.setItem("bgImgUrl", url);
   };
 
   const handleHeaderClick = () =>
@@ -75,14 +82,28 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
 
   const handleScalingChange = (e: any) => {
     const isChecked = e.target.checked;
+    trackEvent("Toggle Scaling", { disabled: isChecked });
     setPlayerData((prev) => ({
       ...prev,
-      scalingDisabled: e.target.checked,
+      scalingDisabled: isChecked,
     }));
     window.localStorage.setItem("scaling_disabled", JSON.stringify(isChecked));
   };
 
+  const [showAppliedTooltip, setShowAppliedTooltip] = useState(false);
+  const [isMatchingTheme, setIsMatchingTheme] = useState(false);
+  const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (tooltipTimeoutRef.current) {
+        clearTimeout(tooltipTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleThemeReset = () => {
+    trackEvent("Theme Reset");
     setThemeColor("primary", defaultTheme.primary);
     setThemeColor("secondary", defaultTheme.secondary);
     setTheme({
@@ -94,6 +115,54 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
       isCustomTheme: false,
     }));
     window.localStorage.setItem("is_custom_theme", "false");
+  };
+
+  const handleMatchBackground = async () => {
+    trackEvent("Match Background Clicked", {
+      hasCustomBg: Boolean(playerData.bgImgUrl),
+      activeSong: playerData.activeSong,
+    });
+    if (isMatchingTheme) return;
+    const imageUrl = getThemeSourceImageUrl(
+      playerData.bgImgUrl,
+      playerData.activeSong
+    );
+    if (!imageUrl) {
+      trackEvent("Match Background Failed", { reason: "no_image_source" });
+      return;
+    }
+
+    setIsMatchingTheme(true);
+    try {
+      const colors = await applyThemeFromImageUrl(imageUrl);
+      if (colors) {
+        setTheme(colors);
+        setPlayerData((prev) => ({
+          ...prev,
+          isCustomTheme: true,
+        }));
+        window.localStorage.setItem("is_custom_theme", "true");
+        trackEvent("Match Background Applied", {
+          primary: colors.primary,
+          secondary: colors.secondary,
+          source: playerData.bgImgUrl ? "custom_bg" : "song_thumbnail",
+        });
+        setShowAppliedTooltip(true);
+        if (tooltipTimeoutRef.current) {
+          clearTimeout(tooltipTimeoutRef.current);
+        }
+        tooltipTimeoutRef.current = setTimeout(() => {
+          setShowAppliedTooltip(false);
+        }, 2000);
+      } else {
+        trackEvent("Match Background Failed", { reason: "extraction_failed" });
+      }
+    } catch (err) {
+      console.error("Failed to match background theme", err);
+      trackEvent("Match Background Failed", { reason: "error" });
+    } finally {
+      setIsMatchingTheme(false);
+    }
   };
 
   const handleThemeChange = (type: ThemeColorType) => (e: any) => {
@@ -176,6 +245,7 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
             </button>
             <button
               onClick={() => {
+                trackEvent("Remove Background Url");
                 setPlayerData((prev) => ({
                   ...prev,
                   bgImgUrl: "",
@@ -194,6 +264,7 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
                 className="bg-tile"
                 onClick={() => {
                   const bgUrl = `/gifs/${giphy.id}`;
+                  trackEvent("Select Background Gif", { id: giphy.id });
                   setPlayerData((prev) => ({
                     ...prev,
                     bgImgUrl: bgUrl,
@@ -214,7 +285,7 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
         </TabsContent>
 
         <TabsContent className="tabs-content" value="theme">
-          <div className="settings">
+          <div className="settings theme-settings">
             <div className="themeing">
               <section>
                 <label>Primary</label>
@@ -235,10 +306,25 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
                 />
               </section>
               <section>
-                <button onClick={handleThemeReset} className="btn">
+                <button onClick={handleThemeReset} className="btn reset-btn">
                   Reset
                 </button>
               </section>
+              <div className="section-divider vertical" />
+              <div className="tooltip-wrapper">
+                <button
+                  type="button"
+                  onClick={handleMatchBackground}
+                  className="btn match-bg-btn"
+                  title="Extract dominant colors from the current background"
+                  disabled={isMatchingTheme}
+                >
+                  Match background
+                </button>
+                {showAppliedTooltip && (
+                  <div className="match-tooltip">Applied</div>
+                )}
+              </div>
             </div>
           </div>
         </TabsContent>

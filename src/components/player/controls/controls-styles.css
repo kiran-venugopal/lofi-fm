@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   background: transparent;
-  border: none;
+  border: 1px solid var(--primary-theme, var(--primary_color));
   padding: 0;
   cursor: pointer;
   color: inherit;
@@ -44,6 +44,7 @@
 .main {
   display: flex;
   gap: 0.3rem;
+  align-items: center;
 }
 
 .music-actions,
@@ -74,9 +75,12 @@
 .music-actions {
   display: flex;
   align-items: center;
-  padding: 10px 12px;
+  height: 50px;
+  padding: 0 12px;
   justify-content: flex-start;
   gap: 15px;
+  border: 1px solid var(--primary-theme, var(--primary_color));
+  box-sizing: border-box;
 }
 
 .top-section .author {
@@ -104,7 +108,8 @@
 .secondary-actions button {
   width: 50px;
   height: 50px;
-  border: none;
+  box-sizing: border-box;
+  border: 1px solid var(--primary-theme, var(--primary_color));
 }
 
 .secondary-actions button svg {
@@ -147,22 +152,48 @@
 
 .drag-btn {
   cursor: move;
-  border: none;
-  padding: 1px;
+  border: 1px solid var(--primary-theme, var(--primary_color));
+  padding: 0 4px;
   margin-left: auto;
   display: flex;
-  width: 30px;
+  align-items: center;
+  justify-content: center;
+  /* width: 32px; */
+  /* height: 30px; */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .top-section {
   display: flex;
   align-items: flex-end;
+  justify-content: space-between;
   gap: 15px;
 }
 
-.top-section {
+.progress {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+}
+
+.slidecontainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.slidecontainer input {
+  height: 5px;
+  border: none;
+  background-color: transparent;
+  background-image:
+    linear-gradient(var(--color, var(--primary_color)), var(--color, var(--primary_color))),
+    linear-gradient(var(--primary-theme, var(--primary_color)), var(--primary-theme, var(--primary_color)));
+  background-size: var(--progress, 0%) 100%, 100% 1px;
+  background-position: left center, left center;
+  background-repeat: no-repeat, no-repeat;
 }
 
 @media (max-width: 700px) {
@@ -181,13 +212,14 @@
   backdrop-filter: blur(10px);
   padding: 4px 10px;
   border-radius: 20px;
+  border: 1px solid var(--primary-theme, var(--primary_color));
+  box-sizing: border-box;
   font-size: 0.8rem;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 4px;
-  color: var(--primary_color);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  color: var(--secondary-theme, var(--secondary_color));
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }

@@ -4,6 +4,8 @@
   height: 70vh;
   background: #0c09261f;
   max-height: 70vh;
+  box-sizing: border-box;
+  border: 1px solid var(--primary-theme, var(--primary_color));
 
   margin-left: auto;
   width: 100%;
@@ -86,6 +88,12 @@
   background: transparent;
   border: none;
   outline: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 
 .header .options {
@@ -93,6 +101,12 @@
   justify-content: space-around;
   align-items: center;
   flex: 1;
+}
+
+.header .options button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .song-item .options {

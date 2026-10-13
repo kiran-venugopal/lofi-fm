@@ -1,5 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap");
 
+:root {
+  --primary_color: #b5b3e6;
+  --secondary_color: #f2f2f2;
+  --primary-theme: var(--primary_color);
+  --secondary-theme: var(--secondary_color);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",

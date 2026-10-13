@@ -188,7 +188,7 @@ function Player({ player }: PlayerProps) {
     ctx.fillStyle = "#161616";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const primaryColor = getComputedStyle(document.body).getPropertyValue("--primary_color").trim() || "#9493fb";
+    const primaryColor = getComputedStyle(document.body).getPropertyValue("--primary_color").trim() || "#b5b3e6";
     ctx.fillStyle = primaryColor;
     ctx.fillRect(0, canvas.height - 12, canvas.width, 12);
 
@@ -235,7 +235,9 @@ function Player({ player }: PlayerProps) {
       const primaryColor = getComputedStyle(document.body).getPropertyValue("--primary_color").trim();
       const secondaryColor = getComputedStyle(document.body).getPropertyValue("--secondary_color").trim();
       docPipWindow.document.body.style.setProperty("--primary_color", primaryColor);
+      docPipWindow.document.body.style.setProperty("--primary-theme", primaryColor);
       docPipWindow.document.body.style.setProperty("--secondary_color", secondaryColor);
+      docPipWindow.document.body.style.setProperty("--secondary-theme", secondaryColor);
     }
   }, [playerData.isCustomTheme, docPipWindow]);
 
@@ -303,9 +305,11 @@ function Player({ player }: PlayerProps) {
           const secondaryColor = mainBodyStyle.getPropertyValue("--secondary_color");
           if (primaryColor) {
             pip.document.body.style.setProperty("--primary_color", primaryColor);
+            pip.document.body.style.setProperty("--primary-theme", primaryColor);
           }
           if (secondaryColor) {
             pip.document.body.style.setProperty("--secondary_color", secondaryColor);
+            pip.document.body.style.setProperty("--secondary-theme", secondaryColor);
           }
 
           // Listen to window close

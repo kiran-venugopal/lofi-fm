@@ -13,6 +13,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "axios": "^0.27.2",
     "colorthief": "^2.6.0",
+    "lucide-react": "^1.56.0",
     "mini-svg-data-uri": "^1.4.4",
     "mixpanel-browser": "^2.48.1",
     "prop-types": "^15.8.1",

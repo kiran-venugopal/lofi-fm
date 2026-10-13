@@ -1,4 +1,5 @@
 import ColorThief from "colorthief";
+import { setThemeColor } from "./theme";
 
 export const extractColorsFromImage = (
     imageUrl: string
@@ -25,3 +26,50 @@ export const extractColorsFromImage = (
         };
     });
 };
+
+export function rgbToHex(rgb: [number, number, number]): string {
+    return `#${rgb.map((c) => c.toString(16).padStart(2, "0")).join("")}`;
+}
+
+export function getThemeSourceImageUrl(
+    bgImgUrl?: string,
+    activeSong?: string
+): string | undefined {
+    if (bgImgUrl) {
+        return bgImgUrl;
+    }
+    if (activeSong) {
+        return `https://img.youtube.com/vi/${activeSong}/maxresdefault.jpg`;
+    }
+}
+
+async function extractAndApply(imageUrl: string) {
+    const colors = await extractColorsFromImage(imageUrl);
+    if (!colors || colors.length < 2) {
+        return null;
+    }
+    const primary = rgbToHex(colors[0]);
+    const secondary = rgbToHex(colors[1]);
+    setThemeColor("primary", primary);
+    setThemeColor("secondary", secondary);
+    return { primary, secondary };
+}
+
+export async function applyThemeFromImageUrl(imageUrl: string) {
+    try {
+        return await extractAndApply(imageUrl);
+    } catch (e) {
+        if (imageUrl.includes("maxresdefault")) {
+            try {
+                return await extractAndApply(
+                    imageUrl.replace("maxresdefault", "hqdefault")
+                );
+            } catch (e2) {
+                console.error("Failed to extract colors from fallback thumbnail", e2);
+                return null;
+            }
+        }
+        console.error("Failed to extract colors", e);
+        return null;
+    }
+}
