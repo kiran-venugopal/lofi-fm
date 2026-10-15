@@ -84,3 +84,8 @@ button.btn.active {
 .btn.cashtab {
   background: rgb(0 69 116 / 73%);
 }
+
+.btn.feedback-btn {
+  background: #893f92bb;
+  color: #fff;
+}

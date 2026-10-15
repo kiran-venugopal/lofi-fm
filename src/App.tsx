@@ -9,6 +9,7 @@ import { generateRandomIndex } from "./utils/songs";
 import { ISongsState, SongsState } from "./recoil/atoms/SongsState";
 import { defaultSongs } from "./constants/songs";
 import Overlay from "./components/Overlay";
+import FeedbackNotification from "./components/common/FeedbackNotification";
 
 declare global {
   interface Window {
@@ -127,6 +128,7 @@ function App() {
 
   return (
     <div className="App" unselectable="on">
+      <FeedbackNotification />
       <div className="iframe-container" unselectable="on">
         {!isSpotify && (
           <iframe
@@ -155,8 +157,22 @@ function App() {
 
       <div
         style={{
-          backgroundImage: `url(${playerData.bgImgUrl})`,
-          backgroundColor: playerData.bgImgUrl && "black",
+          backgroundImage:
+            playerData.bgImgUrl &&
+            playerData.bgImgUrl !== "/synthwave-visualizer-bg.svg"
+              ? `url(${playerData.bgImgUrl})`
+              : undefined,
+          backgroundSize: playerData.bgImgUrl ? "cover" : undefined,
+          backgroundColor:
+            playerData.bgImgUrl &&
+            playerData.bgImgUrl !== "/synthwave-visualizer-bg.svg"
+              ? "black"
+              : undefined,
+          background:
+            (!playerData.isPlaying && !playerData.bgImgUrl) ||
+            playerData.bgImgUrl === "/synthwave-visualizer-bg.svg"
+              ? "transparent"
+              : undefined,
         }}
         className="player-content"
       >

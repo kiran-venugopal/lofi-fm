@@ -1,26 +1,5 @@
 const giphys = [
   {
-    id: "ameesha-1.jpg",
-    user: {
-      name: "Ameesha",
-      profile_url: "https://vsco.co/ameeshavinod",
-    },
-  },
-  {
-    id: "ameesha-2.jpg",
-    user: {
-      name: "Ameesha",
-      profile_url: "https://vsco.co/ameeshavinod",
-    },
-  },
-  {
-    id: "ameesha-3.jpg",
-    user: {
-      name: "Ameesha",
-      profile_url: "https://vsco.co/ameeshavinod",
-    },
-  },
-  {
     id: "H62NM1ab7wzMXURdoi.gif",
     user: {
       profile_url: "https://giphy.com/Uncute/",

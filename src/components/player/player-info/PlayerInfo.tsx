@@ -23,6 +23,8 @@ import { makeDebounced } from "../../../utils/common";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@radix-ui/react-tabs";
 import giphys from "../../../constants/giphys";
 import { trackEvent } from "../../../utils/ga";
+import { MessageSquare } from "lucide-react";
+import { FEEDBACK_FORM_URL } from "../../common/FeedbackNotification";
 
 export type PlayerInfoProps = {
   infoRef: MutableRefObject<any>;
@@ -125,7 +127,8 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
     if (isMatchingTheme) return;
     const imageUrl = getThemeSourceImageUrl(
       playerData.bgImgUrl,
-      playerData.activeSong
+      playerData.activeSong,
+      playerData.isPlaying
     );
     if (!imageUrl) {
       trackEvent("Match Background Failed", { reason: "no_image_source" });
@@ -258,6 +261,28 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
             </button>
           </div>
           <div className="bg-tiles">
+            <div
+              key="synthwave-visualizer"
+              className="bg-tile"
+              title="Retro Synthwave Visualizer"
+              onClick={() => {
+                const bgUrl = "/synthwave-visualizer-bg.svg";
+                trackEvent("Select Background Gif", { id: "synthwave-visualizer" });
+                setPlayerData((prev) => ({
+                  ...prev,
+                  bgImgUrl: bgUrl,
+                }));
+                window.localStorage.setItem("bgImgUrl", bgUrl);
+              }}
+            >
+              <img
+                src="/synthwave-visualizer-bg.svg"
+                alt="Retro Synthwave Visualizer"
+              />
+              {playerData.bgImgUrl === "/synthwave-visualizer-bg.svg" && (
+                <div className="selected-overlay">✓</div>
+              )}
+            </div>
             {giphys.map((giphy) => (
               <div
                 key={giphy.id}
@@ -483,6 +508,19 @@ function PlayerInfo({ infoRef, player, onEcashClick, handleTogglePiP }: PlayerIn
             <button onClick={onEcashClick} className="btn cashtab">
               <EcashIcon />
               <span>eCash</span>
+            </button>
+            <button
+              onClick={() => {
+                trackEvent("Feedback Form Clicked", {
+                  formUrl: FEEDBACK_FORM_URL,
+                  source: "info_support_tab",
+                });
+                window.open(FEEDBACK_FORM_URL, "_blank", "noopener,noreferrer");
+              }}
+              className="btn feedback-btn"
+            >
+              <MessageSquare size={16} />
+              <span>Feedback</span>
             </button>
           </div>
         </TabsContent>

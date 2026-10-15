@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import giphys from "../../constants/giphys";
 import { PlayerState } from "../../recoil/atoms/PlayerState";
-import { generateRandomIndex } from "../../utils/songs";
+import SynthwaveBackground from "../common/SynthwaveBackground";
 import "./overlay-style.css";
 
 export type OverlayProps = {
@@ -22,21 +22,37 @@ function Overlay({ player, showAlways }: OverlayProps) {
       creditGif = giphys.find((g) => g.id === id);
     }
     if (!backgroundUrl) {
-      const randomIndex = generateRandomIndex(giphys.length);
-      backgroundUrl = `/gifs/${giphys[randomIndex].id}`;
+      backgroundUrl = "/synthwave-visualizer-bg.svg";
     }
     setGif({ url: backgroundUrl, credit: creditGif });
   }, [playerData.bgImgUrl]);
 
-  if (!playerData.isPlaying || playerData.isBuffering || showAlways) {
+  const isExplicitSynthwave =
+    playerData.bgImgUrl === "/synthwave-visualizer-bg.svg";
+  const shouldShowOverlay =
+    isExplicitSynthwave ||
+    !playerData.isPlaying ||
+    playerData.isBuffering ||
+    showAlways;
+
+  if (shouldShowOverlay) {
+    const isSynthwave =
+      isExplicitSynthwave || gif.url === "/synthwave-visualizer-bg.svg";
+
     return (
       <Fragment>
         <div
           className="overlay"
-          style={{
-            backgroundImage: `linear-gradient(#0000009e,#0000009e),url(${gif.url})`,
-          }}
-        ></div>
+          style={
+            isSynthwave
+              ? { backgroundColor: "#06030c", overflow: "hidden" }
+              : {
+                  backgroundImage: `linear-gradient(#0000009e,#0000009e),url(${gif.url})`,
+                }
+          }
+        >
+          {isSynthwave && <SynthwaveBackground />}
+        </div>
         {gif.credit && gif.credit.user && (
           <div className="credits">
             <div className="product-hunt"></div>

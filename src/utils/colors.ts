@@ -33,10 +33,14 @@ export function rgbToHex(rgb: [number, number, number]): string {
 
 export function getThemeSourceImageUrl(
     bgImgUrl?: string,
-    activeSong?: string
+    activeSong?: string,
+    isPlaying?: boolean
 ): string | undefined {
     if (bgImgUrl) {
         return bgImgUrl;
+    }
+    if (!isPlaying) {
+        return "/synthwave-visualizer-bg.svg";
     }
     if (activeSong) {
         return `https://img.youtube.com/vi/${activeSong}/maxresdefault.jpg`;
@@ -56,6 +60,30 @@ async function extractAndApply(imageUrl: string) {
 }
 
 export async function applyThemeFromImageUrl(imageUrl: string) {
+    if (imageUrl.includes("synthwave-visualizer-bg.svg")) {
+        const primary = "#893f92";
+        let secondary = "#ffe600";
+        try {
+            const colors = await extractColorsFromImage(imageUrl);
+            if (colors && colors.length > 0) {
+                for (const c of colors) {
+                    const hex = rgbToHex(c);
+                    const [r, g, b] = c;
+                    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                    if (hex.toLowerCase() !== primary.toLowerCase() && brightness > 50) {
+                        secondary = hex;
+                        break;
+                    }
+                }
+            }
+        } catch {
+            // Fallback to vibrant synthwave secondary color
+        }
+        setThemeColor("primary", primary);
+        setThemeColor("secondary", secondary);
+        return { primary, secondary };
+    }
+
     try {
         return await extractAndApply(imageUrl);
     } catch (e) {

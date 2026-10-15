@@ -7,6 +7,7 @@ import "./index.css";
 import Toast from "react-toast-package";
 import { initTheme, updateCursor } from "./utils/theme";
 import initGA from "./utils/ga";
+import { recordVisitDay } from "./utils/feedbackEligibility";
 
 // const tracker = new Tracker({
 //   projectKey: import.meta.env.VITE_YT_LOGS_KEY,
@@ -15,6 +16,7 @@ import initGA from "./utils/ga";
 // tracker.start();
 initTheme();
 initGA();
+recordVisitDay();
 
 window.onload = () => updateCursor();
 
